@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Squad - Slack Multi-Agent System | 서영민</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg: #0a0e17;
+  --bg-alt: #0b0f1a;
+  --bg-card: #111827;
+  --bg-card-hover: #1a2332;
+  --border: #1e293b;
+  --border-light: #2d3a4f;
+  --text: #e2e8f0;
+  --text-dim: #94a3b8;
+  --text-muted: #64748b;
+  --violet: #a78bfa;
+  --violet-bright: #8b5cf6;
+  --violet-dim: rgba(167,139,250,.10);
+  --violet-glow: rgba(139,92,246,.15);
+  --purple-deep: #7c3aed;
+  --indigo: #818cf8;
+  --cyan: #22d3ee;
+  --cyan-dim: rgba(34,211,238,.10);
+  --green: #34d399;
+  --green-dim: rgba(52,211,153,.10);
+  --amber: #fbbf24;
+  --amber-dim: rgba(251,191,36,.10);
+  --red: #f87171;
+  --red-dim: rgba(248,113,113,.10);
+  --blue: #60a5fa;
+  --blue-dim: rgba(96,165,250,.10);
+  --font-display: 'Sora', sans-serif;
+  --font-body: 'Pretendard Variable', 'Pretendard', 'Noto Sans KR', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  line-height: 1.75;
+  overflow-x: hidden;
+}
+
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  background: radial-gradient(ellipse at 25% 0%, rgba(139,92,246,.06) 0%, transparent 55%),
+              radial-gradient(ellipse at 75% 100%, rgba(167,139,250,.04) 0%, transparent 55%);
+  pointer-events: none; z-index: 0;
+}
+
+.container { max-width: 1120px; margin: 0 auto; padding: 0 32px; position: relative; z-index: 1; }
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border-light); border-radius: 3px; }
+
+/* ── NAV ── */
+.nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  background: rgba(10,14,23,.88); backdrop-filter: blur(14px);
+  border-bottom: 1px solid transparent;
+  transition: border-color .3s;
+}
+.nav.scrolled { border-bottom-color: var(--border); }
+.nav .container { display: flex; justify-content: space-between; align-items: center; height: 56px; }
+.nav-logo {
+  font-family: var(--font-display); font-weight: 700; font-size: 15px;
+  color: var(--violet); letter-spacing: .5px;
+}
+.nav-links { list-style: none; display: flex; gap: 24px; }
+.nav-links a {
+  text-decoration: none; font-size: 13px; color: var(--text-muted);
+  font-family: var(--font-mono); transition: color .2s; letter-spacing: .3px;
+}
+.nav-links a:hover { color: var(--violet); }
+
+/* ── HERO ── */
+.hero {
+  min-height: 100vh; display: flex; align-items: center; justify-content: center;
+  position: relative; padding: 120px 0 80px; text-align: center;
+}
+
+.hero-grid {
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(167,139,250,.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(167,139,250,.04) 1px, transparent 1px);
+  background-size: 60px 60px;
+  mask-image: radial-gradient(ellipse at center, black 20%, transparent 70%);
+  -webkit-mask-image: radial-gradient(ellipse at center, black 20%, transparent 70%);
+}
+
+.hero-orb {
+  position: absolute; border-radius: 50%; filter: blur(80px); opacity: .35;
+  animation: orbFloat 8s ease-in-out infinite;
+}
+.hero-orb-1 { width: 400px; height: 400px; background: var(--violet-bright); top: 10%; left: 15%; }
+.hero-orb-2 { width: 300px; height: 300px; background: var(--indigo); bottom: 15%; right: 10%; animation-delay: -3s; }
+.hero-orb-3 { width: 200px; height: 200px; background: var(--purple-deep); top: 50%; left: 55%; animation-delay: -5s; }
+
+@keyframes orbFloat {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-30px) scale(1.05); }
+}
+
+.hero-content { position: relative; z-index: 2; }
+
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--violet-dim); border: 1px solid rgba(167,139,250,.2);
+  border-radius: 100px; padding: 6px 18px; margin-bottom: 28px;
+  font-family: var(--font-mono); font-size: 12px; color: var(--violet);
+  letter-spacing: .5px;
+}
+.hero-badge .dot {
+  width: 6px; height: 6px; border-radius: 50%; background: var(--violet);
+  animation: pulse 2s ease-in-out infinite;
+}
+@keyframes pulse {
+  0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(167,139,250,.4); }
+  50% { opacity: .7; box-shadow: 0 0 0 8px rgba(167,139,250,0); }
+}
+
+.hero h1 {
+  font-family: var(--font-display); font-size: clamp(48px, 7vw, 80px);
+  font-weight: 800; letter-spacing: -2px; line-height: 1.1; margin-bottom: 24px;
+  background: linear-gradient(135deg, #e2e8f0 0%, #a78bfa 50%, #818cf8 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.hero-sub {
+  font-size: 18px; color: var(--text-dim); max-width: 620px; margin: 0 auto 36px;
+  line-height: 1.7;
+}
+
+.hero-actions { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+
+.btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 12px 28px; border-radius: 12px; font-size: 14px; font-weight: 600;
+  text-decoration: none; transition: all .25s; border: none; cursor: pointer;
+  font-family: var(--font-body);
+}
+.btn-primary {
+  background: linear-gradient(135deg, var(--violet-bright), var(--purple-deep));
+  color: #fff; box-shadow: 0 4px 24px rgba(139,92,246,.3);
+}
+.btn-primary:hover { box-shadow: 0 6px 32px rgba(139,92,246,.45); transform: translateY(-2px); }
+.btn-ghost {
+  background: rgba(167,139,250,.08); color: var(--violet);
+  border: 1px solid rgba(167,139,250,.2);
+}
+.btn-ghost:hover { background: rgba(167,139,250,.15); transform: translateY(-2px); }
+
+/* ── STATS ── */
+.stats {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px;
+  padding: 60px 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+}
+.stat { text-align: center; }
+.stat-value {
+  font-family: var(--font-display); font-size: 42px; font-weight: 800;
+  background: linear-gradient(135deg, var(--violet), var(--indigo));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.stat-label { font-size: 13px; color: var(--text-muted); margin-top: 4px; font-weight: 500; letter-spacing: .3px; }
+
+/* ── SECTIONS ── */
+section { padding: 100px 0; }
+
+.section-label {
+  font-family: var(--font-mono); font-size: 12px; color: var(--violet);
+  letter-spacing: 2px; text-transform: uppercase; margin-bottom: 12px;
+}
+.section-title {
+  font-family: var(--font-display); font-size: clamp(28px, 4vw, 38px);
+  font-weight: 700; letter-spacing: -1px; margin-bottom: 16px;
+}
+.section-desc {
+  font-size: 15px; color: var(--text-dim); max-width: 600px; margin-bottom: 48px;
+  line-height: 1.7;
+}
+
+/* ── WHY CARDS ── */
+.why-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.why-card {
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: 16px; padding: 32px 28px; transition: all .3s;
+}
+.why-card:hover { border-color: var(--border-light); transform: translateY(-4px); box-shadow: 0 12px 40px rgba(0,0,0,.3); }
+.why-dot { width: 36px; height: 36px; border-radius: 999px; margin-bottom: 20px; }
+.why-title { font-family: var(--font-display); font-size: 20px; font-weight: 700; margin-bottom: 16px; color: var(--text); }
+.why-list { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+.why-list li { padding-left: 16px; position: relative; color: var(--text-dim); font-size: 14px; line-height: 1.6; }
+.why-list li::before { content: '•'; position: absolute; left: 0; color: var(--text-muted); }
+
+/* ── CODING LOG ── */
+.coding-log {
+  background: rgba(15,23,42,.6); border: 1px solid var(--border);
+  border-radius: 12px; padding: 20px 24px; font-family: var(--font-mono);
+  font-size: 13px; line-height: 1.9; max-width: 820px; margin: 16px auto 0;
+}
+.coding-log .log-row { display: flex; gap: 14px; align-items: flex-start; }
+.coding-log .log-tag {
+  flex-shrink: 0; min-width: 78px; color: var(--text-muted);
+}
+.coding-log .log-tag.claude { color: #A78BFA; }
+.coding-log .log-tag.codex { color: #3B82F6; }
+.coding-log .log-tag.done { color: #22C55E; }
+.coding-log .log-body { color: var(--text-dim); }
+
+/* ── AGENT CARDS ── */
+.agents-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+
+.agent-card {
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: 16px; padding: 32px 28px; position: relative; overflow: hidden;
+  transition: all .3s;
+}
+.agent-card:hover {
+  border-color: var(--border-light); transform: translateY(-4px);
+  box-shadow: 0 12px 40px rgba(0,0,0,.3);
+}
+.agent-card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+}
+.agent-card.claude::before { background: linear-gradient(90deg, #a78bfa, #8b5cf6); }
+.agent-card.codex::before { background: linear-gradient(90deg, #34d399, #10b981); }
+.agent-card.gemini::before { background: linear-gradient(90deg, #60a5fa, #3b82f6); }
+
+.agent-icon {
+  width: 52px; height: 52px; border-radius: 14px; display: flex;
+  align-items: center; justify-content: center; margin-bottom: 20px;
+  font-size: 22px;
+}
+.agent-card.claude .agent-icon { background: var(--violet-dim); color: var(--violet); }
+.agent-card.codex .agent-icon { background: var(--green-dim); color: var(--green); }
+.agent-card.gemini .agent-icon { background: var(--blue-dim); color: var(--blue); }
+
+.agent-name {
+  font-family: var(--font-display); font-size: 22px; font-weight: 700;
+  margin-bottom: 4px;
+}
+.agent-model {
+  font-family: var(--font-mono); font-size: 12px; color: var(--text-muted);
+  margin-bottom: 16px;
+}
+.agent-role {
+  font-size: 14px; color: var(--text-dim); line-height: 1.7;
+}
+.agent-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 16px; }
+.agent-tag {
+  font-size: 11px; padding: 4px 10px; border-radius: 6px;
+  font-family: var(--font-mono); letter-spacing: .3px;
+}
+.agent-card.claude .agent-tag { background: var(--violet-dim); color: var(--violet); }
+.agent-card.codex .agent-tag { background: var(--green-dim); color: var(--green); }
+.agent-card.gemini .agent-tag { background: var(--blue-dim); color: var(--blue); }
+
+/* ── MODE CARDS ── */
+.modes-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+
+.mode-card {
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: 16px; padding: 32px 28px; transition: all .3s; position: relative;
+}
+.mode-card:hover {
+  border-color: var(--border-light); transform: translateY(-4px);
+  box-shadow: 0 12px 40px rgba(0,0,0,.3);
+}
+
+.mode-icon {
+  width: 48px; height: 48px; border-radius: 12px; display: flex;
+  align-items: center; justify-content: center; margin-bottom: 20px;
+  background: var(--violet-dim); color: var(--violet); font-size: 20px;
+}
+
+.mode-name {
+  font-family: var(--font-display); font-size: 20px; font-weight: 700;
+  margin-bottom: 14px;
+}
+
+.mode-desc { font-size: 14px; color: var(--text-dim); line-height: 1.75; }
+
+.mode-features {
+  list-style: none; margin-top: 18px; display: flex; flex-direction: column; gap: 8px;
+}
+.mode-features li {
+  font-size: 13px; color: var(--text-dim); display: flex; align-items: flex-start; gap: 8px;
+  line-height: 1.6;
+}
+.mode-features li::before {
+  content: '';
+  flex-shrink: 0; width: 5px; height: 5px; border-radius: 50%;
+  background: var(--violet); margin-top: 8px;
+}
+
+/* Pipeline visual */
+.pipeline {
+  margin-top: 20px; display: flex; flex-direction: column; gap: 6px;
+}
+.pipeline-step {
+  display: flex; align-items: center; gap: 10px;
+  font-size: 12px; font-family: var(--font-mono); color: var(--text-dim);
+}
+.pipeline-num {
+  width: 22px; height: 22px; border-radius: 6px; display: flex;
+  align-items: center; justify-content: center;
+  background: var(--violet-dim); color: var(--violet); font-size: 11px; font-weight: 600;
+  flex-shrink: 0;
+}
+
+/* ── FEATURES GRID ── */
+.features-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+
+.feature-card {
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: 14px; padding: 24px; transition: all .3s;
+  display: flex; gap: 16px; align-items: flex-start;
+}
+.feature-card:hover {
+  border-color: var(--border-light); transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(0,0,0,.25);
+}
+.feature-icon {
+  width: 42px; height: 42px; border-radius: 10px; display: flex;
+  align-items: center; justify-content: center; flex-shrink: 0;
+  background: var(--violet-dim); color: var(--violet); font-size: 18px;
+}
+.feature-title {
+  font-family: var(--font-display); font-size: 15px; font-weight: 600;
+  margin-bottom: 6px;
+}
+.feature-desc { font-size: 13px; color: var(--text-dim); line-height: 1.65; }
+
+/* ── TECH STACK ── */
+.tech-section { text-align: center; }
+.tech-tags { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-top: 36px; }
+.tech-tag {
+  font-family: var(--font-mono); font-size: 13px; padding: 8px 18px;
+  border-radius: 10px; background: var(--bg-card); border: 1px solid var(--border);
+  color: var(--text-dim); transition: all .25s; letter-spacing: .3px;
+}
+.tech-tag:hover {
+  border-color: var(--violet); color: var(--violet);
+  background: var(--violet-dim); transform: translateY(-2px);
+}
+
+/* ── FOOTER ── */
+.footer {
+  border-top: 1px solid var(--border); padding: 40px 0; text-align: center;
+}
+.footer-inner { display: flex; flex-direction: column; align-items: center; gap: 12px; }
+.footer-name {
+  font-family: var(--font-display); font-size: 14px; font-weight: 600;
+  color: var(--text-dim);
+}
+.footer-link {
+  font-family: var(--font-mono); font-size: 13px; color: var(--violet);
+  text-decoration: none; display: flex; align-items: center; gap: 6px;
+  transition: opacity .2s;
+}
+.footer-link:hover { opacity: .75; }
+.footer-copy { font-size: 12px; color: var(--text-muted); margin-top: 8px; }
+
+/* ── ANIMATIONS ── */
+.reveal {
+  opacity: 0; transform: translateY(32px);
+  transition: opacity .7s cubic-bezier(.16,1,.3,1), transform .7s cubic-bezier(.16,1,.3,1);
+}
+.reveal.visible { opacity: 1; transform: translateY(0); }
+.reveal-delay-1 { transition-delay: .1s; }
+.reveal-delay-2 { transition-delay: .2s; }
+.reveal-delay-3 { transition-delay: .3s; }
+.reveal-delay-4 { transition-delay: .35s; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 900px) {
+  .agents-grid, .modes-grid, .why-grid { grid-template-columns: 1fr; }
+  .features-grid { grid-template-columns: 1fr; }
+  .stats { grid-template-columns: repeat(2, 1fr); gap: 24px; }
+}
+@media (max-width: 600px) {
+  .container { padding: 0 20px; }
+  .stats { grid-template-columns: repeat(2, 1fr); }
+  .hero h1 { font-size: 36px; letter-spacing: -1px; }
+  .hero-sub { font-size: 15px; }
+  .nav-links { gap: 16px; }
+  .nav-links a { font-size: 11px; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav" id="nav">
+  <div class="container">
+    <div class="nav-logo">AI Squad</div>
+    <ul class="nav-links">
+      <li><a href="#why">Why</a></li>
+      <li><a href="#agents">Agents</a></li>
+      <li><a href="#modes">Modes</a></li>
+      <li><a href="#features">Features</a></li>
+      <li><a href="#stack">Stack</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-orb hero-orb-1"></div>
+  <div class="hero-orb hero-orb-2"></div>
+  <div class="hero-orb hero-orb-3"></div>
+  <div class="hero-content">
+    <div class="hero-badge reveal">
+      <span class="dot"></span>
+      Multi-Agent System
+    </div>
+    <h1 class="reveal reveal-delay-1">AI Squad</h1>
+    <p class="hero-sub reveal reveal-delay-2">
+      Slack에서 3개 AI 에이전트가 자유 토론하고<br>
+      역할 분담 코딩을 수행하는 멀티 에이전트 시스템
+    </p>
+    <div class="hero-actions reveal reveal-delay-3">
+      <a href="https://github.com/sym804/ai-squad" target="_blank" class="btn btn-primary">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+        GitHub
+      </a>
+      <a href="#agents" class="btn btn-ghost">에이전트 보기</a>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="container">
+  <div class="stats">
+    <div class="stat reveal">
+      <div class="stat-value" data-count="3">0</div>
+      <div class="stat-label">AI 에이전트</div>
+    </div>
+    <div class="stat reveal reveal-delay-1">
+      <div class="stat-value" data-count="3">0</div>
+      <div class="stat-label">운영 모드</div>
+    </div>
+    <div class="stat reveal reveal-delay-2">
+      <div class="stat-value" data-count="2377">0</div>
+      <div class="stat-label">Lines of Code</div>
+    </div>
+    <div class="stat reveal reveal-delay-3">
+      <div class="stat-value" data-count="40" data-suffix="+">0</div>
+      <div class="stat-label">커밋</div>
+    </div>
+  </div>
+</div>
+
+<!-- WHY -->
+<section id="why" style="background: var(--bg-alt);">
+  <div class="container">
+    <div class="section-label reveal" style="color:#FBBF24;">Why</div>
+    <h2 class="section-title reveal">왜 QA 엔지니어가 만들었나</h2>
+    <p class="section-desc reveal">AI Agent의 실수를 QA 현장에서 다수 발견, 멀티 Agent 교차 검증으로 해결합니다.</p>
+    <div class="why-grid">
+      <div class="why-card reveal">
+        <div class="why-dot" style="background:#FB7185;"></div>
+        <div class="why-title">AI Agent의 한계</div>
+        <ul class="why-list">
+          <li>할루시네이션 (없는 API·함수 호출)</li>
+          <li>엣지 케이스·예외 처리 누락</li>
+          <li>보안·인증 로직 간과</li>
+        </ul>
+      </div>
+      <div class="why-card reveal reveal-delay-1">
+        <div class="why-dot" style="background:#FBBF24;"></div>
+        <div class="why-title">QA 현장에서 발견</div>
+        <ul class="why-list">
+          <li>실제 QA 업무 중 AI 산출물 버그 다수 확인</li>
+          <li>존재하지 않는 API 호출·스키마 불일치</li>
+          <li>단일 모델의 관점 편향과 검증 공백</li>
+        </ul>
+      </div>
+      <div class="why-card reveal reveal-delay-2">
+        <div class="why-dot" style="background:#22C55E;"></div>
+        <div class="why-title">각 Agent 강점 활용</div>
+        <ul class="why-list">
+          <li>Claude Code: 설계와 코딩</li>
+          <li>Codex: 코드 리뷰와 테스트</li>
+          <li>Gemini CLI: 추론 및 검색</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- AGENTS -->
+<section id="agents">
+  <div class="container">
+    <div class="section-label reveal">Agents</div>
+    <h2 class="section-title reveal">3개 AI 에이전트</h2>
+    <p class="section-desc reveal">각 에이전트가 고유한 강점을 발휘하며, 토론과 코딩에서 상호 보완적으로 협업합니다.</p>
+    <div class="agents-grid">
+      <!-- Claude -->
+      <div class="agent-card claude reveal">
+        <div class="agent-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>
+        </div>
+        <div class="agent-name">Claude</div>
+        <div class="agent-model">Sonnet</div>
+        <p class="agent-role">기획, 설계, 코드 작성을 담당하는 메인 에이전트. 웹 검색을 우선 활용하여 최신 정보 기반의 정확한 답변을 생성합니다.</p>
+        <div class="agent-tags">
+          <span class="agent-tag">기획/설계</span>
+          <span class="agent-tag">코드 작성</span>
+          <span class="agent-tag">웹 검색</span>
+        </div>
+      </div>
+      <!-- Codex -->
+      <div class="agent-card codex reveal reveal-delay-1">
+        <div class="agent-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+        </div>
+        <div class="agent-name">Codex</div>
+        <div class="agent-model">o1</div>
+        <p class="agent-role">코드 리뷰, 테스트 전략 수립, 최종 보고를 담당. 깊은 추론 능력으로 코드의 품질과 안정성을 검증합니다.</p>
+        <div class="agent-tags">
+          <span class="agent-tag">코드 리뷰</span>
+          <span class="agent-tag">테스트 전략</span>
+          <span class="agent-tag">최종 보고</span>
+        </div>
+      </div>
+      <!-- Gemini -->
+      <div class="agent-card gemini reveal reveal-delay-2">
+        <div class="agent-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        </div>
+        <div class="agent-name">Gemini</div>
+        <div class="agent-model">flash-preview + fallback</div>
+        <p class="agent-role">창의적 관점과 빠른 응답 속도를 제공. flash-preview 모델 기본 사용, 실패 시 자동 fallback으로 안정성을 확보합니다.</p>
+        <div class="agent-tags">
+          <span class="agent-tag">창의적 관점</span>
+          <span class="agent-tag">빠른 응답</span>
+          <span class="agent-tag">Fallback</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MODES -->
+<section id="modes" style="background: var(--bg-alt);">
+  <div class="container">
+    <div class="section-label reveal">Modes</div>
+    <h2 class="section-title reveal">3가지 운영 모드</h2>
+    <p class="section-desc reveal">상황에 맞는 최적의 협업 방식을 선택하여 문제를 해결합니다.</p>
+    <div class="modes-grid">
+      <!-- 토론 모드 -->
+      <div class="mode-card reveal">
+        <div class="mode-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        </div>
+        <div class="mode-name">토론 모드</div>
+        <p class="mode-desc">3개 AI가 자유롭게 토론하며 최적의 답을 도출합니다.</p>
+        <ul class="mode-features">
+          <li>라운드 기반 자유 토론 (최대 10라운드)</li>
+          <li>합의 감지: 전원(3/3) 즉시 종료, 다수(2/3) + 교착 시 종료</li>
+          <li>합의 후 통합 답변 자동 생성</li>
+          <li>에이전트 오류/타임아웃 시 백업 에이전트 자동 대체</li>
+          <li>웹 검색 강제로 실시간 수치 환각 방지</li>
+        </ul>
+      </div>
+      <!-- 코딩 모드 -->
+      <div class="mode-card reveal reveal-delay-1">
+        <div class="mode-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+        </div>
+        <div class="mode-name">코딩 모드</div>
+        <p class="mode-desc">5단계 파이프라인으로 고품질 코드를 생산합니다.</p>
+        <div class="pipeline">
+          <div class="pipeline-step"><span class="pipeline-num">1</span> Claude가 코드 작성</div>
+          <div class="pipeline-step"><span class="pipeline-num">2</span> Codex가 코드 리뷰</div>
+          <div class="pipeline-step"><span class="pipeline-num">3</span> 3개 에이전트 동시 테스트</div>
+          <div class="pipeline-step"><span class="pipeline-num">4</span> 이슈 수정 루프 (최대 3회)</div>
+          <div class="pipeline-step"><span class="pipeline-num">5</span> Codex 최종 보고</div>
+        </div>
+        <ul class="mode-features" style="margin-top:14px;">
+          <li>경로 화이트리스트 기반 보안 적용</li>
+        </ul>
+      </div>
+      <!-- 브릿지 모드 -->
+      <div class="mode-card reveal reveal-delay-2">
+        <div class="mode-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        </div>
+        <div class="mode-name">브릿지 모드</div>
+        <p class="mode-desc">Slack 메시지를 로컬 CLI에 직접 연결합니다.</p>
+        <ul class="mode-features">
+          <li>특정 프로젝트 폴더의 Claude/Codex CLI에 연동</li>
+          <li>--continue 옵션으로 기존 대화 이어가기</li>
+          <li>Slack에서 직접 로컬 개발 환경 제어</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- 토론 예시 -->
+    <div style="margin-top:48px;">
+      <div class="section-label reveal">Debate Example</div>
+      <h3 class="section-title reveal" style="font-size:22px;">실제 토론 예시</h3>
+      <div class="reveal" style="max-width:700px; margin:24px auto 0; display:flex; flex-direction:column; gap:10px;">
+        <div style="display:flex; gap:12px; align-items:flex-start;">
+          <span style="flex-shrink:0; padding:4px 10px; border-radius:99px; background:rgba(241,245,249,.1); color:#F1F5F9; font-size:11px; font-weight:600; font-family:'JetBrains Mono',monospace; min-width:70px; text-align:center;">사용자</span>
+          <span style="color:var(--text-dim); font-size:14px; line-height:1.6;">"비개발자가 프로그래밍을 하나 배운다면?"</span>
+        </div>
+        <div style="display:flex; gap:12px; align-items:flex-start;">
+          <span style="flex-shrink:0; padding:4px 10px; border-radius:99px; background:rgba(167,139,250,.12); color:#A78BFA; font-size:11px; font-weight:600; font-family:'JetBrains Mono',monospace; min-width:70px; text-align:center;">Claude</span>
+          <span style="color:var(--text-dim); font-size:14px; line-height:1.6;">Python 추천. 문법이 직관적이고 자동화/데이터 분석에 바로 활용 가능</span>
+        </div>
+        <div style="display:flex; gap:12px; align-items:flex-start;">
+          <span style="flex-shrink:0; padding:4px 10px; border-radius:99px; background:rgba(59,130,246,.12); color:#3B82F6; font-size:11px; font-weight:600; font-family:'JetBrains Mono',monospace; min-width:70px; text-align:center;">Codex</span>
+          <span style="color:var(--text-dim); font-size:14px; line-height:1.6;">JavaScript 추천. 웹 프론트/백엔드 둘 다 가능하고 결과물이 눈에 보여 동기부여</span>
+        </div>
+        <div style="display:flex; gap:12px; align-items:flex-start;">
+          <span style="flex-shrink:0; padding:4px 10px; border-radius:99px; background:rgba(34,197,94,.12); color:#22C55E; font-size:11px; font-weight:600; font-family:'JetBrains Mono',monospace; min-width:70px; text-align:center;">Gemini</span>
+          <span style="color:var(--text-dim); font-size:14px; line-height:1.6;">Python 동의. 비개발자에겐 읽기 쉬운 문법과 풍부한 라이브러리가 핵심</span>
+        </div>
+        <div style="margin-top:8px; padding:12px 16px; border-radius:10px; background:rgba(245,158,11,.08); border:1px solid rgba(245,158,11,.2);">
+          <div style="display:flex; gap:12px; align-items:center;">
+            <span style="flex-shrink:0; padding:4px 10px; border-radius:99px; background:rgba(245,158,11,.15); color:#F59E0B; font-size:11px; font-weight:600; font-family:'JetBrains Mono',monospace;">합의(2/3)</span>
+            <span style="color:#F59E0B; font-size:14px; font-weight:600;">Python - 직관적 문법, 자동화/데이터 분석에 즉시 활용</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 코딩 실행 로그 -->
+    <div style="margin-top:56px;">
+      <div class="section-label reveal">Coding Log</div>
+      <h3 class="section-title reveal" style="font-size:22px;">실제 코딩 실행 로그</h3>
+      <div class="coding-log reveal">
+        <div class="log-row"><span class="log-tag">[요청]</span><span class="log-body">매일 장마감 후 Slack으로 주식 시황 브리핑 자동 전송 봇 추가해줘</span></div>
+        <div class="log-row"><span class="log-tag claude">[Claude]</span><span class="log-body">코드 생성 중… briefing/market_fetcher.py + slack_notifier.py 작성 (84줄)</span></div>
+        <div class="log-row"><span class="log-tag codex">[Codex]</span><span class="log-body">리뷰 시작… 이슈 2건 발견: pykrx 실패 처리 누락, KST 타임존 미지정</span></div>
+        <div class="log-row"><span class="log-tag claude">[Claude]</span><span class="log-body">이슈 수정 완료. try/except + Asia/Seoul 타임존 고정 적용</span></div>
+        <div class="log-row"><span class="log-tag codex">[Codex]</span><span class="log-body">재리뷰 통과. 최종 코드 3개 파일, 총 112줄</span></div>
+        <div class="log-row"><span class="log-tag done">[완료]</span><span class="log-body">코딩 세션 종료. 소요 시간: 58초</span></div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- KEY FEATURES -->
+<section id="features">
+  <div class="container">
+    <div class="section-label reveal">Key Features</div>
+    <h2 class="section-title reveal">핵심 기능</h2>
+    <p class="section-desc reveal">안정성, 보안, 성능을 위해 설계된 엔지니어링 기능들입니다.</p>
+    <div class="features-grid">
+      <div class="feature-card reveal">
+        <div class="feature-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+        </div>
+        <div>
+          <div class="feature-title">비동기 병렬 처리</div>
+          <div class="feature-desc">asyncio 기반으로 3개 AI 에이전트를 동시에 호출하여 응답 대기 시간을 최소화합니다.</div>
+        </div>
+      </div>
+      <div class="feature-card reveal reveal-delay-1">
+        <div class="feature-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        </div>
+        <div>
+          <div class="feature-title">타임아웃 + 백업 에이전트</div>
+          <div class="feature-desc">Claude 실패 시 Codex-B(🟤)로, Codex/Gemini 실패 시 Claude-B(🟡)로 자동 전환하여 서비스 연속성을 보장합니다.</div>
+        </div>
+      </div>
+      <div class="feature-card reveal">
+        <div class="feature-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </div>
+        <div>
+          <div class="feature-title">보안</div>
+          <div class="feature-desc">경로 화이트리스트로 허용된 디렉토리만 접근 가능. 환경변수 토큰 필터링으로 민감 정보 노출을 차단합니다.</div>
+        </div>
+      </div>
+      <div class="feature-card reveal reveal-delay-1">
+        <div class="feature-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+        </div>
+        <div>
+          <div class="feature-title">출력 정제</div>
+          <div class="feature-desc">Claude JSON artifact, Codex 헤더, Gemini xterm 노이즈 등 각 에이전트별 불필요한 출력을 자동 제거합니다.</div>
+        </div>
+      </div>
+      <div class="feature-card reveal">
+        <div class="feature-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+        </div>
+        <div>
+          <div class="feature-title">진행률 표시</div>
+          <div class="feature-desc">15초마다 Slack 메시지를 업데이트하여 현재 처리 상태를 실시간으로 사용자에게 전달합니다.</div>
+        </div>
+      </div>
+      <div class="feature-card reveal reveal-delay-1">
+        <div class="feature-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="9" y1="9" x2="15" y2="15"/><line x1="15" y1="9" x2="9" y2="15"/></svg>
+        </div>
+        <div>
+          <div class="feature-title">취소 시스템</div>
+          <div class="feature-desc">!stop 명령어로 진행 중인 작업을 즉시 중단. 실행 중인 모든 서브프로세스를 안전하게 종료합니다.</div>
+        </div>
+      </div>
+      <div class="feature-card reveal">
+        <div class="feature-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"/></svg>
+        </div>
+        <div>
+          <div class="feature-title">Gemini Rate-limit 핸들링</div>
+          <div class="feature-desc">Semaphore 동시성 제어, 5분 쿨다운, 모델 fallback을 조합하여 API 제한을 자동으로 우회합니다.</div>
+        </div>
+      </div>
+      <div class="feature-card reveal reveal-delay-1">
+        <div class="feature-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+        </div>
+        <div>
+          <div class="feature-title">CLI 헬스체크</div>
+          <div class="feature-desc">부팅 시 Claude, Codex, Gemini CLI의 정상 작동 여부를 자동으로 점검합니다.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TECH STACK -->
+<section id="stack" style="background: var(--bg-alt);">
+  <div class="container tech-section">
+    <div class="section-label reveal">Tech Stack</div>
+    <h2 class="section-title reveal">기술 스택</h2>
+    <div class="tech-tags">
+      <span class="tech-tag reveal">Python</span>
+      <span class="tech-tag reveal reveal-delay-1">asyncio</span>
+      <span class="tech-tag reveal reveal-delay-1">Slack Bolt</span>
+      <span class="tech-tag reveal reveal-delay-2">Socket Mode</span>
+      <span class="tech-tag reveal reveal-delay-2">Claude CLI</span>
+      <span class="tech-tag reveal reveal-delay-3">Codex CLI</span>
+      <span class="tech-tag reveal reveal-delay-3">Gemini CLI</span>
+      <span class="tech-tag reveal reveal-delay-4">subprocess</span>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-inner">
+      <div class="footer-name">sym804</div>
+      <a href="https://github.com/sym804/ai-squad" target="_blank" class="footer-link">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+        github.com/sym804/ai-squad
+      </a>
+      <div class="footer-copy">&copy; 2026 AI Squad. Built with Python + asyncio</div>
+    </div>
+  </div>
+</footer>
+
+<script>
+// Nav scroll effect
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 20);
+});
+
+// Scroll reveal
+const reveals = document.querySelectorAll('.reveal');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+    }
+  });
+}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+reveals.forEach(el => observer.observe(el));
+
+// Counter animation
+function animateCounter(el) {
+  const target = parseInt(el.dataset.count);
+  const suffix = el.dataset.suffix || '';
+  const duration = 1800;
+  const start = performance.now();
+
+  function update(now) {
+    const elapsed = now - start;
+    const progress = Math.min(elapsed / duration, 1);
+    const eased = 1 - Math.pow(1 - progress, 3);
+    const current = Math.floor(eased * target);
+    el.textContent = current.toLocaleString() + suffix;
+    if (progress < 1) requestAnimationFrame(update);
+  }
+  requestAnimationFrame(update);
+}
+
+const statValues = document.querySelectorAll('.stat-value');
+const statObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      animateCounter(entry.target);
+      statObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.5 });
+
+statValues.forEach(el => statObserver.observe(el));
+</script>
+
+</body>
+</html>

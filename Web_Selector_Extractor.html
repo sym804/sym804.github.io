@@ -1,0 +1,1259 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Selector Extractor - QA Engineer Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&family=Sora:wght@300;400;600;700&family=Noto+Sans+KR:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg: #0a0e17;
+  --bg-alt: #0b0f1a;
+  --bg-card: #111827;
+  --bg-card-hover: #1a2332;
+  --border: #1e293b;
+  --border-bright: #334155;
+  --text: #e2e8f0;
+  --text-dim: #94a3b8;
+  --text-muted: #64748b;
+  --green: #22c55e;
+  --green-dim: rgba(34,197,94,.12);
+  --green-glow: rgba(34,197,94,.25);
+  --blue: #3b82f6;
+  --blue-dim: rgba(59,130,246,.1);
+  --emerald: #10b981;
+  --emerald-dim: rgba(16,185,129,.1);
+  --amber: #f59e0b;
+  --amber-dim: rgba(245,158,11,.1);
+  --purple: #8b5cf6;
+  --purple-dim: rgba(139,92,246,.1);
+  --cyan: #06b6d4;
+  --cyan-dim: rgba(6,182,212,.1);
+  --font-display: 'Outfit', 'Sora', sans-serif;
+  --font-body: 'Pretendard Variable', 'Pretendard', 'Noto Sans KR', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-weight: 400;
+  line-height: 1.7;
+  overflow-x: hidden;
+}
+
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  background: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 9999;
+}
+
+/* Scroll animations */
+.reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity .7s cubic-bezier(.16,1,.3,1), transform .7s cubic-bezier(.16,1,.3,1);
+}
+.reveal.visible { opacity: 1; transform: translateY(0); }
+.reveal-delay-1 { transition-delay: .1s; }
+.reveal-delay-2 { transition-delay: .2s; }
+.reveal-delay-3 { transition-delay: .3s; }
+.reveal-delay-4 { transition-delay: .4s; }
+.reveal-delay-5 { transition-delay: .5s; }
+.reveal-delay-6 { transition-delay: .6s; }
+.reveal-delay-7 { transition-delay: .7s; }
+
+/* Layout */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 clamp(20px, 4vw, 48px);
+}
+
+section { padding: 100px 0; position: relative; }
+
+.section-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--border-bright) 20%, var(--border-bright) 80%, transparent);
+  margin: 0 auto;
+  max-width: 1200px;
+}
+
+.section-label {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--green);
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+
+.section-title {
+  font-family: var(--font-display);
+  font-size: clamp(32px, 4vw, 48px);
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -1px;
+  margin-bottom: 20px;
+}
+
+.section-desc {
+  font-size: 17px;
+  color: var(--text-dim);
+  max-width: 640px;
+  line-height: 1.8;
+}
+
+/* ===== HERO ===== */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+  padding: 0;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -50%; right: -30%;
+  width: 900px; height: 900px;
+  background: radial-gradient(circle, rgba(34,197,94,.07) 0%, transparent 70%);
+  animation: hero-glow 8s ease-in-out infinite alternate;
+}
+
+.hero::after {
+  content: '';
+  position: absolute;
+  bottom: -20%; left: -20%;
+  width: 600px; height: 600px;
+  background: radial-gradient(circle, rgba(59,130,246,.04) 0%, transparent 70%);
+  animation: hero-glow 10s ease-in-out infinite alternate-reverse;
+}
+
+@keyframes hero-glow {
+  0% { transform: translate(0, 0) scale(1); }
+  100% { transform: translate(30px, -20px) scale(1.1); }
+}
+
+.hero-grid {
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(30,41,59,.3) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(30,41,59,.3) 1px, transparent 1px);
+  background-size: 60px 60px;
+  mask-image: radial-gradient(ellipse 70% 60% at 50% 50%, black 30%, transparent 80%);
+}
+
+.hero-content { position: relative; z-index: 2; }
+
+.hero-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  color: var(--green);
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+  opacity: 0;
+  animation: fade-up .8s .3s forwards;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.hero-eyebrow svg { width: 20px; height: 20px; }
+
+.hero-title {
+  font-family: var(--font-display);
+  font-size: clamp(48px, 7vw, 88px);
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: -2px;
+  margin-bottom: 24px;
+  opacity: 0;
+  animation: fade-up .8s .5s forwards;
+}
+
+.hero-title .accent {
+  background: linear-gradient(135deg, var(--green) 0%, #4ade80 50%, var(--emerald) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.hero-subtitle {
+  font-size: clamp(18px, 2.5vw, 22px);
+  color: var(--text-dim);
+  max-width: 600px;
+  line-height: 1.6;
+  margin-bottom: 16px;
+  opacity: 0;
+  animation: fade-up .8s .7s forwards;
+}
+
+.hero-version {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  color: var(--text-muted);
+  margin-bottom: 36px;
+  opacity: 0;
+  animation: fade-up .8s .9s forwards;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.hero-version .badge {
+  background: var(--green-dim);
+  color: var(--green);
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 500;
+  border: 1px solid rgba(34,197,94,.2);
+}
+
+.hero-actions {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  opacity: 0;
+  animation: fade-up .8s 1.1s forwards;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 28px;
+  border-radius: 12px;
+  font-family: var(--font-body);
+  font-size: 15px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all .3s ease;
+  cursor: pointer;
+  border: none;
+}
+
+.btn-primary {
+  background: var(--green);
+  color: #000;
+}
+.btn-primary:hover {
+  background: #16a34a;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(34,197,94,.3);
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--text);
+  border: 1px solid var(--border-bright);
+}
+.btn-ghost:hover {
+  border-color: var(--green);
+  color: var(--green);
+  transform: translateY(-2px);
+}
+
+.btn svg { width: 18px; height: 18px; }
+
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Hero extension preview */
+.hero-preview {
+  position: absolute;
+  right: 5%;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 340px;
+  opacity: 0;
+  animation: fade-up .8s 1.3s forwards;
+  z-index: 2;
+}
+
+.preview-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 24px;
+  position: relative;
+}
+
+.preview-card::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: 16px;
+  padding: 1px;
+  background: linear-gradient(135deg, rgba(34,197,94,.3), transparent 50%);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  -webkit-mask-composite: xor;
+  pointer-events: none;
+}
+
+.preview-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border);
+}
+
+.preview-icon {
+  width: 32px;
+  height: 32px;
+  background: var(--green-dim);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.preview-icon svg { width: 18px; height: 18px; color: var(--green); }
+
+.preview-header-text {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.preview-selectors {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.preview-selector-item {
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 10px 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-family: var(--font-mono);
+  font-size: 12px;
+}
+
+.preview-selector-type {
+  color: var(--green);
+  font-weight: 500;
+  font-size: 11px;
+  text-transform: uppercase;
+}
+
+.preview-selector-value {
+  color: var(--text-dim);
+  font-size: 11px;
+  max-width: 180px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.preview-badge {
+  font-size: 10px;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-weight: 500;
+}
+
+.badge-unique {
+  background: var(--green-dim);
+  color: var(--green);
+  border: 1px solid rgba(34,197,94,.2);
+}
+
+.badge-count {
+  background: var(--blue-dim);
+  color: var(--blue);
+  border: 1px solid rgba(59,130,246,.2);
+}
+
+/* ===== STATS BAR ===== */
+.stats-bar {
+  background: var(--bg-alt);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  padding: 40px 0;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 32px;
+}
+
+.stat-item {
+  text-align: center;
+  position: relative;
+}
+
+.stat-item:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  right: -16px;
+  top: 10%;
+  height: 80%;
+  width: 1px;
+  background: var(--border);
+}
+
+.stat-number {
+  font-family: var(--font-display);
+  font-size: 42px;
+  font-weight: 800;
+  color: var(--green);
+  line-height: 1;
+  margin-bottom: 8px;
+}
+
+.stat-label {
+  font-size: 14px;
+  color: var(--text-dim);
+  font-weight: 500;
+}
+
+/* ===== WHY SECTION ===== */
+.why-section {
+  background: var(--bg-alt);
+}
+
+.why-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: center;
+}
+
+.why-text p {
+  font-size: 16px;
+  color: var(--text-dim);
+  line-height: 1.9;
+  margin-bottom: 20px;
+}
+
+.why-text p strong {
+  color: var(--text);
+  font-weight: 600;
+}
+
+.why-visual {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 28px;
+  position: relative;
+}
+
+.why-visual::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: 16px;
+  padding: 1px;
+  background: linear-gradient(135deg, rgba(34,197,94,.2), transparent 60%);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  -webkit-mask-composite: xor;
+  pointer-events: none;
+}
+
+.why-comparison {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.why-before, .why-after {
+  padding: 20px;
+  border-radius: 12px;
+}
+
+.why-before {
+  background: rgba(239,68,68,.05);
+  border: 1px solid rgba(239,68,68,.15);
+}
+
+.why-after {
+  background: var(--green-dim);
+  border: 1px solid rgba(34,197,94,.2);
+}
+
+.why-label {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 12px;
+}
+
+.why-before .why-label { color: #ef4444; }
+.why-after .why-label { color: var(--green); }
+
+.why-step {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  color: var(--text-dim);
+  padding: 4px 0;
+}
+
+.why-step svg { width: 16px; height: 16px; flex-shrink: 0; }
+.why-before .why-step svg { color: #ef4444; }
+.why-after .why-step svg { color: var(--green); }
+
+/* ===== FEATURES ===== */
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+  gap: 24px;
+  margin-top: 48px;
+}
+
+.feature-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 32px;
+  transition: all .4s cubic-bezier(.16,1,.3,1);
+  position: relative;
+  overflow: hidden;
+}
+
+.feature-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--green), transparent);
+  opacity: 0;
+  transition: opacity .4s ease;
+}
+
+.feature-card:hover {
+  border-color: rgba(34,197,94,.3);
+  transform: translateY(-4px);
+  box-shadow: 0 20px 60px rgba(0,0,0,.3);
+}
+
+.feature-card:hover::before { opacity: 1; }
+
+.feature-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.feature-icon svg { width: 24px; height: 24px; }
+
+.feature-icon-green { background: var(--green-dim); color: var(--green); }
+.feature-icon-blue { background: var(--blue-dim); color: var(--blue); }
+.feature-icon-purple { background: var(--purple-dim); color: var(--purple); }
+.feature-icon-amber { background: var(--amber-dim); color: var(--amber); }
+.feature-icon-emerald { background: var(--emerald-dim); color: var(--emerald); }
+.feature-icon-cyan { background: var(--cyan-dim); color: var(--cyan); }
+
+.feature-title {
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 12px;
+  letter-spacing: -0.3px;
+}
+
+.feature-desc {
+  font-size: 15px;
+  color: var(--text-dim);
+  line-height: 1.7;
+}
+
+.feature-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 16px;
+}
+
+.feature-tag {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  padding: 3px 8px;
+  border-radius: 6px;
+  background: rgba(255,255,255,.04);
+  color: var(--text-muted);
+  border: 1px solid var(--border);
+}
+
+/* ===== ARCHITECTURE ===== */
+.arch-section { background: var(--bg-alt); }
+
+.arch-flow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  margin-top: 48px;
+  flex-wrap: nowrap;
+  padding: 40px 0;
+}
+
+.arch-node {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 14px 12px;
+  text-align: center;
+  min-width: 0;
+  flex-shrink: 1;
+  min-width: 140px;
+  transition: all .3s ease;
+  position: relative;
+}
+
+.arch-node:hover {
+  border-color: rgba(34,197,94,.3);
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px rgba(0,0,0,.3);
+}
+
+.arch-node-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 12px;
+  background: var(--green-dim);
+}
+
+.arch-node-icon svg { width: 20px; height: 20px; color: var(--green); }
+
+.arch-node-title {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text);
+  margin-bottom: 4px;
+}
+
+.arch-node-desc {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.arch-arrow {
+  display: flex;
+  align-items: center;
+  padding: 0 8px;
+  color: var(--green);
+  flex-shrink: 0;
+}
+
+.arch-arrow svg { width: 24px; height: 24px; }
+
+/* Arch detail cards */
+.arch-details {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  margin-top: 40px;
+}
+
+.arch-detail-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 24px;
+}
+
+.arch-detail-title {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--green);
+  margin-bottom: 12px;
+}
+
+.arch-detail-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.arch-detail-list li {
+  font-size: 13px;
+  color: var(--text-dim);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.arch-detail-list li::before {
+  content: '';
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--green);
+  flex-shrink: 0;
+}
+
+/* ===== TECH STACK ===== */
+.tech-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 40px;
+  justify-content: center;
+}
+
+.tech-tag {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 14px 24px;
+  font-family: var(--font-mono);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transition: all .3s ease;
+}
+
+.tech-tag:hover {
+  border-color: rgba(34,197,94,.3);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(0,0,0,.2);
+}
+
+.tech-tag svg { width: 20px; height: 20px; color: var(--green); }
+
+/* ===== FOOTER ===== */
+.footer {
+  border-top: 1px solid var(--border);
+  padding: 48px 0;
+  text-align: center;
+}
+
+.footer-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.footer-name {
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.footer-links {
+  display: flex;
+  gap: 24px;
+  align-items: center;
+}
+
+.footer-link {
+  font-size: 14px;
+  color: var(--text-muted);
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: color .3s ease;
+}
+
+.footer-link:hover { color: var(--green); }
+.footer-link svg { width: 16px; height: 16px; }
+
+.footer-license {
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-top: 4px;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 1024px) {
+  .hero-preview { display: none; }
+  .why-content { grid-template-columns: 1fr; gap: 40px; }
+  .arch-details { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 768px) {
+  section { padding: 60px 0; }
+  .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 24px; }
+  .stat-item:not(:last-child)::after { display: none; }
+  .features-grid { grid-template-columns: 1fr; }
+  .arch-flow { flex-direction: column; gap: 12px; }
+  .arch-arrow { transform: rotate(90deg); }
+  .arch-details { grid-template-columns: 1fr; }
+  .tech-tags { gap: 8px; }
+  .tech-tag { padding: 10px 16px; font-size: 13px; }
+}
+
+@media (max-width: 480px) {
+  .stats-grid { grid-template-columns: 1fr 1fr; }
+  .hero-actions { flex-direction: column; }
+  .btn { justify-content: center; }
+}
+</style>
+</head>
+<body>
+
+<!-- ===== HERO ===== -->
+<section class="hero">
+  <div class="hero-grid"></div>
+  <div class="container">
+    <div class="hero-content" style="display:flex; gap:48px; align-items:center;">
+      <div style="flex:1;">
+        <div class="hero-eyebrow">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6M9 9l6 6"/></svg>
+          Chrome Extension
+        </div>
+        <h1 class="hero-title">
+          <span class="accent">Selector</span><br>Extractor
+        </h1>
+        <p class="hero-subtitle">QA 자동화용 웹 엘리먼트 셀렉터 추출 크롬 확장 프로그램</p>
+        <div class="hero-version">
+          <span class="badge">v1.1.0.2</span>
+          <span>Manifest V3 기반</span>
+        </div>
+        <div class="hero-actions">
+          <a href="https://github.com/sym804/web_selector_extractor" class="btn btn-primary" target="_blank">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+            GitHub
+          </a>
+          <a href="#features" class="btn btn-ghost">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+            기능 둘러보기
+          </a>
+        </div>
+      </div>
+      <!-- Selector Preview -->
+      <div style="width:360px; flex-shrink:0; background:var(--bg-card); border:1px solid var(--border); border-radius:14px; padding:18px; box-shadow: 0 12px 40px rgba(0,0,0,.3);">
+        <div style="display:flex; align-items:center; gap:8px; margin-bottom:12px; padding-bottom:10px; border-bottom:1px solid var(--border);">
+          <div style="width:24px;height:24px;border-radius:6px;background:rgba(34,197,94,.12);display:flex;align-items:center;justify-content:center;">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2"><path d="M12 20h9"/><path d="M16.376 3.622a1 1 0 0 1 3.002 3.002L7.368 18.635a2 2 0 0 1-.855.506l-2.872.838a.5.5 0 0 1-.62-.62l.838-2.872a2 2 0 0 1 .506-.854z"/></svg>
+          </div>
+          <div>
+            <div style="font-size:12px;font-weight:700;color:var(--text);">Selector Extractor</div>
+            <div style="font-size:9px;color:var(--text-muted);">추출된 셀렉터 4개</div>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:5px;">
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:6px 9px;background:var(--bg);border-radius:6px;border:1px solid var(--border);">
+            <div><div style="font-size:8px;color:#22c55e;font-weight:600;">ID</div><div style="font-size:10px;color:var(--text-dim);font-family:'JetBrains Mono',monospace;">#login-button</div></div>
+            <span style="font-size:8px;padding:2px 6px;border-radius:99px;background:rgba(34,197,94,.15);color:#22c55e;font-weight:600;">UNIQUE</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:6px 9px;background:var(--bg);border-radius:6px;border:1px solid var(--border);">
+            <div><div style="font-size:8px;color:#22c55e;font-weight:600;">data-testid</div><div style="font-size:10px;color:var(--text-dim);font-family:'JetBrains Mono',monospace;">[data-testid="submit"]</div></div>
+            <span style="font-size:8px;padding:2px 6px;border-radius:99px;background:rgba(34,197,94,.15);color:#22c55e;font-weight:600;">UNIQUE</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:6px 9px;background:var(--bg);border-radius:6px;border:1px solid var(--border);">
+            <div><div style="font-size:8px;color:#3b82f6;font-weight:600;">CSS</div><div style="font-size:10px;color:var(--text-dim);font-family:'JetBrains Mono',monospace;">.btn.btn-primary</div></div>
+            <span style="font-size:8px;padding:2px 6px;border-radius:99px;background:rgba(245,158,11,.15);color:#f59e0b;font-weight:600;">3 matches</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:6px 9px;background:var(--bg);border-radius:6px;border:1px solid var(--border);">
+            <div><div style="font-size:8px;color:#3b82f6;font-weight:600;">XPath</div><div style="font-size:10px;color:var(--text-dim);font-family:'JetBrains Mono',monospace;">//button[@type='submit']</div></div>
+            <span style="font-size:8px;padding:2px 6px;border-radius:99px;background:rgba(245,158,11,.15);color:#f59e0b;font-weight:600;">2 matches</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== STATS BAR ===== -->
+<div class="stats-bar">
+  <div class="container">
+    <div class="stats-grid">
+      <div class="stat-item reveal">
+        <div class="stat-number">7</div>
+        <div class="stat-label">셀렉터 타입</div>
+      </div>
+      <div class="stat-item reveal reveal-delay-1">
+        <div class="stat-number">6</div>
+        <div class="stat-label">Playwright 액션</div>
+      </div>
+      <div class="stat-item reveal reveal-delay-2">
+        <div class="stat-number" style="font-size:32px;">V3</div>
+        <div class="stat-label">Manifest Version</div>
+      </div>
+      <div class="stat-item reveal reveal-delay-3">
+        <div class="stat-number" style="font-size:28px;">JSON/CSV</div>
+        <div class="stat-label">Export 포맷</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== WHY ===== -->
+<section class="why-section">
+  <div class="container">
+    <div class="why-content">
+      <div class="why-text reveal">
+        <div class="section-label">Why this tool?</div>
+        <h2 class="section-title">반복적인 셀렉터 탐색,<br>자동화할 수 있습니다</h2>
+        <p>
+          QA 엔지니어가 <strong>테스트 자동화 스크립트를 작성</strong>할 때 매번 DevTools를 열고 Elements 탭에서 적절한 셀렉터를 수동으로 찾는 과정은 비효율적입니다.
+        </p>
+        <p>
+          ID가 있는지 확인하고, data-testid가 있는지 살피고, 유니크한 CSS 셀렉터를 조합하고 - 이 작업을 <strong>엘리먼트 하나마다 반복</strong>해야 합니다.
+        </p>
+        <p>
+          Selector Extractor는 <strong>클릭 한 번</strong>으로 7가지 타입의 셀렉터를 자동 추출하고, 유니크 셀렉터를 우선 정렬하며, Playwright 코드까지 생성합니다.
+        </p>
+      </div>
+      <div class="why-visual reveal reveal-delay-2">
+        <div class="why-comparison">
+          <div class="why-before">
+            <div class="why-label">Before: 기존 방식</div>
+            <div class="why-step">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6M9 9l6 6"/></svg>
+              F12로 DevTools 열기
+            </div>
+            <div class="why-step">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6M9 9l6 6"/></svg>
+              Elements 탭에서 요소 탐색
+            </div>
+            <div class="why-step">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6M9 9l6 6"/></svg>
+              속성 하나씩 확인 (ID, class, data-*)
+            </div>
+            <div class="why-step">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6M9 9l6 6"/></svg>
+              유니크한지 Console에서 수동 검증
+            </div>
+            <div class="why-step">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6M9 9l6 6"/></svg>
+              Playwright 코드 직접 작성
+            </div>
+          </div>
+          <div class="why-after">
+            <div class="why-label">After: Selector Extractor</div>
+            <div class="why-step">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg>
+              요소 클릭 한 번
+            </div>
+            <div class="why-step">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg>
+              7가지 셀렉터 자동 추출 + 유니크 검증
+            </div>
+            <div class="why-step">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6 9 17l-5-5"/></svg>
+              Playwright 코드 원클릭 복사
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ===== FEATURES ===== -->
+<section id="features">
+  <div class="container">
+    <div class="reveal" style="text-align:center; max-width:640px; margin:0 auto;">
+      <div class="section-label" style="text-align:center;">Core Features</div>
+      <h2 class="section-title" style="text-align:center;">QA 엔지니어를 위한<br>핵심 기능 7가지</h2>
+    </div>
+
+    <div class="features-grid">
+      <!-- 1. Smart Selector -->
+      <div class="feature-card reveal reveal-delay-1">
+        <div class="feature-icon feature-icon-green">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h6"/><path d="m12 12 4 10 1.7-4.3L22 16Z"/></svg>
+        </div>
+        <h3 class="feature-title">스마트 셀렉터 추출</h3>
+        <p class="feature-desc">ID > data-testid > 유니크 클래스 > CSS > XPath > ARIA Role > Text 7가지 타입을 자동 추출하고, 유니크 셀렉터를 우선 정렬합니다.</p>
+        <div class="feature-tags">
+          <span class="feature-tag">querySelectorAll</span>
+          <span class="feature-tag">uniqueness check</span>
+          <span class="feature-tag">priority sort</span>
+        </div>
+      </div>
+
+      <!-- 2. Tooltip UI -->
+      <div class="feature-card reveal reveal-delay-2">
+        <div class="feature-icon feature-icon-blue">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        </div>
+        <h3 class="feature-title">실시간 말풍선 UI</h3>
+        <p class="feature-desc">호버 시 블루 아웃라인으로 요소를 강조하고, 클릭 시 그린 하이라이트와 함께 UNIQUE/매치 수 뱃지를 표시합니다.</p>
+        <div class="feature-tags">
+          <span class="feature-tag">hover highlight</span>
+          <span class="feature-tag">click feedback</span>
+          <span class="feature-tag">badge</span>
+        </div>
+      </div>
+
+      <!-- 3. Playwright Code Gen -->
+      <div class="feature-card reveal reveal-delay-3">
+        <div class="feature-icon feature-icon-purple">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+        </div>
+        <h3 class="feature-title">Playwright 코드 생성</h3>
+        <p class="feature-desc">locator(), get_by_role(), get_by_test_id(), get_by_text()와 click/fill/check/hover/visible/text assert 6가지 액션 코드를 자동 생성합니다.</p>
+        <div class="feature-tags">
+          <span class="feature-tag">locator()</span>
+          <span class="feature-tag">get_by_role()</span>
+          <span class="feature-tag">6 actions</span>
+        </div>
+      </div>
+
+      <!-- 4. Side Panel History -->
+      <div class="feature-card reveal reveal-delay-4">
+        <div class="feature-icon feature-icon-amber">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M9 3v18"/><path d="M14 9h4"/><path d="M14 13h4"/><path d="M14 17h4"/></svg>
+        </div>
+        <h3 class="feature-title">사이드 패널 히스토리</h3>
+        <p class="feature-desc">추출한 셀렉터를 누적 저장하고, 실시간 검색 기능과 페이지별/시간별 통계를 제공합니다.</p>
+        <div class="feature-tags">
+          <span class="feature-tag">chrome.sidePanel</span>
+          <span class="feature-tag">search</span>
+          <span class="feature-tag">statistics</span>
+        </div>
+      </div>
+
+      <!-- 5. Data Export -->
+      <div class="feature-card reveal reveal-delay-5">
+        <div class="feature-icon feature-icon-emerald">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+        </div>
+        <h3 class="feature-title">데이터 내보내기</h3>
+        <p class="feature-desc">JSON/CSV 형식으로 내보내기를 지원하며, 날짜별 파일명을 자동으로 생성합니다.</p>
+        <div class="feature-tags">
+          <span class="feature-tag">JSON</span>
+          <span class="feature-tag">CSV</span>
+          <span class="feature-tag">auto filename</span>
+        </div>
+      </div>
+
+      <!-- 6. Dynamic Class Filter -->
+      <div class="feature-card reveal reveal-delay-6">
+        <div class="feature-icon feature-icon-cyan">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg>
+        </div>
+        <h3 class="feature-title">동적 클래스 필터링</h3>
+        <p class="feature-desc">css-*, se-*, 해시 기반 자동생성 클래스를 자동으로 제외하여 안정적인 셀렉터만 추출합니다.</p>
+        <div class="feature-tags">
+          <span class="feature-tag">regex filter</span>
+          <span class="feature-tag">hash detection</span>
+          <span class="feature-tag">stable selector</span>
+        </div>
+      </div>
+
+      <!-- 7. Clipboard -->
+      <div class="feature-card reveal reveal-delay-7">
+        <div class="feature-icon feature-icon-green">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="8" height="4" x="8" y="2" rx="1" ry="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="m9 14 2 2 4-4"/></svg>
+        </div>
+        <h3 class="feature-title">클립보드 복사</h3>
+        <p class="feature-desc">원클릭으로 셀렉터와 Playwright 코드를 복사하고, 복사 완료 시 시각적 피드백을 제공합니다.</p>
+        <div class="feature-tags">
+          <span class="feature-tag">navigator.clipboard</span>
+          <span class="feature-tag">visual feedback</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ===== ARCHITECTURE ===== -->
+<section class="arch-section">
+  <div class="container">
+    <div class="reveal" style="text-align:center; max-width:640px; margin:0 auto;">
+      <div class="section-label" style="text-align:center;">Architecture</div>
+      <h2 class="section-title" style="text-align:center;">데이터 흐름</h2>
+      <p class="section-desc" style="text-align:center; margin:0 auto;">사용자의 클릭부터 셀렉터 저장까지의 전체 파이프라인</p>
+    </div>
+
+    <div class="arch-flow reveal reveal-delay-1">
+      <div class="arch-node">
+        <div class="arch-node-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.376 3.622a1 1 0 0 1 3.002 3.002L7.368 18.635a2 2 0 0 1-.855.506l-2.872.838a.5.5 0 0 1-.62-.62l.838-2.872a2 2 0 0 1 .506-.854z"/></svg>
+        </div>
+        <div class="arch-node-title">사용자 클릭</div>
+        <div class="arch-node-desc">웹 요소 선택</div>
+      </div>
+      <div class="arch-arrow">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+      </div>
+      <div class="arch-node">
+        <div class="arch-node-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/></svg>
+        </div>
+        <div class="arch-node-title">content.js</div>
+        <div class="arch-node-desc">이벤트 캡처</div>
+      </div>
+      <div class="arch-arrow">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+      </div>
+      <div class="arch-node">
+        <div class="arch-node-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
+        </div>
+        <div class="arch-node-title">selector-engine.js</div>
+        <div class="arch-node-desc">셀렉터 추출</div>
+      </div>
+      <div class="arch-arrow">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+      </div>
+      <div class="arch-node">
+        <div class="arch-node-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="20" height="14" x="2" y="3" rx="2"/><line x1="8" x2="16" y1="21" y2="21"/><line x1="12" x2="12" y1="17" y2="21"/></svg>
+        </div>
+        <div class="arch-node-title">background.js</div>
+        <div class="arch-node-desc">메시지 라우팅</div>
+      </div>
+      <div class="arch-arrow">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+      </div>
+      <div class="arch-node">
+        <div class="arch-node-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M9 3v18"/></svg>
+        </div>
+        <div class="arch-node-title">sidepanel.js</div>
+        <div class="arch-node-desc">UI 렌더링</div>
+      </div>
+      <div class="arch-arrow">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+      </div>
+      <div class="arch-node">
+        <div class="arch-node-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5V19A9 3 0 0 0 21 19V5"/><path d="M3 12A9 3 0 0 0 21 12"/></svg>
+        </div>
+        <div class="arch-node-title">chrome.storage</div>
+        <div class="arch-node-desc">영구 저장</div>
+      </div>
+    </div>
+
+    <div class="arch-details">
+      <div class="arch-detail-card reveal reveal-delay-2">
+        <div class="arch-detail-title">Content Script</div>
+        <ul class="arch-detail-list">
+          <li>DOM 이벤트 리스너 (hover, click)</li>
+          <li>요소 하이라이트 / 아웃라인</li>
+          <li>말풍선 UI 렌더링</li>
+          <li>selector-engine 호출</li>
+        </ul>
+      </div>
+      <div class="arch-detail-card reveal reveal-delay-3">
+        <div class="arch-detail-title">Selector Engine</div>
+        <ul class="arch-detail-list">
+          <li>7가지 셀렉터 타입 추출</li>
+          <li>유니크 여부 검증 (querySelectorAll)</li>
+          <li>동적 클래스 필터링</li>
+          <li>우선순위 정렬</li>
+        </ul>
+      </div>
+      <div class="arch-detail-card reveal reveal-delay-4">
+        <div class="arch-detail-title">Side Panel</div>
+        <ul class="arch-detail-list">
+          <li>히스토리 누적 표시</li>
+          <li>Playwright 코드 생성</li>
+          <li>실시간 검색 / 필터</li>
+          <li>JSON/CSV 내보내기</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ===== TECH STACK ===== -->
+<section>
+  <div class="container">
+    <div class="reveal" style="text-align:center;">
+      <div class="section-label" style="text-align:center;">Tech Stack</div>
+      <h2 class="section-title" style="text-align:center;">기술 스택</h2>
+    </div>
+    <div class="tech-tags reveal reveal-delay-1">
+      <div class="tech-tag">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+        Vanilla JS
+      </div>
+      <div class="tech-tag">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m8 12 2.7 2.7L16 9.3"/></svg>
+        Chrome Extension Manifest V3
+      </div>
+      <div class="tech-tag">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M9 3v18"/></svg>
+        Side Panel API
+      </div>
+      <div class="tech-tag">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5V19A9 3 0 0 0 21 19V5"/><path d="M3 12A9 3 0 0 0 21 12"/></svg>
+        Storage API
+      </div>
+      <div class="tech-tag">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 22h14a2 2 0 0 0 2-2V7l-5-5H6a2 2 0 0 0-2 2v4"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="m5 12-3 3 3 3"/><path d="m9 18 3-3-3-3"/></svg>
+        CSS3
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-content">
+      <div class="footer-name">sym804</div>
+      <div class="footer-links">
+        <a href="https://github.com/sym804/web_selector_extractor" class="footer-link" target="_blank">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+          GitHub
+        </a>
+      </div>
+      <div class="footer-license">MIT License</div>
+    </div>
+  </div>
+</footer>
+
+<script>
+// Scroll reveal animation
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+    }
+  });
+}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>

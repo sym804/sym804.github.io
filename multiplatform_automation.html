@@ -1,0 +1,938 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>서영민 — QA Test Automation Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg: #0a0e17;
+  --bg-card: #111827;
+  --bg-card-hover: #1a2332;
+  --border: #1e293b;
+  --text: #e2e8f0;
+  --text-dim: #94a3b8;
+  --text-muted: #64748b;
+  --cyan: #22d3ee;
+  --cyan-dim: rgba(34,211,238,.12);
+  --blue: #3b82f6;
+  --blue-dim: rgba(59,130,246,.12);
+  --amber: #f59e0b;
+  --amber-dim: rgba(245,158,11,.12);
+  --purple: #a78bfa;
+  --purple-dim: rgba(167,139,250,.12);
+  --green: #34d399;
+  --green-dim: rgba(52,211,153,.12);
+  --red: #f87171;
+  --red-dim: rgba(248,113,113,.12);
+  --font-display: 'Outfit', sans-serif;
+  --font-body: 'Pretendard Variable', 'Pretendard', 'IBM Plex Sans KR', sans-serif;
+  --font-mono: 'IBM Plex Sans KR', 'Pretendard Variable', sans-serif;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  line-height: 1.7;
+  overflow-x: hidden;
+}
+
+body::before {
+  content: '';
+  position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+  background: radial-gradient(ellipse at 20% 50%, rgba(34,211,238,.04) 0%, transparent 60%),
+              radial-gradient(ellipse at 80% 20%, rgba(59,130,246,.03) 0%, transparent 60%);
+  pointer-events: none; z-index: 0;
+}
+
+.container { max-width: 1100px; margin: 0 auto; padding: 0 32px; position: relative; z-index: 1; }
+
+/* ══ NAV ══ */
+.nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  background: rgba(10,14,23,.85); backdrop-filter: blur(12px);
+  border-bottom: 1px solid transparent;
+  transition: border-color .3s;
+}
+.nav.scrolled { border-bottom-color: var(--border); }
+.nav .container { display: flex; justify-content: space-between; align-items: center; height: 56px; }
+.nav-logo { font-family: var(--font-display); font-weight: 700; font-size: 16px; color: var(--cyan); }
+.nav-links { list-style: none; display: flex; gap: 28px; }
+.nav-links a {
+  text-decoration: none; font-size: 13px; color: var(--text-muted);
+  font-family: var(--font-mono); transition: color .2s; letter-spacing: 0.5px;
+}
+.nav-links a:hover { color: var(--cyan); }
+
+/* ══ HERO ══ */
+.hero {
+  min-height: 100vh; display: flex; align-items: center; justify-content: center;
+  position: relative; padding: 120px 0 80px; text-align: center;
+}
+.hero-grid {
+  position: absolute; inset: 0;
+  background-image: linear-gradient(rgba(34,211,238,.06) 1px, transparent 1px),
+                    linear-gradient(90deg, rgba(34,211,238,.06) 1px, transparent 1px);
+  background-size: 60px 60px;
+  mask-image: radial-gradient(ellipse at center, black 30%, transparent 70%);
+}
+.hero-eyebrow {
+  font-family: var(--font-mono); font-size: 15px; color: var(--cyan);
+  letter-spacing: 3px; margin-bottom: 24px;
+  opacity: 0; animation: fade-up .8s .2s forwards;
+}
+.hero-title {
+  font-family: var(--font-display); font-size: 52px; font-weight: 800;
+  line-height: 1.15; margin-bottom: 20px; color: #fff;
+  opacity: 0; animation: fade-up .8s .4s forwards;
+}
+.hero-title .accent { color: var(--cyan); }
+.hero-sub {
+  font-size: 17px; color: var(--text-dim); max-width: 640px; margin: 0 auto 32px;
+  opacity: 0; animation: fade-up .8s .6s forwards;
+}
+.hero-name-block {
+  display: flex; align-items: baseline; gap: 16px; justify-content: center;
+  margin-top: 8px; margin-bottom: 16px;
+  opacity: 0; animation: fade-up .8s .8s forwards;
+}
+.hero-name { font-family: var(--font-display); font-size: 36px; font-weight: 700; color: #fff; letter-spacing: 2px; }
+.hero-role { font-family: var(--font-mono); font-size: 18px; font-weight: 500; color: var(--cyan); letter-spacing: 3px; }
+
+.scroll-hint {
+  position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%);
+  display: flex; flex-direction: column; align-items: center; gap: 8px;
+  opacity: 0; animation: fade-up .8s 1s forwards;
+}
+.scroll-hint span { font-family: var(--font-mono); font-size: 11px; color: var(--text-muted); letter-spacing: 2px; }
+.scroll-line { width: 1px; height: 40px; background: linear-gradient(to bottom, var(--cyan), transparent); animation: scroll-pulse 2s infinite; }
+
+@keyframes fade-up { to { opacity: 1; transform: translateY(0); } from { opacity: 0; transform: translateY(20px); } }
+@keyframes scroll-pulse { 0%,100% { opacity: .3; } 50% { opacity: 1; } }
+
+/* ══ SECTIONS ══ */
+section { padding: 100px 0; }
+.section-divider { height: 1px; background: linear-gradient(to right, transparent, var(--border), transparent); margin: 0 auto; max-width: 800px; }
+.section-header { text-align: center; margin-bottom: 48px; }
+.section-num { font-family: var(--font-mono); font-size: 15px; color: var(--cyan); letter-spacing: 2px; margin-bottom: 12px; }
+.section-title { font-family: var(--font-display); font-size: 36px; font-weight: 700; color: #fff; margin-bottom: 12px; }
+.section-title.small { font-size: 24px; }
+.section-desc { font-size: 15px; color: var(--text-dim); }
+
+/* ══ METRICS ══ */
+.metrics-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+.metric-card {
+  background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px;
+  padding: 24px; text-align: center; transition: border-color .3s, transform .3s;
+}
+.metric-card:hover { border-color: var(--cyan); transform: translateY(-2px); }
+.metric-value { font-family: var(--font-display); font-size: 36px; font-weight: 800; }
+.metric-value.cyan { color: var(--cyan); }
+.metric-value.blue { color: var(--blue); }
+.metric-value.amber { color: var(--amber); }
+.metric-value.purple { color: var(--purple); }
+.metric-value.green { color: var(--green); }
+.metric-unit { font-size: 18px; font-weight: 400; }
+.metric-label { font-size: 14px; color: var(--text); margin-top: 8px; font-weight: 500; }
+.metric-sub { font-size: 13px; color: var(--text-muted); margin-top: 4px; }
+
+/* ══ CARDS ══ */
+.overview-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 40px; }
+.overview-card {
+  background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px;
+  padding: 32px; position: relative; overflow: hidden;
+}
+.overview-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; }
+.overview-card.accent-cyan::before { background: var(--cyan); }
+.overview-card.accent-blue::before { background: var(--blue); }
+.overview-card.accent-amber::before { background: var(--amber); }
+.overview-card.accent-purple::before { background: var(--purple); }
+.overview-card.accent-green::before { background: var(--green); }
+.card-title { font-family: var(--font-display); font-size: 18px; font-weight: 600; color: #fff; margin-bottom: 16px; }
+.card-list { list-style: none; }
+.card-list-2col { display: grid; grid-template-columns: 1fr 1fr; gap: 0 32px; }
+.card-list li {
+  font-size: 14px; color: var(--text-dim); padding: 6px 0 6px 20px; position: relative;
+  border-bottom: 1px solid rgba(255,255,255,.03);
+}
+.card-list li::before {
+  content: ''; position: absolute; left: 0; top: 14px;
+  width: 6px; height: 6px; border-radius: 50%; background: var(--cyan);
+}
+
+/* ══ TECH GRID ══ */
+.tech-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+.tech-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 24px; text-align: center; }
+.tech-label { font-family: var(--font-mono); font-size: 13px; font-weight: 600; letter-spacing: 1px; margin-bottom: 12px; }
+.tech-label.cyan { color: var(--cyan); }
+.tech-label.blue { color: var(--blue); }
+.tech-label.amber { color: var(--amber); }
+.tech-label.purple { color: var(--purple); }
+.tech-label.green { color: var(--green); }
+.tech-items { font-size: 14px; color: var(--text-dim); line-height: 2; }
+
+/* ══ DETAIL GRID ══ */
+.detail-grid-2x2 { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+.detail-grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+.detail-card {
+  background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px;
+  padding: 28px; border-left: 3px solid transparent;
+}
+.detail-card.bar-cyan { border-left-color: var(--cyan); }
+.detail-card.bar-blue { border-left-color: var(--blue); }
+.detail-card.bar-amber { border-left-color: var(--amber); }
+.detail-card.bar-purple { border-left-color: var(--purple); }
+.detail-card.bar-green { border-left-color: var(--green); }
+.detail-card h4 { font-family: var(--font-display); font-size: 16px; font-weight: 600; margin-bottom: 12px; }
+.detail-card h4.cyan { color: var(--cyan); }
+.detail-card h4.blue { color: var(--blue); }
+.detail-card h4.amber { color: var(--amber); }
+.detail-card h4.purple { color: var(--purple); }
+.detail-card h4.green { color: var(--green); }
+.detail-card ul { list-style: none; }
+.detail-card li { font-size: 14px; color: var(--text-dim); padding: 4px 0 4px 16px; position: relative; }
+.detail-card li::before { content: '•'; position: absolute; left: 0; color: var(--text-muted); }
+
+/* ══ SCENARIO TABLE ══ */
+.scenario-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+.scenario-table th {
+  background: rgba(34,211,238,.08); color: var(--cyan); font-family: var(--font-mono);
+  font-size: 13px; letter-spacing: 1px; padding: 12px 16px; text-align: left; border-bottom: 1px solid var(--border);
+}
+.scenario-table td { padding: 10px 16px; border-bottom: 1px solid rgba(255,255,255,.04); color: var(--text-dim); }
+.scenario-table tr:hover td { background: rgba(34,211,238,.03); }
+.scenario-num { font-family: var(--font-mono); font-weight: 600; color: var(--cyan); }
+
+/* ══ PIPELINE ══ */
+.pipeline-flow { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+.pipeline-step {
+  background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px;
+  padding: 24px; text-align: center; position: relative;
+}
+.pipeline-step::after {
+  content: '→'; position: absolute; right: -14px; top: 50%; transform: translateY(-50%);
+  color: var(--cyan); font-size: 18px;
+}
+.pipeline-step:last-child::after { display: none; }
+.step-num { font-family: var(--font-mono); font-size: 13px; color: var(--cyan); letter-spacing: 2px; margin-bottom: 8px; }
+.pipeline-step h4 { font-family: var(--font-display); font-size: 15px; font-weight: 600; color: #fff; margin-bottom: 6px; }
+.pipeline-step p { font-size: 13px; color: var(--text-dim); }
+
+/* ══ PLATFORM TABS ══ */
+.platform-badge {
+  display: inline-block; font-family: var(--font-mono); font-size: 12px; font-weight: 600;
+  padding: 4px 12px; border-radius: 20px; letter-spacing: 1px;
+}
+.badge-web { background: var(--cyan-dim); color: var(--cyan); }
+.badge-android { background: var(--green-dim); color: var(--green); }
+.badge-ios { background: var(--blue-dim); color: var(--blue); }
+.badge-all { background: var(--amber-dim); color: var(--amber); }
+
+/* ══ CAP GRID ══ */
+.cap-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+.cap-card {
+  background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px;
+  padding: 28px; border-left: 3px solid transparent;
+}
+.cap-card h4 { font-family: var(--font-display); font-size: 16px; font-weight: 600; color: #fff; margin-bottom: 8px; }
+.cap-card p { font-size: 14px; color: var(--text-dim); line-height: 1.7; }
+
+/* ══ CLOSING ══ */
+.closing { padding: 120px 0; text-align: center; }
+.closing-title { font-family: var(--font-display); font-size: 42px; font-weight: 700; color: #fff; margin-bottom: 20px; }
+.closing-desc { font-size: 18px; color: var(--text-dim); line-height: 1.8; margin-bottom: 48px; }
+.closing-info { display: flex; justify-content: center; gap: 48px; }
+.closing-info-item { text-align: center; }
+.closing-info-label { font-family: var(--font-mono); font-size: 12px; color: var(--text-muted); letter-spacing: 2px; margin-bottom: 6px; }
+.closing-info-value { font-family: var(--font-display); font-size: 18px; font-weight: 600; color: #fff; }
+
+/* ══ REVEAL ══ */
+.reveal { opacity: 0; transform: translateY(24px); transition: opacity .7s, transform .7s; }
+.reveal.visible { opacity: 1; transform: translateY(0); }
+.reveal-delay-1 { transition-delay: .15s; }
+.reveal-delay-2 { transition-delay: .3s; }
+.reveal-delay-3 { transition-delay: .45s; }
+
+/* ══ RESPONSIVE ══ */
+@media (max-width: 1100px) {
+  .pipeline-flow { grid-template-columns: repeat(2, 1fr); }
+  .pipeline-step::after { display: none; }
+}
+@media (max-width: 900px) {
+  .metrics-grid { grid-template-columns: repeat(2, 1fr); }
+  .overview-grid { grid-template-columns: 1fr; }
+  .tech-grid { grid-template-columns: repeat(2, 1fr); }
+  .detail-grid-2x2 { grid-template-columns: 1fr; }
+  .detail-grid-3 { grid-template-columns: 1fr; }
+  .cap-grid { grid-template-columns: 1fr; }
+  .card-list-2col { grid-template-columns: 1fr; }
+  .nav-links { display: none; }
+}
+@media (max-width: 600px) {
+  .metrics-grid { grid-template-columns: 1fr 1fr; }
+  .tech-grid { grid-template-columns: 1fr 1fr; }
+  .hero-title { font-size: 32px; }
+  .hero-name { font-size: 28px; }
+  .hero-role { font-size: 15px; }
+  .section-title { font-size: 24px; }
+  .container { padding: 0 16px; }
+  .pipeline-flow { grid-template-columns: 1fr; }
+  .closing-info { flex-direction: column; gap: 20px; }
+  .hero-name-block { flex-direction: column; gap: 4px; }
+  .scenario-table { font-size: 12px; }
+  .scenario-table td, .scenario-table th { padding: 8px 10px; }
+}
+@media print {
+  .nav, .scroll-hint, body::before { display: none; }
+  .reveal { opacity: 1; transform: none; }
+  section { padding: 40px 0; }
+  .hero { min-height: auto; padding: 60px 0; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav" id="nav">
+  <div class="container">
+    <div class="nav-logo">QA AUTOMATION</div>
+    <ul class="nav-links">
+      <li><a href="#overview">Overview</a></li>
+      <li><a href="#tech">Tech Stack</a></li>
+      <li><a href="#architecture">Architecture</a></li>
+      <li><a href="#scenarios">Scenarios</a></li>
+      <li><a href="#platforms">Platforms</a></li>
+      <li><a href="#infra">Infra</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-grid"></div>
+  <div class="container hero-content">
+    <div class="hero-eyebrow">QA Test Automation Portfolio</div>
+    <h1 class="hero-title">
+      Web & Mobile App<br>
+      <span class="accent">Test Automation.</span>
+    </h1>
+    <p class="hero-sub">
+      e커머스 플랫폼 웹 + Android + iOS 멀티 플랫폼 E2E 자동화 테스트.<br>
+      Playwright · Appium · Python · Pytest · Allure · Slack 기반.
+    </p>
+    <div class="hero-name-block">
+      <div class="hero-name">서영민</div>
+      <div class="hero-role">QA Engineer</div>
+    </div>
+  </div>
+  <div class="scroll-hint">
+    <span>Scroll</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- 01 — PROJECT OVERVIEW -->
+<section id="overview">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="section-num">01 — PROJECT OVERVIEW</div>
+      <h2 class="section-title">프로젝트 개요</h2>
+      <p class="section-desc">e커머스 플랫폼 웹 + 모바일 앱 멀티 플랫폼 자동화</p>
+    </div>
+
+    <div class="overview-card accent-cyan reveal" style="margin-bottom:40px; text-align:center;">
+      <ul class="card-list" style="display:inline-block; text-align:left;">
+        <li>웹·모바일 통합 자동화로 반복 회귀 테스트를 표준화했습니다.</li>
+        <li>Jenkins, Allure, Slack, PDF 리포팅까지 연결해 실행부터 공유까지 자동화했습니다.</li>
+      </ul>
+    </div>
+
+    <div class="metrics-grid reveal reveal-delay-1">
+      <div class="metric-card">
+        <div class="metric-value cyan">40</div>
+        <div class="metric-label">테스트 시나리오</div>
+        <div class="metric-sub">Web 12 + Android 14 + iOS 14</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-value blue">260<span class="metric-unit">+</span></div>
+        <div class="metric-label">테스트 스텝</div>
+        <div class="metric-sub">E2E 사용자 여정 전체</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-value amber">3</div>
+        <div class="metric-label">플랫폼</div>
+        <div class="metric-sub">Web · Android · iOS</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-value purple">~25<span class="metric-unit">분</span></div>
+        <div class="metric-label">전체 실행 시간</div>
+        <div class="metric-sub">Web + 모바일 병렬 실행</div>
+      </div>
+    </div>
+
+    <div class="overview-grid">
+      <div class="overview-card accent-cyan reveal reveal-delay-2">
+        <h3 class="card-title">Web: Playwright 기반</h3>
+        <ul class="card-list">
+          <li>e커머스 플랫폼 웹사이트 핵심 사용자 여정 자동화</li>
+          <li>Chromium headless/headed 실행</li>
+          <li>12개 시나리오 / 100+ 테스트 스텝 / ~8분 실행</li>
+          <li>auto-wait, 네트워크 인터셉트, React SPA 대응</li>
+        </ul>
+      </div>
+      <div class="overview-card accent-green reveal reveal-delay-3">
+        <h3 class="card-title">모바일 앱: Appium 기반</h3>
+        <ul class="card-list">
+          <li>Android: UiAutomator2 / iOS: XCUITest</li>
+          <li>14개 시나리오 / 80+ 테스트 스텝 / ~25분 실행</li>
+          <li>실기기 + 에뮬레이터 + Device Farm 지원</li>
+          <li>SIFT/RANSAC 이미지 매칭 (iOS 고유)</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- 자동화 대상 선정 기준 -->
+    <div class="overview-grid" style="margin-top:24px">
+      <div class="overview-card accent-amber reveal">
+        <h3 class="card-title">자동화 적합 대상</h3>
+        <ul class="card-list">
+          <li>주기적/반복적 실행이 필요한 테스트</li>
+          <li>수동 진행이 복잡하거나 시간 소모가 큰 테스트</li>
+          <li>동시성·성능·메모리 누수 탐지 테스트</li>
+          <li>다양한 데이터 조합이 필요한 테스트</li>
+        </ul>
+      </div>
+      <div class="overview-card accent-purple reveal">
+        <h3 class="card-title">자동화 부적합 대상</h3>
+        <ul class="card-list">
+          <li>요구사항이 자주 변경되는 테스트</li>
+          <li>한 번만 실행되는 일회성 테스트</li>
+          <li>아직 수동 검증이 안 된 신규 테스트</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- 02 — TECH STACK -->
+<section id="tech">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="section-num">02 — TECH STACK</div>
+      <h2 class="section-title">기술 스택</h2>
+      <p class="section-desc">공통 코어 + 플랫폼별 전용 도구</p>
+    </div>
+
+    <div class="tech-grid reveal reveal-delay-1">
+      <div class="tech-card">
+        <div class="tech-label cyan">Common Core</div>
+        <div class="tech-items">Python 3.x<br>Pytest<br>Allure Report<br>Slack API<br>Fernet 암호화</div>
+      </div>
+      <div class="tech-card">
+        <div class="tech-label blue">Web</div>
+        <div class="tech-items">Playwright<br>Chromium/Firefox/WebKit<br>auto-wait<br>네트워크 인터셉트<br>React SPA 대응</div>
+      </div>
+      <div class="tech-card">
+        <div class="tech-label green">Android</div>
+        <div class="tech-items">Appium 2.x<br>UiAutomator2<br>ADB<br>Tkinter GUI 러너<br>Jenkins Device Farm</div>
+      </div>
+      <div class="tech-card">
+        <div class="tech-label purple">iOS</div>
+        <div class="tech-items">Appium 2.x<br>XCUITest<br>OpenCV SIFT<br>Device Farm<br>iPhone 11~17 해상도 DB</div>
+      </div>
+    </div>
+
+    <!-- Python 실전 역량 -->
+    <div class="section-header reveal" style="margin-top:60px">
+      <h2 class="section-title small">Python 실전 자동화 역량</h2>
+    </div>
+
+    <div class="detail-grid-3 reveal reveal-delay-1">
+      <div class="detail-card bar-cyan">
+        <h4 class="cyan">웹 자동화</h4>
+        <ul>
+          <li>Chrome 드라이버 자동 다운로드/버전 관리</li>
+          <li>봇 감지 회피 (pyperclip, undetected_chromedriver)</li>
+          <li>React controlled input 2단계 폴백</li>
+        </ul>
+      </div>
+      <div class="detail-card bar-green">
+        <h4 class="green">모바일 자동화</h4>
+        <ul>
+          <li>UIAutomator2 키이벤트 검색 실행</li>
+          <li>동영상 녹화 (Android 3분 / iOS 10분)</li>
+          <li>Android 버전별 스크롤 자동 보정</li>
+        </ul>
+      </div>
+      <div class="detail-card bar-amber">
+        <h4 class="amber">데이터 · 배포</h4>
+        <ul>
+          <li>Pandas CSV 읽기/저장, UTF-8 한글 처리</li>
+          <li>PyInstaller 멀티 플랫폼 배포 (exe/app)</li>
+          <li>Slack API 메시지/파일/스레드 연동</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- 03 — ARCHITECTURE -->
+<section id="architecture">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="section-num">03 — ARCHITECTURE</div>
+      <h2 class="section-title">실행 아키텍처</h2>
+      <p class="section-desc">멀티 플랫폼 공통 실행 구조: run_test_step 패턴</p>
+    </div>
+
+    <!-- 공통 실행 흐름 -->
+    <div class="pipeline-flow reveal reveal-delay-1">
+      <div class="pipeline-step">
+        <div class="step-num">STEP 01</div>
+        <h4>run_test_step</h4>
+        <p>스텝 함수 실행<br>성공 PASS / 실패 FAIL</p>
+      </div>
+      <div class="pipeline-step">
+        <div class="step-num">STEP 02</div>
+        <h4>자동 기록</h4>
+        <p>Allure @step 기록<br>실패 시 스크린샷</p>
+      </div>
+      <div class="pipeline-step">
+        <div class="step-num">STEP 03</div>
+        <h4>시나리오 판정</h4>
+        <p>스텝 결과 순회<br>하나라도 FAIL → FAIL</p>
+      </div>
+      <div class="pipeline-step">
+        <div class="step-num">STEP 04</div>
+        <h4>결과 저장</h4>
+        <p>Slack 채널 전송<br>기본기능 체크 기록</p>
+      </div>
+    </div>
+
+    <!-- 설계 강점 -->
+    <div class="detail-grid-2x2 reveal reveal-delay-2" style="margin-top:40px">
+      <div class="detail-card bar-cyan">
+        <h4 class="cyan">관심사 분리</h4>
+        <ul>
+          <li>테스트 로직과 실행·기록·알림 책임 완전 분리</li>
+          <li>각 계층이 독립적으로 변경 가능</li>
+        </ul>
+      </div>
+      <div class="detail-card bar-green">
+        <h4 class="green">확장 용이</h4>
+        <ul>
+          <li>함수 1개 작성 + run_test_step 1줄 = 새 스텝 완성</li>
+          <li>시나리오 템플릿 복사 → 즉시 새 시나리오 개발</li>
+        </ul>
+      </div>
+      <div class="detail-card bar-amber">
+        <h4 class="amber">균일한 품질</h4>
+        <ul>
+          <li>모든 스텝에 에러 처리·스크린샷·Allure·Slack 자동 적용</li>
+          <li>전 플랫폼 동일 패턴으로 일관성 유지</li>
+        </ul>
+      </div>
+      <div class="detail-card bar-purple">
+        <h4 class="purple">프로젝트 구조</h4>
+        <ul>
+          <li>Pytest Runner → Test Scenarios → Common Layer</li>
+          <li>POM (Page Object Model) 기반 요소 관리</li>
+          <li>Report & Alert 자동 파이프라인</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- 04 — SCENARIOS -->
+<section id="scenarios">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="section-num">04 — TEST SCENARIOS</div>
+      <h2 class="section-title">e커머스 플랫폼 테스트 시나리오</h2>
+      <p class="section-desc">Web 12개 + 모바일 14개: 비로그인 → 가입 → 로그인 → 구매 → 취소 전체 여정</p>
+    </div>
+
+    <!-- Web 시나리오 -->
+    <div class="section-header reveal" style="margin-bottom:24px">
+      <h2 class="section-title small"><span class="platform-badge badge-web">WEB</span> Web 시나리오: 12개</h2>
+    </div>
+
+    <div class="reveal" style="overflow-x:auto">
+      <table class="scenario-table">
+        <thead>
+          <tr><th>#</th><th>시나리오</th><th>상태</th><th>주요 검증 항목</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="scenario-num">01</td><td>메인 페이지</td><td>비로그인</td><td>배너, 테마 카테고리, 추천 상품, 외부 링크</td></tr>
+          <tr><td class="scenario-num">02</td><td>카테고리</td><td>비로그인</td><td>카테고리별 상품 개수 및 페이지 오류 체크</td></tr>
+          <tr><td class="scenario-num">03</td><td>검색 기능</td><td>비로그인</td><td>상품/판매자/포트폴리오 검색 및 필터 동작</td></tr>
+          <tr><td class="scenario-num">04</td><td>회원가입</td><td>비로그인</td><td>이메일/비밀번호 유효성 12가지 규칙 검증</td></tr>
+          <tr><td class="scenario-num">05</td><td>회원탈퇴</td><td>로그인</td><td>가입된 계정으로 회원탈퇴 프로세스 검증</td></tr>
+          <tr><td class="scenario-num">06</td><td>로그인</td><td>비로그인</td><td>이메일 로그인 성공 여부 확인</td></tr>
+          <tr><td class="scenario-num">07</td><td>메인 테마</td><td>로그인</td><td>개인화 추천 8개 섹션 상품 노출 및 클릭</td></tr>
+          <tr><td class="scenario-num">08</td><td>상품 상세</td><td>로그인</td><td>찜한 상품 상세 리뷰, 가격, 판매자</td></tr>
+          <tr><td class="scenario-num">09</td><td>메시지</td><td>로그인</td><td>메시지 전송, 금칙어 경고, 메모</td></tr>
+          <tr><td class="scenario-num">10</td><td>구매/결제</td><td>로그인</td><td>상품 구매 후 결제 프로세스</td></tr>
+          <tr><td class="scenario-num">11</td><td>구매관리</td><td>로그인</td><td>주문 상세 내용 확인</td></tr>
+          <tr><td class="scenario-num">12</td><td>구매취소</td><td>로그인</td><td>구매자 취소 요청 후 판매자 수락 플로우</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- 모바일 시나리오 -->
+    <div class="section-header reveal" style="margin-top:60px; margin-bottom:24px">
+      <h2 class="section-title small"><span class="platform-badge badge-android">ANDROID</span> <span class="platform-badge badge-ios">iOS</span> 모바일 시나리오: 14개</h2>
+    </div>
+
+    <div class="reveal" style="overflow-x:auto">
+      <table class="scenario-table">
+        <thead>
+          <tr><th>#</th><th>시나리오</th><th>상태</th><th>주요 검증 항목</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="scenario-num">01</td><td>초기 설정</td><td>비로그인</td><td>권한 허용, 인트로, 로그인 페이지 진입</td></tr>
+          <tr><td class="scenario-num">02</td><td>카테고리</td><td>비로그인</td><td>1차 카테고리 상품 목록 확인</td></tr>
+          <tr><td class="scenario-num">03</td><td>로그인 전</td><td>비로그인</td><td>상품 테마, 검색, 로그인 리다이렉트</td></tr>
+          <tr><td class="scenario-num">04</td><td>회원가입</td><td>비로그인</td><td>이메일/비밀번호 검증, 가입 + 2FA 해제</td></tr>
+          <tr><td class="scenario-num">05</td><td>비밀번호 변경</td><td>로그인</td><td>기존 PW 확인, 새 PW 규칙 검증</td></tr>
+          <tr><td class="scenario-num">06</td><td>회원탈퇴</td><td>로그인</td><td>탈퇴 사유 선택, 2단계 확인 후 탈퇴</td></tr>
+          <tr><td class="scenario-num">07</td><td>로그인</td><td>비로그인</td><td>이메일 로그인, Braze 팝업 처리</td></tr>
+          <tr><td class="scenario-num">08</td><td>메인 테마</td><td>로그인</td><td>9개 상품 테마 섹션, 상품 노출 확인</td></tr>
+          <tr><td class="scenario-num">09</td><td>검색</td><td>로그인</td><td>키워드/필터 검색, 상품/판매자/포트폴리오</td></tr>
+          <tr><td class="scenario-num">10</td><td>개인화 위젯</td><td>로그인</td><td>찜 상품 상세, 4개 추천 위젯</td></tr>
+          <tr><td class="scenario-num">11</td><td>인박스</td><td>로그인</td><td>메시지 전송, 메모, 판매자 프로필 확인</td></tr>
+          <tr><td class="scenario-num">12</td><td>구매/결제</td><td>로그인</td><td>상품 구매 후 결제 프로세스</td></tr>
+          <tr><td class="scenario-num">13</td><td>구매관리</td><td>로그인</td><td>주문 필터/목록 등 구매 상세 정보 확인</td></tr>
+          <tr><td class="scenario-num">14</td><td>노하우</td><td>로그인</td><td>노하우 페이지 8개 상품 테마</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- 05 — PLATFORM STRENGTHS -->
+<section id="platforms">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="section-num">05 — PLATFORM STRENGTHS</div>
+      <h2 class="section-title">플랫폼별 강점</h2>
+      <p class="section-desc">Web · Android · iOS 각 플랫폼 고유 기술</p>
+    </div>
+
+    <!-- Web -->
+    <div class="section-header reveal" style="margin-bottom:24px">
+      <h2 class="section-title small"><span class="platform-badge badge-web">WEB</span> Playwright 기반 자동화</h2>
+    </div>
+
+    <div class="detail-grid-2x2 reveal reveal-delay-1">
+      <div class="detail-card bar-cyan">
+        <h4 class="cyan">Selenium 대비 이점</h4>
+        <ul>
+          <li>Auto-Wait 내장: time.sleep() 의존도 최소화</li>
+          <li>다중 탭/팝업 제어: expect_popup() 자동 캐치</li>
+          <li>브라우저 컨텍스트 격리: 테스트 간 세션/쿠키 분리</li>
+          <li>네트워크 인터셉트: 요청/응답 가로채기 내장</li>
+        </ul>
+      </div>
+      <div class="detail-card bar-cyan">
+        <h4 class="cyan">React SPA 완벽 대응</h4>
+        <ul>
+          <li>1차: press_sequentially로 React onChange 트리거</li>
+          <li>2차: nativeInputValueSetter + dispatchEvent 폴백</li>
+          <li>wait_for_function으로 전송 버튼 활성화 감지</li>
+          <li>controlled input에 2단계 폴백 전략</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Android -->
+    <div class="section-header reveal" style="margin-top:60px; margin-bottom:24px">
+      <h2 class="section-title small"><span class="platform-badge badge-android">ANDROID</span> AppContext & POM & 멀티디바이스</h2>
+    </div>
+
+    <div class="detail-grid-3 reveal reveal-delay-1">
+      <div class="detail-card bar-green">
+        <h4 class="green">AppContext 통합 객체</h4>
+        <ul>
+          <li>driver + POM + 계정 + Slack 통합</li>
+          <li>파라미터 폭발 방지</li>
+          <li>의존성 주입 패턴</li>
+        </ul>
+      </div>
+      <div class="detail-card bar-green">
+        <h4 class="green">CSV 기반 POM</h4>
+        <ul>
+          <li>200+ 행 로케이터 외부 관리</li>
+          <li>코드 수정 없이 CSV만 변경</li>
+          <li>set_element / click / scroll</li>
+        </ul>
+      </div>
+      <div class="detail-card bar-green">
+        <h4 class="green">3환경 드라이버 팩토리</h4>
+        <ul>
+          <li>real: 실기기 USB (port 4723)</li>
+          <li>single: 에뮬레이터 (port 4725)</li>
+          <li>jenkins: Jenkins Device Farm</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- iOS -->
+    <div class="section-header reveal" style="margin-top:60px; margin-bottom:24px">
+      <h2 class="section-title small"><span class="platform-badge badge-ios">iOS</span> SIFT 이미지 매칭 & XCUITest</h2>
+    </div>
+
+    <div class="detail-grid-2x2 reveal reveal-delay-1">
+      <div class="detail-card bar-blue">
+        <h4 class="blue">SIFT/RANSAC 이미지 매칭</h4>
+        <ul>
+          <li>OpenCV SIFT 알고리즘으로 특징점 검출</li>
+          <li>RANSAC 호모그래피 추정으로 좌표 매핑</li>
+          <li>명암 대비 향상 + 이미지 업스케일링 전처리</li>
+          <li>SIFT 실패 시 template matching 자동 전환</li>
+        </ul>
+      </div>
+      <div class="detail-card bar-blue">
+        <h4 class="blue">iOS 고유 기능</h4>
+        <ul>
+          <li>Braze 인앱 마케팅 자동 처리 (3종 팝업 감지)</li>
+          <li>iPhone 11~17 해상도 자동 감지 및 좌표 보정</li>
+          <li>동영상 녹화 h264, 30fps, 최대 30분</li>
+          <li>AppContext + Element + AppBase (600+줄) 아키텍처</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- 보안 & 안정성 -->
+    <div class="section-header reveal" style="margin-top:60px">
+      <h2 class="section-title small">보안 & 안정성</h2>
+    </div>
+
+    <div class="detail-grid-2x2 reveal reveal-delay-1">
+      <div class="detail-card bar-amber">
+        <h4 class="amber">Fernet 암호화 계정 보안</h4>
+        <ul>
+          <li>.env 파일 계정 정보 Fernet(AES-128-CBC) 암호화</li>
+          <li>test_account.csv 전체 값 암호화 저장</li>
+          <li>ENV 우선, 미설정 시 CSV 폴백 (이중 보안)</li>
+          <li>소스코드 내 평문 노출 제로</li>
+        </ul>
+      </div>
+      <div class="detail-card bar-amber">
+        <h4 class="amber">안정성 확보 전략</h4>
+        <ul>
+          <li>다중 셀렉터 폴백: CSS → 대안, id → xpath</li>
+          <li>팝업/모달 자동 처리: 3단계 닫기 전략</li>
+          <li>실패 스크린샷 자동 저장 + Allure 첨부</li>
+          <li>Graceful Skip: 환경 의존 시나리오 SKIP 처리</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- 06 — INFRA & REPORTING -->
+<section id="infra">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="section-num">06 — INFRA & REPORTING</div>
+      <h2 class="section-title">CI/CD · 리포팅 · 통계</h2>
+      <p class="section-desc">Jenkins 파이프라인 + Allure + Slack + PDF + 월별 통계</p>
+    </div>
+
+    <!-- CI/CD -->
+    <div class="pipeline-flow reveal reveal-delay-1">
+      <div class="pipeline-step">
+        <div class="step-num">STAGE 01</div>
+        <h4>Notify Start</h4>
+        <p>Slack 시작 알림<br>Jenkins 링크 전송</p>
+      </div>
+      <div class="pipeline-step">
+        <div class="step-num">STAGE 02</div>
+        <h4>Clone & Execute</h4>
+        <p>Git 체크아웃<br>Pytest 실행</p>
+      </div>
+      <div class="pipeline-step">
+        <div class="step-num">STAGE 03</div>
+        <h4>Report</h4>
+        <p>Allure 생성<br>HTML → PDF 변환</p>
+      </div>
+      <div class="pipeline-step">
+        <div class="step-num">STAGE 04</div>
+        <h4>Post Actions</h4>
+        <p>Slack 결과 전송<br>PDF 업로드</p>
+      </div>
+    </div>
+
+    <div class="detail-grid-2x2 reveal reveal-delay-2" style="margin-top:40px">
+      <div class="detail-card bar-cyan">
+        <h4 class="cyan">Jenkins Pipeline</h4>
+        <ul>
+          <li>Multi-Stage 파이프라인 (4단계)</li>
+          <li>3-Retry + 60초 Backoff (일시적 오류 자동 재시도)</li>
+          <li>오류 유형 자동 분류: 테스트 실패 vs 인프라 장애</li>
+          <li>device_unlock.sh: ADB 디바이스 자동 준비</li>
+        </ul>
+      </div>
+      <div class="detail-card bar-blue">
+        <h4 class="blue">Allure Report</h4>
+        <ul>
+          <li>시나리오별 PASS/FAIL 대시보드</li>
+          <li>스텝별 상세 실행 로그 + 실패 시점 스크린샷</li>
+          <li>allure-combine 단일 HTML 병합</li>
+          <li>GUI 테스트 러너 (Tkinter): 비개발자 실행 가능</li>
+        </ul>
+      </div>
+      <div class="detail-card bar-amber">
+        <h4 class="amber">Allure HTML → PDF 변환</h4>
+        <ul>
+          <li>Playwright + Chromium headless 기반 자동 변환</li>
+          <li>상세 해결 과정은 아래 Case Study 참조</li>
+        </ul>
+      </div>
+      <div class="detail-card bar-purple">
+        <h4 class="purple">월별 통계 시스템</h4>
+        <ul>
+          <li>Slack API 커서 기반 페이지네이션 (200건 초과)</li>
+          <li>정규식으로 Passed/Failed/Broken/Skipped 추출</li>
+          <li>실패 원인 스레드 자동 수집 및 유형 분류</li>
+          <li>Pandas + openpyxl: Excel 월별 시트 자동 저장</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- 운영 주기 -->
+    <div class="detail-grid-3 reveal" style="margin-top:40px">
+      <div class="detail-card bar-cyan">
+        <h4 class="cyan">일일</h4>
+        <ul>
+          <li>Jenkins Cron 자동 수행</li>
+          <li>Slack 실시간 결과 알림</li>
+        </ul>
+      </div>
+      <div class="detail-card bar-blue">
+        <h4 class="blue">격주</h4>
+        <ul>
+          <li>정기 배포 전 회귀 테스트</li>
+          <li>Allure + PDF 리포트 생성</li>
+        </ul>
+      </div>
+      <div class="detail-card bar-amber">
+        <h4 class="amber">월간</h4>
+        <ul>
+          <li>통계 자동 집계 (Slack → Excel)</li>
+          <li>전월 대비 성공률 증감 분석</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Case Study -->
+    <div class="section-header reveal" style="margin-top:60px">
+      <h2 class="section-title small">Case Study: Allure HTML → PDF 변환</h2>
+      <p class="section-desc">Slack 보안 정책으로 HTML 파일 열람 불가 → PDF 자동 변환 시스템 구축</p>
+    </div>
+
+    <div class="overview-card accent-amber reveal" style="margin-bottom:24px">
+      <h3 class="card-title">문제 상황</h3>
+      <ul class="card-list">
+        <li>Allure 리포트는 JavaScript SPA 기반 → 일반 HTML→PDF 변환 도구로 처리 불가</li>
+        <li>allure-pdf, wkhtmltopdf 시도 → 한글 깨짐 발생</li>
+        <li>Slack 보안 정책으로 HTML 파일 직접 열람 차단 → PDF 변환이 필수</li>
+      </ul>
+    </div>
+
+    <div class="overview-card accent-cyan reveal" style="margin-bottom:24px">
+      <h3 class="card-title">해결 과정 (7단계 시행착오)</h3>
+      <ul class="card-list">
+        <li><strong>1차 allure-pdf</strong>: 한글 깨짐 → 실패</li>
+        <li><strong>2차 Puppeteer</strong>: 기존 Python 테스트 자산과의 통합성을 고려해 Playwright Python으로 전환</li>
+        <li><strong>3차 Playwright 선정</strong>: 브라우저 렌더링 방식으로 한글 문제 해결</li>
+        <li><strong>4차 첫 페이지만 변환됨</strong>: Overview/Graphs/Timeline/Behaviors 탭 순회 클릭 로직 추가</li>
+        <li><strong>5차 여백·레이아웃 문제</strong>: A3 가로 + scale 0.9 최적화</li>
+        <li><strong>6차 시나리오 상세 미표시</strong>: node__order 개별 PDF 생성 + PyPDF2 병합</li>
+        <li><strong>7차 테스트 스텝 미펼침</strong>: div.step chevron 클릭 자동화로 완성</li>
+      </ul>
+    </div>
+
+    <div class="overview-card accent-green reveal">
+      <h3 class="card-title">결과</h3>
+      <ul class="card-list">
+        <li>일일 자동화 테스트 결과 PDF를 Slack 채널에 자동 전송 — 현재 운영 중</li>
+        <li>2주 주기 정기 배포 리포트 자동 생성 → 수동 캡처/편집 작업 제거</li>
+        <li>HTML 열람 불가 환경에서도 PDF 즉시 공유 가능 → 리포트 리뷰 소요 시간 50% 이상 단축</li>
+        <li><strong>QA 관점:</strong> 기존 도구가 안 되면 직접 만든다 — 7번의 시행착오를 거쳐 운영 수준까지 완성</li>
+      </ul>
+    </div>
+
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- CLOSING -->
+<section class="closing">
+  <div class="container reveal">
+    <h2 class="closing-title">감사합니다</h2>
+    <p class="closing-desc">
+      반복을 줄이고, 신뢰할 수 있는 테스트 체계를 만드는 QA 엔지니어입니다.<br>
+      웹과 모바일을 함께 이해하는 자동화 역량으로 팀의 검증 효율을 높입니다.
+    </p>
+    <div class="closing-info">
+      <div class="closing-info-item">
+        <div class="closing-info-label">Name</div>
+        <div class="closing-info-value">서영민</div>
+      </div>
+      <div class="closing-info-item">
+        <div class="closing-info-label">Position</div>
+        <div class="closing-info-value">QA Engineer</div>
+      </div>
+      <div class="closing-info-item">
+        <div class="closing-info-label">Stack</div>
+        <div class="closing-info-value">Playwright · Appium · Pytest</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+// Scroll reveal
+const reveals = document.querySelectorAll('.reveal');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+      observer.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.12 });
+reveals.forEach(el => observer.observe(el));
+
+// Nav scroll effect
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 60);
+}, { passive: true });
+</script>
+
+</body>
+</html>
