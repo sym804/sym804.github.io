@@ -29,15 +29,19 @@ export default function App() {
   return (
     <>
       <TopNav />
-      <SideToc />
       <MobileToc />
       <Hero />
-      <main className="mx-auto max-w-[760px] lg:max-w-[820px] lg:ml-[max(320px,calc((100vw-1280px)/2+320px))] px-6 space-y-32">
-        {SECTIONS.map((s) => {
-          const C = COMPONENTS[s.id];
-          return C ? <C key={s.id} /> : null;
-        })}
-      </main>
+      <div className="mx-auto max-w-[1280px] px-6 lg:grid lg:grid-cols-[220px_minmax(0,1fr)] lg:gap-16">
+        <aside className="hidden lg:block lg:sticky lg:top-24 lg:self-start lg:max-h-[calc(100vh-7rem)] lg:overflow-y-auto">
+          <SideToc />
+        </aside>
+        <main className="space-y-32 max-w-[820px]">
+          {SECTIONS.map((s) => {
+            const C = COMPONENTS[s.id];
+            return C ? <C key={s.id} /> : null;
+          })}
+        </main>
+      </div>
       <Outro />
       <Footer />
     </>
