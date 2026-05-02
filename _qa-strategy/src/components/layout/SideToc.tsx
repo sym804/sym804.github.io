@@ -24,7 +24,7 @@ export function SideToc() {
   return (
     <nav
       aria-label="섹션 목차"
-      className="hidden lg:block fixed left-[max(24px,calc((100vw-1200px)/2))] top-32 w-56"
+      className="hidden lg:block fixed left-[max(24px,calc((100vw-1280px)/2))] top-32 w-56"
     >
       <ol className="space-y-1 text-sm">
         {SECTIONS.map((s) => (

@@ -32,7 +32,7 @@ export default function App() {
       <SideToc />
       <MobileToc />
       <Hero />
-      <main className="mx-auto max-w-[760px] lg:ml-[max(280px,calc((100vw-1200px)/2+260px))] px-6 space-y-32">
+      <main className="mx-auto max-w-[760px] lg:max-w-[820px] lg:ml-[max(320px,calc((100vw-1280px)/2+320px))] px-6 space-y-32">
         {SECTIONS.map((s) => {
           const C = COMPONENTS[s.id];
           return C ? <C key={s.id} /> : null;

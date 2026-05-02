@@ -17,7 +17,7 @@ export function TopNav() {
         scrolled ? 'bg-background/80 border-b border-border shadow-sm' : 'bg-transparent',
       ].join(' ')}
     >
-      <div className="mx-auto max-w-[1200px] px-6 h-14 flex items-center justify-between">
+      <div className="mx-auto max-w-[1280px] px-6 h-14 flex items-center justify-between">
         <div className="flex items-center gap-6">
           <a href="../index.html" className="text-sm text-muted-foreground hover:text-foreground">
             Portfolio

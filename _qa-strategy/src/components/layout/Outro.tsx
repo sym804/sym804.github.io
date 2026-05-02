@@ -10,7 +10,7 @@ const ASSETS = [
 
 export function Outro() {
   return (
-    <section className="py-20 mx-auto max-w-[1120px] px-6 border-t border-border mt-24">
+    <section className="py-20 mx-auto max-w-[1280px] px-6 border-t border-border mt-24">
       <h2 className="text-2xl font-sans font-bold">관련 산출물</h2>
       <p className="text-muted-foreground mt-2">전략의 적용 사례로 이어지는 동일 폴더의 포트폴리오 자산.</p>
       <div className="mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
