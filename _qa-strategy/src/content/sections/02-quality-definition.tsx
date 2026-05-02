@@ -97,7 +97,7 @@ export function QualityDefinitionSection() {
           <div>
             <h3 className="text-xl font-semibold mb-2">안티 패턴</h3>
             <ul className="list-disc list-inside space-y-1 text-muted-foreground">
-              <li>"이 정도는 Minor 잖아" 라는 주관적 등급 협상.</li>
+              <li>{`"이 정도는 Minor 잖아"`} 라는 주관적 등급 협상.</li>
               <li>DoD 가 코드 머지로만 정의되어 운영 / 모니터링이 이후에 추가되는 패턴.</li>
               <li>Severity 와 Priority 를 같은 차원으로 혼용.</li>
             </ul>
