@@ -1,8 +1,8 @@
 const W = 640;
-const H = 360;
+const H = 380;
 const PAD_L = 64;
-const PAD_R = 28;
-const PAD_T = 32;
+const PAD_R = 32;
+const PAD_T = 72;
 const PAD_B = 64;
 const X_MAX = 10;
 const Y_MAX = 130;
@@ -51,6 +51,19 @@ function buildSavingArea(): string {
   return points.join(' ');
 }
 
+interface LegendItem {
+  type: 'line' | 'box' | 'circle';
+  color: string;
+  label: string;
+}
+
+const LEGEND: LegendItem[] = [
+  { type: 'line', color: 'hsl(var(--destructive))', label: '수동 테스트' },
+  { type: 'line', color: 'hsl(var(--primary))', label: '자동화 테스트' },
+  { type: 'box', color: '#f2a900', label: '누적 절감액' },
+  { type: 'circle', color: 'hsl(var(--destructive))', label: '회수 시점' },
+];
+
 export function RoiCurve() {
   const ticks = [0, 2, 4, 6, 8, 10];
   const manualPath = buildPath(manualY);
@@ -65,6 +78,28 @@ export function RoiCurve() {
         aria-label="자동화 ROI: 수동 테스트 누적 비용 vs 자동화 테스트 누적 비용 비교"
         className="w-full h-auto"
       >
+        <g transform={`translate(${PAD_L}, 24)`}>
+          {LEGEND.map((item, i) => {
+            const x = i * 145;
+            return (
+              <g key={item.label} transform={`translate(${x}, 0)`}>
+                {item.type === 'line' && (
+                  <line x1={0} y1={6} x2={22} y2={6} stroke={item.color} strokeWidth="2.5" />
+                )}
+                {item.type === 'box' && (
+                  <rect x={2} y={0} width={20} height={12} fill={item.color} fillOpacity="0.18" />
+                )}
+                {item.type === 'circle' && (
+                  <circle cx={11} cy={6} r="6" fill="none" stroke={item.color} strokeWidth="1.5" strokeDasharray="3 3" />
+                )}
+                <text x={28} y={10} fontSize="12" fill="hsl(var(--muted-foreground))">
+                  {item.label}
+                </text>
+              </g>
+            );
+          })}
+        </g>
+
         <rect
           x={PAD_L}
           y={PAD_T}
@@ -119,51 +154,6 @@ export function RoiCurve() {
         <polyline points={manualPath} fill="none" stroke="hsl(var(--destructive))" strokeWidth="2.5" />
         <polyline points={autoPath} fill="none" stroke="hsl(var(--primary))" strokeWidth="2.5" />
 
-        <text
-          x={xToPx(X_MAX) - 4}
-          y={yToPx(manualY(X_MAX)) + 16}
-          textAnchor="end"
-          fontSize="12"
-          fontWeight="600"
-          fill="hsl(var(--destructive))"
-        >
-          수동 테스트
-        </text>
-        <text
-          x={xToPx(X_MAX) - 4}
-          y={yToPx(autoY(X_MAX)) - 8}
-          textAnchor="end"
-          fontSize="12"
-          fontWeight="600"
-          fill="hsl(var(--primary))"
-        >
-          자동화 테스트
-        </text>
-
-        <text x={xToPx(0.6)} y={yToPx(autoY(0.6)) - 12} fontSize="11" fill="hsl(var(--primary))">
-          초기 투자 비용
-        </text>
-
-        <text
-          x={xToPx((cross.t + X_MAX) / 2)}
-          y={yToPx((manualY((cross.t + X_MAX) / 2) + autoY((cross.t + X_MAX) / 2)) / 2)}
-          textAnchor="middle"
-          fontSize="12"
-          fontWeight="600"
-          fill="#a76a00"
-        >
-          누적 절감액
-        </text>
-
-        <circle
-          cx={xToPx(cross.t)}
-          cy={yToPx(cross.y)}
-          r="10"
-          fill="none"
-          stroke="hsl(var(--destructive))"
-          strokeWidth="1.5"
-          strokeDasharray="3 3"
-        />
         <line
           x1={xToPx(cross.t)}
           y1={yToPx(cross.y)}
@@ -173,22 +163,22 @@ export function RoiCurve() {
           strokeOpacity="0.4"
           strokeDasharray="3 3"
         />
-        <text
-          x={xToPx(cross.t)}
-          y={H - PAD_B - 6}
-          textAnchor="middle"
-          fontSize="11"
-          fill="hsl(var(--muted-foreground))"
-        >
-          회수 시점
-        </text>
+        <circle
+          cx={xToPx(cross.t)}
+          cy={yToPx(cross.y)}
+          r="10"
+          fill="none"
+          stroke="hsl(var(--destructive))"
+          strokeWidth="1.5"
+          strokeDasharray="3 3"
+        />
       </svg>
 
       <div className="mt-4 rounded-md border border-border bg-surface p-4 text-sm leading-relaxed">
         <p>
           <span className="font-semibold text-foreground">핵심:</span>{' '}
           <span className="text-muted-foreground">
-            테스트 자동화는 작성 시점의 초기 투자 비용이 크지만, 시간이 지날수록 수동 테스트 대비 누적 비용이 작아진다. 두 곡선이 만나는 지점이 회수 시점이고, 그 이후의 차이 (노란 영역) 가 자동화로 절감되는 비용이다.
+            테스트 자동화는 작성 시점의 초기 투자 비용 (자동화 곡선의 처음 가파른 구간) 이 크지만, 시간이 지날수록 수동 테스트 대비 누적 비용이 작아진다. 두 곡선이 만나는 지점이 회수 시점이고, 그 이후의 차이 (노란 영역) 가 자동화로 절감되는 비용이다.
           </span>
         </p>
       </div>
