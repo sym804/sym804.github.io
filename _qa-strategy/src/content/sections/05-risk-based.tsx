@@ -1,5 +1,6 @@
 import { SectionShell } from '@/components/section/SectionShell';
 import { TriangleRecap } from '@/components/section/TriangleRecap';
+import { FieldNote } from '@/components/section/FieldNote';
 import { RiskHeatmap } from '@/components/diagrams/RiskHeatmap';
 import { SECTIONS } from '@/content/sections.meta';
 
@@ -77,6 +78,18 @@ export function RiskBasedSection() {
         </>
       }
       visual={<RiskHeatmap />}
+      fieldNote={
+        <FieldNote assets={(META.caseAssets ?? []).map((c) => ({ title: c.title, href: `../${c.asset}.html` }))}>
+          <p>
+            주식 / 시장 데이터 플랫폼에서 데이터 정합성 결함은 사용자 투자 의사결정에 직접 영향을 미치는
+            high-impact 영역. 다중 소스 교차 검증 (한국투자증권 API → 네이버 폴백) 으로 단일 소스 장애 /
+            차단에 대비했고, 산식 결함은 이슈 트래킹 (ISS-002 거래대금 산식, ISS-007 52주 신고가 종가
+            기준) 으로 식별·보정. DART 기반 결측 보완 파이프라인 (ROE / PBR / PER) 으로 핵심 재무 지표의
+            신뢰성을 확보했다. 우선순위 높은 데이터 경로에 검증 자원을 집중한다는 리스크 기반 사고가
+            자연스럽게 적용된 사례.
+          </p>
+        </FieldNote>
+      }
       triangleRecap={
         <TriangleRecap
           notes={{

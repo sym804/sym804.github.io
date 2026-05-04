@@ -71,7 +71,7 @@ export function DefectManagementSection() {
             </div>
           </div>
           <div>
-            <h3 className="text-xl font-semibold mb-3">5 Whys / RCA 7단계 템플릿</h3>
+            <h3 className="text-xl font-semibold mb-3">5 Whys / RCA (근본 원인 분석) 7단계 템플릿</h3>
             <Accordion type="single" collapsible>
               {RCA_STEPS.map((s) => (
                 <AccordionItem key={s.step} value={`step-${s.step}`}>
@@ -86,11 +86,11 @@ export function DefectManagementSection() {
             </Accordion>
           </div>
           <div>
-            <h3 className="text-xl font-semibold mb-2">회고 vs Postmortem</h3>
+            <h3 className="text-xl font-semibold mb-2">Retrospective (회고) vs Postmortem (사후 분석)</h3>
             <p className="text-muted-foreground">
-              회고 (Retrospective) 는 정기적인 학습 자리로 잘된 점 / 개선점을 균형 있게 다룬다.
-              Postmortem 은 사고 직후의 사실 정리로, 비난 없이 (blameless) 시간순 / 결정 / 영향을
-              기록하고 재발 방지 액션으로 끝맺는다.
+              Retrospective (회고) 는 정기적인 학습 자리로 잘된 점 / 개선점을 균형 있게 다룬다.
+              Postmortem (사후 분석) 은 사고 직후의 사실 정리로, blameless (비난 없이) 시간순 / 결정 /
+              영향을 기록하고 재발 방지 액션으로 끝맺는다.
             </p>
           </div>
           <div>

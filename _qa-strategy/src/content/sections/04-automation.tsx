@@ -87,15 +87,12 @@ export function AutomationSection() {
         </>
       }
       fieldNote={
-        <FieldNote
-          assetTitle={META.caseAssetTitle ?? 'Multiplatform Automation + Web Selector Extractor'}
-          assetHref={`../${META.caseAsset}.html`}
-        >
+        <FieldNote assets={(META.caseAssets ?? []).map((c) => ({ title: c.title, href: `../${c.asset}.html` }))}>
           <p>
-            PC / Web / Mobile 통합 자동화에서 가장 큰 비용은 셀렉터 / 식별자의 변동 대응이다.
-            셀렉터 추출 보조 도구를 별도로 마련하여 작성 비용을 단축하고, 변동에 강한 식별 전략 (역할
-            + 라벨 + 안정 ID 우선) 으로 유지 비용도 낮췄다. 결과적으로 자동화 후보 결정 트리의 비용
-            축이 개선되어 자동화 가능 영역이 넓어졌다.
+            PC / Web / Mobile 통합 자동화에서 가장 큰 비용은 셀렉터 / 식별자의 변동 대응이다. 셀렉터 추출
+            보조 도구를 별도로 마련하여 작성 비용을 단축하고 (ID / data-testid / 유니크 클래스 / ARIA Role
+            등 7가지 타입 자동 추출 + 우선 정렬), 변동에 강한 식별 전략 (역할 + 라벨 + 안정 ID 우선) 으로
+            유지 비용도 낮췄다.
           </p>
         </FieldNote>
       }

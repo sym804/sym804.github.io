@@ -10,7 +10,6 @@ import { TestStrategySection } from '@/content/sections/03-test-strategy';
 import { AutomationSection } from '@/content/sections/04-automation';
 import { RiskBasedSection } from '@/content/sections/05-risk-based';
 import { ShiftLeftSection } from '@/content/sections/06-shift-left';
-import { MetricsSection } from '@/content/sections/07-metrics';
 import { DefectManagementSection } from '@/content/sections/08-defect-management';
 import { SECTIONS } from '@/content/sections.meta';
 
@@ -21,7 +20,6 @@ const COMPONENTS: Record<string, () => JSX.Element> = {
   automation: AutomationSection,
   'risk-based': RiskBasedSection,
   'shift-left': ShiftLeftSection,
-  metrics: MetricsSection,
   'defect-management': DefectManagementSection,
 };
 

@@ -7,7 +7,7 @@ import { SECTIONS } from '@/content/sections.meta';
 const META = SECTIONS.find((s) => s.id === 'shift-left')!;
 
 const STAGE_GATES = [
-  { stage: '요구사항', activity: 'AC 합의 / 리스크 식별', gate: 'DoR 통과', block: '리뷰 차단' },
+  { stage: '요구사항', activity: 'AC 합의 / 리스크 식별', gate: 'DoR (착수 기준) 통과', block: '리뷰 차단' },
   { stage: '설계', activity: '리스크 매트릭스 / 테스트 설계', gate: '리스크 점수 부여', block: '리뷰 차단' },
   { stage: '구현', activity: '단위 / 페어 리뷰', gate: '린트 / 타입 / 단위', block: 'CI 자동 차단' },
   { stage: '통합', activity: 'API 계약 / 통합 테스트', gate: '통합 성공률', block: 'CI 자동 차단' },
@@ -67,12 +67,13 @@ export function ShiftLeftSection() {
         </>
       }
       fieldNote={
-        <FieldNote assetTitle={META.caseAssetTitle ?? 'AI Squad'} assetHref={`../${META.caseAsset}.html`}>
+        <FieldNote assets={(META.caseAssets ?? []).map((c) => ({ title: c.title, href: `../${c.asset}.html` }))}>
           <p>
-            AI 제품 특유의 비결정성과 평가 어려움을 다루기 위해, 단계별 게이트를 결정형 (입출력 검증) 과
-            확률형 (성능 / 품질 / 안전성 평가) 으로 분리했다. 결정형은 CI 자동 차단, 확률형은 임계값
-            기반 경고 + 메트릭 추적. 게이트가 모델 학습 / 평가 / 배포 라이프사이클과 정합되면서 회귀
-            발견 시점이 평균적으로 더 앞당겨졌다.
+            AI 멀티에이전트 시스템의 코딩 모드는 5단계 파이프라인 (Claude 작성 → Codex 리뷰 → 3개 에이전트
+            동시 테스트 → 이슈 수정 루프 → 최종 보고) 으로 단계별 검증을 자동화. 결정형 검증 (경로
+            화이트리스트, 환경변수 토큰 필터링) 은 즉시 차단, 확률형 평가 (3개 에이전트 합의 감지, 백업
+            에이전트 자동 전환) 는 신호 기반 분기로 처리한다. AI 특유의 비결정성을 단계 분리로 흡수한
+            Shift-Left 구조.
           </p>
         </FieldNote>
       }

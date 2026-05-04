@@ -75,7 +75,7 @@ export function TestStrategySection() {
         </>
       }
       fieldNote={
-        <FieldNote assetTitle={META.caseAssetTitle ?? 'YM TestCase'} assetHref={`../${META.caseAsset}.html`}>
+        <FieldNote assets={(META.caseAssets ?? []).map((c) => ({ title: c.title, href: `../${c.asset}.html` }))}>
           <p>
             테스트 케이스 설계 / 우선순위 / 유형 분류를 표준화한 사례. 케이스를 단순 나열에서 레벨 /
             타입 / 우선순위 / 위험도 4축으로 재구성하고, 검토 / 회귀 / 폐기를 정책으로 운영한다.

@@ -15,7 +15,7 @@ const SEVERITY = [
 
 const DOR = [
   '요구사항이 사용자 가치 / 비즈니스 임팩트로 진술되어 있다.',
-  '수용 기준 (Acceptance Criteria) 이 측정 가능한 형태로 작성되어 있다.',
+  'Acceptance Criteria · AC (수용 기준) 이 측정 가능한 형태로 작성되어 있다.',
   '기능 외 (성능 / 보안 / 접근성 / 운영) 요구가 명시되어 있다.',
   '의존성 / 선행 조건 / 영향 범위가 식별되어 있다.',
 ];
@@ -34,17 +34,17 @@ export function QualityDefinitionSection() {
       meta={META}
       why={
         <p>
-          측정할 수 없으면 관리할 수 없다. 같은 단어를 다르게 쓰는 한 협업은 우연에 의지한다. DoR /
-          DoD / Severity 를 명문화하는 순간 의사결정의 분산이 줄고 학습이 누적된다.
+          측정할 수 없으면 관리할 수 없다. 같은 단어를 다르게 쓰는 한 협업은 우연에 의지한다. DoR
+          (착수 기준) / DoD (완료 기준) / Severity 를 명문화하는 순간 의사결정의 분산이 줄고 학습이 누적된다.
         </p>
       }
       body={
         <>
           <div>
-            <h3 className="text-xl font-semibold mb-3">DoR / DoD</h3>
+            <h3 className="text-xl font-semibold mb-3">DoR (착수 기준) / DoD (완료 기준)</h3>
             <Accordion type="multiple">
               <AccordionItem value="dor">
-                <AccordionTrigger>Definition of Ready (DoR)</AccordionTrigger>
+                <AccordionTrigger>Definition of Ready · DoR (착수 기준)</AccordionTrigger>
                 <AccordionContent>
                   <ul className="list-disc list-inside space-y-1 text-muted-foreground">
                     {DOR.map((d) => (
@@ -54,7 +54,7 @@ export function QualityDefinitionSection() {
                 </AccordionContent>
               </AccordionItem>
               <AccordionItem value="dod">
-                <AccordionTrigger>Definition of Done (DoD)</AccordionTrigger>
+                <AccordionTrigger>Definition of Done · DoD (완료 기준)</AccordionTrigger>
                 <AccordionContent>
                   <ul className="list-disc list-inside space-y-1 text-muted-foreground">
                     {DOD.map((d) => (
@@ -98,7 +98,7 @@ export function QualityDefinitionSection() {
             <h3 className="text-xl font-semibold mb-2">안티 패턴</h3>
             <ul className="list-disc list-inside space-y-1 text-muted-foreground">
               <li>{`"이 정도는 Minor 잖아"`} 라는 주관적 등급 협상.</li>
-              <li>DoD 가 코드 머지로만 정의되어 운영 / 모니터링이 이후에 추가되는 패턴.</li>
+              <li>DoD (완료 기준) 가 코드 머지로만 정의되어 운영 / 모니터링이 이후에 추가되는 패턴.</li>
               <li>Severity 와 Priority 를 같은 차원으로 혼용.</li>
             </ul>
           </div>
@@ -108,8 +108,8 @@ export function QualityDefinitionSection() {
         <TriangleRecap
           notes={{
             risk: 'Severity 와 영향도가 만나는 지점이 우선순위가 된다.',
-            'shift-left': 'DoR 은 요구사항 단계에서 결함을 차단하는 첫 번째 게이트다.',
-            roi: 'DoD 가 분명할수록 자동화의 stop condition 이 분명해진다.',
+            'shift-left': 'DoR (착수 기준) 은 요구사항 단계에서 결함을 차단하는 첫 번째 게이트다.',
+            roi: 'DoD (완료 기준) 이 분명할수록 자동화의 종료 조건이 분명해진다.',
           }}
         />
       }

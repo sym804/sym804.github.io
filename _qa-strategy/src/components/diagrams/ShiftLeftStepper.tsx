@@ -1,6 +1,6 @@
 const STAGES = [
   { id: 'requirement', label: '요구사항', gates: ['리뷰', 'AC 합의'] },
-  { id: 'design', label: '설계', gates: ['리스크 매트릭스', 'DoR'] },
+  { id: 'design', label: '설계', gates: ['리스크 매트릭스', 'DoR (착수 기준)'] },
   { id: 'implement', label: '구현', gates: ['린트', '타입체크', '단위'] },
   { id: 'integrate', label: '통합', gates: ['통합 테스트', 'API 계약'] },
   { id: 'deploy', label: '배포', gates: ['E2E', 'a11y', 'visual', '보안'] },

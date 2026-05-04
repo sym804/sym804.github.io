@@ -1,7 +1,7 @@
 import { Card } from '@/components/ui/card';
 
 const ASSETS = [
-  { href: '../stockradar.html', title: 'StockRadar', desc: '주식 분석 플랫폼 QA 사례 (메트릭 적용)' },
+  { href: '../stockradar.html', title: 'StockRadar', desc: '주식 분석 플랫폼 QA 사례 (리스크 기반 데이터 검증)' },
   { href: '../AI_Squad.html', title: 'AI Squad', desc: 'AI 제품 단계별 QA 게이트 설계' },
   { href: '../multiplatform_automation.html', title: 'Multiplatform Automation', desc: 'PC / Web / Mobile 통합 자동화' },
   { href: '../Web_Selector_Extractor.html', title: 'Web Selector Extractor', desc: '셀렉터 추출 자동화 도구' },
