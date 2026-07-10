@@ -1281,14 +1281,14 @@ section { padding: 100px 0; position: relative; }
       </div>
       <div class="arch-arrow">&#x25B6;</div>
       <div class="arch-block">
-        <h3><span style="color:var(--cyan)">&#9632;</span> FastAPI 백엔드 (55개 API)</h3>
+        <h3><span style="color:var(--cyan)">&#9632;</span> FastAPI 백엔드 (KRX 111개 API)</h3>
         <ul>
           <li>종목: 검색/상세/시세 (10개)</li>
           <li>시장: 대시보드/지수/환율 (12개)</li>
-          <li>시그널: 퀀트/랭킹/트리맵 (17개)</li>
-          <li>ETF (4개) · 증권사 (4개)</li>
-          <li>스크리너 (2개) · 비교 (1개)</li>
-          <li>이벤트 (3개) · 방문추적 (2개)</li>
+          <li>시그널: 퀀트/랭킹/트리맵 (36개)</li>
+          <li>펀드 (16개) · 결제 (7개) · 리서치 (5개)</li>
+          <li>ETF (6개) · 증권사 (4개) · 배당 (3개)</li>
+          <li>스크리너 (2개) · 이벤트 (3개) · 비교/방문/관리 (4개)</li>
         </ul>
       </div>
       <div class="arch-arrow">&#x25B6;</div>
@@ -1308,10 +1308,10 @@ section { padding: 100px 0; position: relative; }
     <!-- DB -->
     <div class="overview-grid reveal reveal-delay-2" style="margin-top:48px">
       <div class="overview-card accent-cyan">
-        <h3 class="card-title">한국 시장 DB - 1.8GB</h3>
+        <h3 class="card-title">한국 시장 DB - 3.8GB</h3>
         <ul class="card-list">
-          <li>stocks: 3,970 종목 (활성 3,878 / 정지 92)</li>
-          <li>daily_prices: 740만 행 (2015년~현재)</li>
+          <li>stocks: 4,364 종목 (활성 3,843 / 정지 521)</li>
+          <li>daily_prices: 785만 행 (2015년~현재)</li>
           <li>financials: 8.6만 행 (PER/PBR/ROE/EPS/BPS)</li>
           <li>investor_trading: 외국인/기관/연기금/개인 일별 순매수</li>
           <li>broker_consensus + broker_recs: 증권사 추천</li>
@@ -1321,10 +1321,10 @@ section { padding: 100px 0; position: relative; }
         </ul>
       </div>
       <div class="overview-card accent-blue">
-        <h3 class="card-title">미국 시장 DB - 1.1GB</h3>
+        <h3 class="card-title">미국 시장 DB - 1.9GB</h3>
         <ul class="card-list">
-          <li>stocks: 10,863 종목 (활성 3,500)</li>
-          <li>daily_prices: 1,100만 행 (10년치 백필)</li>
+          <li>stocks: 10,865 종목 (활성 3,448)</li>
+          <li>daily_prices: 1,143만 행 (10년치 백필)</li>
           <li>financials: 6,328행 (PER 93%, PBR 97% 커버)</li>
           <li>dividends: 11,134행 (1,275 종목)</li>
           <li>ETF: 500개 + 구성종목(holdings)</li>
@@ -1334,7 +1334,7 @@ section { padding: 100px 0; position: relative; }
     </div>
 
     <p class="reveal reveal-delay-3" style="text-align:center; margin-top:24px; font-family:'IBM Plex Sans KR', var(--font-body); font-size:14px; font-weight:500; letter-spacing:0.5px; color:var(--amber);">
-      총 데이터: 1,840만+ 행 | 2.9GB | 11년간 시계열 | WAL 모드 + 복합 인덱스
+      총 데이터: 3,970만+ 행 | 5.7GB | 다년 시계열 | WAL 모드 + 복합 인덱스
     </p>
   </div>
 </section>
@@ -1916,8 +1916,8 @@ section { padding: 100px 0; position: relative; }
       <div class="qa-card reveal reveal-delay-3">
         <div class="qa-icon amber">&#x1f916;</div>
         <h3>테스트 자동화</h3>
-        <p>Playwright 기반 E2E 테스트: 대시보드, 6탭 종목 상세, 탭 리셋 회귀, 스크리너/트리맵 렌더링, JS 콘솔 에러 감시. 55개 API 회귀 테스트 스크립트.</p>
-        <span class="qa-stat amber">55 API · E2E 자동화</span>
+        <p>Playwright 기반 E2E 테스트: 대시보드, 6탭 종목 상세, 탭 리셋 회귀, 스크리너/트리맵 렌더링, JS 콘솔 에러 감시. 주요 API 회귀 테스트 스크립트.</p>
+        <span class="qa-stat amber">API 회귀 · E2E 자동화</span>
       </div>
       <div class="qa-card reveal reveal-delay-4">
         <div class="qa-icon red">&#x1f6e1;</div>
