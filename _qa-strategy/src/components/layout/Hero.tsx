@@ -3,7 +3,7 @@ import { TrianglePrinciple } from '@/components/diagrams/TrianglePrinciple';
 export function Hero() {
   return (
     <section className="pt-28 pb-20 mx-auto max-w-[1280px] px-6">
-      <p className="text-sm font-mono text-muted-foreground tracking-wide">QA ENGINEERING PLAYBOOK</p>
+      <p className="text-sm font-mono text-muted-foreground tracking-wide">QA ENGINEERING STRATEGY</p>
       <h1 className="mt-3 text-5xl lg:text-6xl font-sans font-bold leading-tight">
         풀스택 QA<br />품질 관리 전략
       </h1>
