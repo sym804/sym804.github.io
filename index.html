@@ -21,7 +21,7 @@
   --text: #E2E8F0;
   --text-sub: #CBD5E1;
   --text-dim: #94A3B8;
-  --text-muted: #64748B;
+  --text-muted: #808EA3;
   --blue: #3B82F6;
   --blue-light: #60A5FA;
   --blue-bg: rgba(59,130,246,.1);
@@ -143,9 +143,8 @@ body {
   word-break: keep-all;
 }
 .hero-title .accent {
-  background: linear-gradient(135deg, #60A5FA 0%, #A78BFA 100%);
-  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: #7CB0FF;
+  font-weight: 800;
 }
 
 .hero-desc {
@@ -203,11 +202,11 @@ body {
 }
 .btn-primary {
   background: var(--blue); color: #fff;
-  box-shadow: 0 2px 12px rgba(59,130,246,.3);
+  box-shadow: 0 1px 3px rgba(0,0,0,.35);
 }
 .btn-primary:hover {
   background: var(--blue-light);
-  box-shadow: 0 4px 20px rgba(59,130,246,.4);
+  box-shadow: 0 4px 14px rgba(59,130,246,.22);
   transform: translateY(-1px);
 }
 .btn-secondary {
@@ -314,6 +313,7 @@ section { padding: 100px 0; }
 .card-desc {
   font-size: 15px; color: var(--text-sub); line-height: 1.8;
   margin-bottom: 24px;
+  max-width: 68ch; text-wrap: pretty;
 }
 
 .card-stats {
@@ -335,6 +335,7 @@ section { padding: 100px 0; }
 .card-list {
   list-style: none; margin-bottom: 24px; padding: 0;
   display: flex; flex-direction: column; gap: 8px;
+  max-width: 74ch;
 }
 .card-list li {
   font-size: 14px; color: var(--text-dim); line-height: 1.6;
@@ -765,7 +766,7 @@ section { padding: 100px 0; }
           <li>한국 4,364 + 미국 10,865 종목의 주가/재무/수급/배당 일일 자동 수집 (20단계 배치 파이프라인)</li>
           <li>조건 검색 스크리너, 최대 5종목 병렬 비교, 퀀트 3전략 + 백테스트 엔진</li>
           <li>Claude Code 18개 커스텀 Skill + 8개 Rule로 개발 자동화 (수집기/라우터/뷰/테스트 생성)</li>
-          <li>Codex 교차 검증으로 코드 품질 관리, 87건 이슈 발견 및 100% 해결</li>
+          <li>Codex 교차 검증 기반 품질 관리, KR·US 통합 이슈 약 960건 발견 및 100% 해결</li>
         </ul>
         <div class="card-stats">
           <div class="stat">
