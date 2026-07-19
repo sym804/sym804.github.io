@@ -1138,8 +1138,8 @@ section { padding: 100px 0; position: relative; }
       <span class="accent">한 화면에.</span>
     </h1>
     <p class="hero-sub">
-      한국 4,364 + 미국 10,865종목. 210개 API 엔드포인트, 42개 뷰, 12종 보조지표,
-      퀀트 3전략, 시장지도, 주간/월간 리뷰, 이벤트 캘린더 -
+      한국 4,373 + 미국 12,886종목. 215개 API 엔드포인트, 42개 뷰, 17종 보조지표,
+      퀀트 10전략, 시장지도, 주간/월간 리뷰, 이벤트 캘린더 -
       QA 엔지니어가 기획부터 개발, 테스트까지 혼자 만든 풀스택 웹 플랫폼.
     </p>
     <div class="hero-name-block">
@@ -1167,39 +1167,39 @@ section { padding: 100px 0; position: relative; }
     <!-- 핵심 지표 8개 -->
     <div class="metrics-grid reveal reveal-delay-1">
       <div class="metric-card">
-        <div class="metric-value cyan">210<span class="metric-unit">개</span></div>
+        <div class="metric-value cyan">215<span class="metric-unit">개</span></div>
         <div class="metric-label">API 엔드포인트</div>
-        <div class="metric-sub">KRX 111 + US 99 · 43 라우터</div>
+        <div class="metric-sub">KRX 111 + US 104 · 51 라우터</div>
       </div>
       <div class="metric-card">
-        <div class="metric-value blue">3,970<span class="metric-unit">만+</span></div>
+        <div class="metric-value blue">4,941<span class="metric-unit">만</span></div>
         <div class="metric-label">데이터 행 수</div>
-        <div class="metric-sub">5.7GB · KRX 2,797만 + US 1,176만</div>
+        <div class="metric-sub">6.7GB · KRX 3,483만 + US 1,459만</div>
       </div>
       <div class="metric-card">
-        <div class="metric-value amber">15,229</div>
+        <div class="metric-value amber">17,259</div>
         <div class="metric-label">종목 커버리지</div>
-        <div class="metric-sub">한국 4,364 + 미국 10,865</div>
+        <div class="metric-sub">한국 4,373 + 미국 12,886</div>
       </div>
       <div class="metric-card">
-        <div class="metric-value purple">약 960<span class="metric-unit">건</span></div>
-        <div class="metric-label">이슈 발견 · 해결</div>
-        <div class="metric-sub">100% 해결률</div>
+        <div class="metric-value purple">1,023<span class="metric-unit">건</span></div>
+        <div class="metric-label">이슈 추적 · 해결</div>
+        <div class="metric-sub">GitHub 954건 중 952건 종료</div>
       </div>
       <div class="metric-card">
-        <div class="metric-value cyan">12<span class="metric-unit">종</span></div>
+        <div class="metric-value cyan">17<span class="metric-unit">종</span></div>
         <div class="metric-label">보조지표</div>
-        <div class="metric-sub">추세 · 변동성 · 모멘텀</div>
+        <div class="metric-sub">오버레이 9 · 서브차트 8</div>
       </div>
       <div class="metric-card">
-        <div class="metric-value blue">3<span class="metric-unit">개</span></div>
+        <div class="metric-value blue">10<span class="metric-unit">개</span></div>
         <div class="metric-label">퀀트 전략</div>
-        <div class="metric-sub">LVQ · 섹터VQ · 모멘텀가드</div>
+        <div class="metric-sub">월간 3 · 일일 4 · 특화 3</div>
       </div>
       <div class="metric-card">
         <div class="metric-value amber">42<span class="metric-unit">개</span></div>
         <div class="metric-label">프론트엔드 뷰</div>
-        <div class="metric-sub">KRX 18 + US 24 · 다크 테마</div>
+        <div class="metric-sub">KRX 21 + US 21 · 다크 테마</div>
       </div>
       <div class="metric-card">
         <div class="metric-value purple">0.9<span class="metric-unit">초</span></div>
@@ -1270,7 +1270,7 @@ section { padding: 100px 0; position: relative; }
 
     <div class="arch-flow reveal reveal-delay-1">
       <div class="arch-block">
-        <h3><span style="color:var(--amber)">&#9632;</span> 데이터 수집 (6개 소스)</h3>
+        <h3><span style="color:var(--amber)">&#9632;</span> 데이터 수집 (14개 소스)</h3>
         <ul>
           <li>한국투자증권: 시세, PER/PBR</li>
           <li>키움증권 REST: 투자자 수급</li>
@@ -1294,7 +1294,7 @@ section { padding: 100px 0; position: relative; }
       </div>
       <div class="arch-arrow">&#x25B6;</div>
       <div class="arch-block">
-        <h3><span style="color:var(--blue)">&#9632;</span> 프론트엔드 웹앱 (12개 뷰)</h3>
+        <h3><span style="color:var(--blue)">&#9632;</span> 프론트엔드 웹앱 (주요 뷰)</h3>
         <ul>
           <li>대시보드 · 종목 상세</li>
           <li>ETF 분석 · 스크리너</li>
@@ -1309,11 +1309,11 @@ section { padding: 100px 0; position: relative; }
     <!-- DB -->
     <div class="overview-grid reveal reveal-delay-2" style="margin-top:48px">
       <div class="overview-card accent-cyan">
-        <h3 class="card-title">한국 시장 DB - 3.8GB</h3>
+        <h3 class="card-title">한국 시장 DB - 4.5GB</h3>
         <ul class="card-list">
-          <li>stocks: 4,364 종목 (활성 3,843 / 정지 521)</li>
-          <li>daily_prices: 785만 행 (2015년~현재)</li>
-          <li>financials: 8.6만 행 (PER/PBR/ROE/EPS/BPS)</li>
+          <li>stocks: 4,373 종목 (활성 4,160 / 정지 213)</li>
+          <li>daily_prices: 789만 행 (2013-06~현재)</li>
+          <li>financials: 44.0만 행 (PER/PBR/ROE/EPS/BPS)</li>
           <li>investor_trading: 외국인/기관/연기금/개인 일별 순매수</li>
           <li>broker_consensus + broker_recs: 증권사 추천</li>
           <li>dividends: 배당금 (금액/수익률/지급률)</li>
@@ -1322,20 +1322,20 @@ section { padding: 100px 0; position: relative; }
         </ul>
       </div>
       <div class="overview-card accent-blue">
-        <h3 class="card-title">미국 시장 DB - 1.9GB</h3>
+        <h3 class="card-title">미국 시장 DB - 2.2GB</h3>
         <ul class="card-list">
-          <li>stocks: 10,865 종목 (활성 3,448)</li>
-          <li>daily_prices: 1,143만 행 (10년치 백필)</li>
-          <li>financials: 6,328행 (PER 93%, PBR 97% 커버)</li>
-          <li>dividends: 11,134행 (1,275 종목)</li>
-          <li>ETF: 500개 + 구성종목(holdings)</li>
+          <li>stocks: 12,886 종목 (활성 5,541)</li>
+          <li>daily_prices: 1,414만 행 (1962년~현재 백필)</li>
+          <li>financials_pit: 27.6만 행 (PIT 시점 재무)</li>
+          <li>dividends: 5.0만 행</li>
+          <li>ETF: 2,577개 + 구성종목(holdings)</li>
           <li>섹터 분류: 2,940종목 (11개 GICS 섹터)</li>
         </ul>
       </div>
     </div>
 
     <p class="reveal reveal-delay-3" style="text-align:center; margin-top:24px; font-family:'IBM Plex Sans KR', var(--font-body); font-size:14px; font-weight:500; letter-spacing:0.5px; color:var(--amber);">
-      총 데이터: 3,970만+ 행 | 5.7GB | 다년 시계열 | WAL 모드 + 복합 인덱스
+      총 데이터: 4,941만 행 | 6.7GB | 다년 시계열 | WAL 모드 + 복합 인덱스
     </p>
   </div>
 </section>
@@ -1451,7 +1451,7 @@ section { padding: 100px 0; position: relative; }
     <div class="section-header reveal">
       <div class="section-num">04 - STOCK DETAIL</div>
       <h2 class="section-title">종목 상세 분석</h2>
-      <p class="section-desc">TradingView Charts + 6탭 + 12개 보조지표</p>
+      <p class="section-desc">TradingView Charts + 6탭 + 17개 보조지표</p>
     </div>
 
     <!-- 주가 차트 -->
@@ -1461,19 +1461,19 @@ section { padding: 100px 0; position: relative; }
       </div>
       <div>
         <div class="feature-num">01</div>
-        <h3 class="feature-title">주가 차트 + 12개 보조지표</h3>
+        <h3 class="feature-title">주가 차트 + 17개 보조지표</h3>
         <ul class="feature-details">
           <li>[추세] EMA · 일목균형표 · 파라볼릭 SAR</li>
           <li>[변동성] 볼린저밴드 · ATR · VWAP</li>
           <li>[모멘텀] MACD · RSI · 스토캐스틱 · CCI · Williams %R</li>
           <li>[거래량] OBV (거래량 균형 지표)</li>
           <li>캔들스틱 + 거래량 동시 표시</li>
-          <li>기간: 1개월 ~ 전체(2015년~) 7단계</li>
+          <li>기간: 1개월 ~ 전체(2013년~) 8단계</li>
         </ul>
         <div class="feature-tags">
           <span class="tag cyan">TradingView v4</span>
-          <span class="tag blue">12종 보조지표</span>
-          <span class="tag amber">7단계 기간</span>
+          <span class="tag blue">17종 보조지표</span>
+          <span class="tag amber">8단계 기간</span>
         </div>
       </div>
     </div>
@@ -1843,12 +1843,12 @@ section { padding: 100px 0; position: relative; }
     <!-- 자동화 & 성능 -->
     <div class="section-header reveal" style="margin-top:60px">
       <h2 class="section-title small">자동화 · 성능 최적화</h2>
-      <p class="section-desc">7단계 일일 배치 + 실시간 시세 + 캐싱 전략</p>
+      <p class="section-desc">KRX 44단계 + US 22단계 일일 배치 + 실시간 시세 + 캐싱 전략</p>
     </div>
 
     <div class="detail-grid-2x2 reveal reveal-delay-1">
       <div class="detail-card bar-cyan">
-        <h4 class="cyan">7단계 일일 배치</h4>
+        <h4 class="cyan">KRX 44단계 일일 배치</h4>
         <ul>
           <li>장 마감 후 daily_update.bat 자동 실행 (10~15분)</li>
           <li>주가/재무 → 수급 → ETF → 증권사 → 퀀트 → 리뷰</li>
@@ -1912,7 +1912,7 @@ section { padding: 100px 0; position: relative; }
         <div class="qa-icon blue">&#x1f4cb;</div>
         <h3>체계적 이슈 관리</h3>
         <p>ISS-001~141 번호 체계로 전 이슈 추적. 구분(Backend/Frontend/시스템/수집기), 우선순위(긴급/높음/보통/낮음), 영향범위, 수정 버전을 명시해서 관리.</p>
-        <span class="qa-stat blue">141건 · 100% 해결</span>
+        <span class="qa-stat blue">1,023건 추적 · 952/954 종료</span>
       </div>
       <div class="qa-card reveal reveal-delay-3">
         <div class="qa-icon amber">&#x1f916;</div>
@@ -2101,8 +2101,8 @@ section { padding: 100px 0; position: relative; }
           <li>원칙을 정해서 AI에게 학습 시킴</li>
           <li>15일간 개발 이력 자동 기록</li>
           <li>4개 트랙 독립 버전 관리 (DB/Backend/Frontend/System)</li>
-          <li>이슈 로그: ISS-001~141 (엑셀 관리)</li>
-          <li>우선순위: 긴급(10)/높음(38)/보통(68)/낮음(25)</li>
+          <li>초기 15일 이슈 로그: ISS-001~141 (엑셀 관리)</li>
+          <li>초기 우선순위 분포: 긴급(10)/높음(38)/보통(68)/낮음(25)</li>
           <li>코드 변경과 문서가 항상 동기화</li>
         </ul>
       </div>

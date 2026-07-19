@@ -359,12 +359,12 @@ section { padding: 100px 0; }
 
     <div class="metrics-grid reveal reveal-delay-1">
       <div class="metric-card">
-        <div class="metric-value cyan">40</div>
+        <div class="metric-value cyan">39</div>
         <div class="metric-label">테스트 시나리오</div>
-        <div class="metric-sub">Web 12 + Android 14 + iOS 14</div>
+        <div class="metric-sub">Web 12 + Android 14 + iOS 13</div>
       </div>
       <div class="metric-card">
-        <div class="metric-value blue">260<span class="metric-unit">+</span></div>
+        <div class="metric-value blue">256</div>
         <div class="metric-label">테스트 스텝</div>
         <div class="metric-sub">E2E 사용자 여정 전체</div>
       </div>
@@ -386,7 +386,7 @@ section { padding: 100px 0; }
         <ul class="card-list">
           <li>e커머스 플랫폼 웹사이트 핵심 사용자 여정 자동화</li>
           <li>Chromium headless/headed 실행</li>
-          <li>12개 시나리오 / 100+ 테스트 스텝 / ~8분 실행</li>
+          <li>12개 시나리오 / 147개 테스트 스텝 / ~8분 실행</li>
           <li>auto-wait, 네트워크 인터셉트, React SPA 대응</li>
         </ul>
       </div>
@@ -394,7 +394,7 @@ section { padding: 100px 0; }
         <h3 class="card-title">모바일 앱: Appium 기반</h3>
         <ul class="card-list">
           <li>Android: UiAutomator2 / iOS: XCUITest</li>
-          <li>14개 시나리오 / 80+ 테스트 스텝 / ~25분 실행</li>
+          <li>14개 시나리오 / 109개 테스트 스텝 / ~25분 실행</li>
           <li>실기기 + 에뮬레이터 + Device Farm 지원</li>
           <li>SIFT/RANSAC 이미지 매칭 (iOS 고유)</li>
         </ul>
@@ -472,7 +472,7 @@ section { padding: 100px 0; }
         <h4 class="green">모바일 자동화</h4>
         <ul>
           <li>UIAutomator2 키이벤트 검색 실행</li>
-          <li>동영상 녹화 (Android 3분 / iOS 10분)</li>
+          <li>동영상 녹화 (Android 기본 3분 / iOS 최대 30분)</li>
           <li>Android 버전별 스크롤 자동 보정</li>
         </ul>
       </div>
@@ -681,7 +681,7 @@ section { padding: 100px 0; }
       <div class="detail-card bar-green">
         <h4 class="green">CSV 기반 POM</h4>
         <ul>
-          <li>200+ 행 로케이터 외부 관리</li>
+          <li>186행 로케이터 외부 관리</li>
           <li>코드 수정 없이 CSV만 변경</li>
           <li>set_element / click / scroll</li>
         </ul>
@@ -714,10 +714,10 @@ section { padding: 100px 0; }
       <div class="detail-card bar-blue">
         <h4 class="blue">iOS 고유 기능</h4>
         <ul>
-          <li>Braze 인앱 마케팅 자동 처리 (3종 팝업 감지)</li>
+          <li>인앱 마케팅 팝업 자동 처리 (Android 4종 / iOS 3종, Braze + adrop)</li>
           <li>iPhone 11~17 해상도 자동 감지 및 좌표 보정</li>
           <li>동영상 녹화 h264, 30fps, 최대 30분</li>
-          <li>AppContext + Element + AppBase (600+줄) 아키텍처</li>
+          <li>AppContext + Element + AppBase (658줄) 아키텍처</li>
         </ul>
       </div>
     </div>
@@ -790,7 +790,7 @@ section { padding: 100px 0; }
         <h4 class="cyan">Jenkins Pipeline</h4>
         <ul>
           <li>Multi-Stage 파이프라인 (4단계)</li>
-          <li>3-Retry + 60초 Backoff (일시적 오류 자동 재시도)</li>
+          <li>3-Retry 자동 재시도 (Android는 60초 Backoff, iOS는 즉시 재시도)</li>
           <li>오류 유형 자동 분류: 테스트 실패 vs 인프라 장애</li>
           <li>device_unlock.sh: ADB 디바이스 자동 준비</li>
         </ul>

@@ -590,7 +590,7 @@ section { padding: 100px 0; }
           <li>run_test_step 공통 실행 구조로 플랫폼 간 테스트 로직 통합</li>
           <li>Fernet 암호화 기반 계정/토큰 보안 처리</li>
           <li>Allure + Slack 실시간 리포팅 시스템</li>
-          <li>Jenkins CI/CD 파이프라인 자동 수행</li>
+          <li>Jenkins CI/CD 파이프라인 자동 수행 (Android/iOS), Web은 GitHub Actions</li>
           <li>Python GUI로 시나리오 선택 수행 가능, 실패 시나리오 자동 재수행으로 테스트 안정성 향상</li>
           <li>HTML 리포트 PDF 자동 변환, Slack API 일일 통계 자동 집계</li>
         </ul>
@@ -600,7 +600,7 @@ section { padding: 100px 0; }
             <span class="stat-label">플랫폼</span>
           </div>
           <div class="stat">
-            <span class="stat-value">36</span>
+            <span class="stat-value">39</span>
             <span class="stat-label">E2E 시나리오</span>
           </div>
           <div class="stat">
@@ -706,11 +706,11 @@ section { padding: 100px 0; }
         </ul>
         <div class="card-stats">
           <div class="stat">
-            <span class="stat-value">27</span>
+            <span class="stat-value">15</span>
             <span class="stat-label">핵심 기능</span>
           </div>
           <div class="stat">
-            <span class="stat-value">454</span>
+            <span class="stat-value">620</span>
             <span class="stat-label">자동화 테스트</span>
           </div>
           <div class="stat">
@@ -760,16 +760,16 @@ section { padding: 100px 0; }
           HTS/MTS의 불편함을 직접 해결하면서, QA 실전 역량을 바탕으로 복잡한 데이터 시스템을 설계/개발/검증까지 1인으로 완성한 프로젝트.
         </p>
         <ul class="card-list">
-          <li>대시보드, 종목 상세, ETF, 스크리너, 퀀트, 시장지도, 백테스트 등 42개 화면 (KRX 18 + US 24)</li>
-          <li>한국투자/키움/네이버/DART/yfinance/SEC 등 6개 데이터 소스, 210+개 API 엔드포인트</li>
-          <li>한국 4,364 + 미국 10,865 종목의 주가/재무/수급/배당 일일 자동 수집 (20단계 배치 파이프라인)</li>
-          <li>조건 검색 스크리너, 최대 5종목 병렬 비교, 퀀트 3전략 + 백테스트 엔진</li>
+          <li>대시보드, 종목 상세, ETF, 스크리너, 퀀트, 시장지도, 백테스트 등 42개 화면 (KRX 21 + US 21)</li>
+          <li>한국투자/키움/네이버/DART/KOFIA/pykrx/yfinance/SEC EDGAR 등 14개 데이터 소스, 215개 API 엔드포인트</li>
+          <li>한국 4,373 + 미국 12,886 종목의 주가/재무/수급/배당 일일 자동 수집 (KRX 44단계 + US 22단계 배치)</li>
+          <li>조건 검색 스크리너, 최대 6종목 병렬 비교, 월간 3전략 + 일일 4전략 + 백테스트 엔진</li>
           <li>Claude Code 18개 커스텀 Skill + 8개 Rule로 개발 자동화 (수집기/라우터/뷰/테스트 생성)</li>
-          <li>Codex 교차 검증 기반 품질 관리, KR·US 통합 이슈 약 960건 발견 및 100% 해결</li>
+          <li>Codex 교차 검증 기반 품질 관리, KR·US 통합 이슈 1,023건 추적 (GitHub 954건 중 952건 종료)</li>
         </ul>
         <div class="card-stats">
           <div class="stat">
-            <span class="stat-value">210+</span>
+            <span class="stat-value">215</span>
             <span class="stat-label">API 엔드포인트</span>
           </div>
           <div class="stat">
@@ -777,11 +777,11 @@ section { padding: 100px 0; }
             <span class="stat-label">페이지</span>
           </div>
           <div class="stat">
-            <span class="stat-value">15,229</span>
+            <span class="stat-value">17,259</span>
             <span class="stat-label">종목 커버</span>
           </div>
           <div class="stat">
-            <span class="stat-value">3,970만</span>
+            <span class="stat-value">4,941만</span>
             <span class="stat-label">행 데이터</span>
           </div>
         </div>
@@ -841,7 +841,7 @@ section { padding: 100px 0; }
             <span class="stat-label">운영 모드</span>
           </div>
           <div class="stat">
-            <span class="stat-value">5,923</span>
+            <span class="stat-value">6,337</span>
             <span class="stat-label">LoC</span>
           </div>
         </div>
@@ -964,8 +964,8 @@ section { padding: 100px 0; }
         <ul class="comp-list">
           <li>Web·Android·iOS 3개 플랫폼 E2E 프레임워크 설계</li>
           <li>공통 실행 구조로 플랫폼 간 로직 통합·유지보수성 확보</li>
-          <li>Jenkins CI/CD + Allure + Slack 실시간 리포팅</li>
-          <li>Playwright 257개 자동화 테스트 운영</li>
+          <li>Jenkins CI/CD(Android·iOS) + Allure + Slack 실시간 리포팅</li>
+          <li>3개 플랫폼 39개 E2E 시나리오 · 약 256개 테스트 스텝 운영</li>
           <li>실패 시나리오 자동 재수행, HTML→PDF 리포트 변환</li>
         </ul>
       </div>
@@ -975,7 +975,7 @@ section { padding: 100px 0; }
         </div>
         <h3 class="comp-title">QA 도구 자체 개발</h3>
         <ul class="comp-list">
-          <li>TC 관리 도구 - 27개 기능, 257개 자동화 테스트</li>
+          <li>TC 관리 도구 - 15개 기능, 620개 자동화 테스트</li>
           <li>셀렉터 추출 크롬 확장 - Manifest V3, Playwright 코드 생성</li>
           <li>일일 통계 자동화 - Slack API + Excel 집계</li>
           <li>기존 도구 한계 분석 → 직접 설계·개발로 해결</li>

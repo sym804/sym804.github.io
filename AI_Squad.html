@@ -273,7 +273,7 @@ section { padding: 100px 0; }
 .agent-card.gemini .agent-tag { background: var(--blue-dim); color: var(--blue); }
 
 /* ── MODE CARDS ── */
-.modes-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.modes-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
 
 .mode-card {
   background: var(--bg-card); border: 1px solid var(--border);
@@ -455,15 +455,15 @@ section { padding: 100px 0; }
       <div class="stat-label">AI 에이전트</div>
     </div>
     <div class="stat reveal reveal-delay-1">
-      <div class="stat-value" data-count="3">0</div>
+      <div class="stat-value" data-count="4">0</div>
       <div class="stat-label">운영 모드</div>
     </div>
     <div class="stat reveal reveal-delay-2">
-      <div class="stat-value" data-count="2377">0</div>
+      <div class="stat-value" data-count="6337">0</div>
       <div class="stat-label">Lines of Code</div>
     </div>
     <div class="stat reveal reveal-delay-3">
-      <div class="stat-value" data-count="40" data-suffix="+">0</div>
+      <div class="stat-value" data-count="141">0</div>
       <div class="stat-label">커밋</div>
     </div>
   </div>
@@ -564,7 +564,7 @@ section { padding: 100px 0; }
 <section id="modes" style="background: var(--bg-alt);">
   <div class="container">
     <div class="section-label reveal">Modes</div>
-    <h2 class="section-title reveal">3가지 운영 모드</h2>
+    <h2 class="section-title reveal">4가지 운영 모드</h2>
     <p class="section-desc reveal">상황에 맞는 최적의 협업 방식을 선택하여 문제를 해결합니다.</p>
     <div class="modes-grid">
       <!-- 토론 모드 -->
@@ -611,6 +611,19 @@ section { padding: 100px 0; }
           <li>특정 프로젝트 폴더의 Claude/Codex CLI에 연동</li>
           <li>--continue 옵션으로 기존 대화 이어가기</li>
           <li>Slack에서 직접 로컬 개발 환경 제어</li>
+        </ul>
+      </div>
+      <!-- 리서치 모드 -->
+      <div class="mode-card reveal reveal-delay-3">
+        <div class="mode-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+        </div>
+        <div class="mode-name">리서치 모드</div>
+        <p class="mode-desc">질문을 하위 질문으로 분해해 3개 AI가 나눠 조사하고 교차 검증합니다.</p>
+        <ul class="mode-features">
+          <li>분해 → 분담 조사 → 교차 검증 → 출처 리포트 4단계</li>
+          <li>하위 질문 기본 4개(RESEARCH_SUBQ_MAX), 호출 2N+2회</li>
+          <li>출처 URL 축약 + 링크 안전 분할로 Slack 메시지 한도 대응</li>
         </ul>
       </div>
     </div>
