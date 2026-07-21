@@ -11,7 +11,6 @@ const SHOTS: Shot[] = [
   { name: 'philosophy-section', selector: '#philosophy', goto: '/#philosophy' },
   { name: 'test-pyramid', selector: '#test-strategy figure', goto: '/#test-strategy' },
   { name: 'risk-heatmap', selector: '#risk-based figure', goto: '/#risk-based' },
-  { name: 'kpi-grid', selector: '#metrics .grid', goto: '/#metrics' },
   { name: 'shift-left-stepper', selector: '#shift-left ol', goto: '/#shift-left' },
   { name: 'defect-lifecycle', selector: '#defect-management ol', goto: '/#defect-management' },
 ];
