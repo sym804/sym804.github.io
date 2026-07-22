@@ -3,11 +3,9 @@ import { createRoot } from "react-dom/client";
 import Narrative from "./Narrative";
 import "./index.css";
 
-// sym-ui 는 .dark 클래스로 다크 토큰을 켠다. 단독 HTML 이므로 OS 설정을 따른다.
-const mq = window.matchMedia("(prefers-color-scheme: dark)");
-const apply = () => document.documentElement.classList.toggle("dark", mq.matches);
-apply();
-mq.addEventListener("change", apply);
+// 포트폴리오의 다른 산출물이 전부 다크다. OS 설정을 따르면 문서마다
+// 배경이 달라져 한 묶음으로 안 읽힌다. 다크로 고정한다.
+document.documentElement.classList.add("dark");
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
