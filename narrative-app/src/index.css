@@ -1,0 +1,528 @@
+/* 단일 HTML 로 배포하므로 자가호스팅 경로(/fonts/) 대신 CDN 을 쓴다.
+   그 외 토큰/테마는 sym-ui init 산출물 그대로다. */
+@import "tailwindcss";
+@import "tw-animate-css";
+/* sym-ui:start - sym-ui-cli init 자동 생성 (토큰/테마/폰트). 직접 수정 가능. */
+
+/* 자가 호스팅 웹폰트 (v0.10.0): 런타임 CDN @import 제거로 외부 지연발 CLS/FOUT 차단.
+   woff2 원본은 packages/ui/templates/fonts/ 에 있고, 웹 루트의 /fonts/ 로 서빙한다.
+   - Storybook: .storybook/main.ts 의 staticDirs 가 fonts/ 를 /fonts 로 매핑.
+   - 소비 프로젝트: woff2 를 public/fonts/ 로 복사 (CLI init 이 best-effort 로 처리).
+   절대경로(/fonts/)를 쓰는 이유: Tailwind v4 의 @import 인라인이 상대 url() 을 리베이스하지
+   않아, 패키지 CSS 를 import 하면 상대경로가 깨지기 때문. @font-face 는 @import 뒤에 둔다. */
+@font-face {
+  font-family: "Pretendard Variable";
+  font-weight: 45 920;
+  font-style: normal;
+  font-display: swap;
+  src: url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/woff2/PretendardVariable.woff2") format("woff2-variations");
+}
+
+/* SUIT Variable (v0.10.3): 디스플레이/제목 전용 한글 산세리프. Pretendard 보다 살짝 둥글고 따뜻함.
+   본문은 Pretendard 유지, 큰 글씨에만 --font-display 로 적용. woff2 610KB(가변 100~900). */
+@font-face {
+  font-family: "SUIT Variable";
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+  src: url("https://cdn.jsdelivr.net/gh/sun-typeface/SUIT@2.0.5/fonts/variable/woff2/SUIT-Variable.woff2") format("woff2-variations");
+}
+
+/* IBM Plex Mono 400/500/600 (latin + latin-ext 서브셋). */
+@font-face {
+  font-family: "IBM Plex Mono";
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  src: url("https://cdn.jsdelivr.net/fontsource/fonts/ibm-plex-mono@latest/latin-400-normal.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304,
+    U+0308, U+0329, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF,
+    U+FFFD;
+}
+@font-face {
+  font-family: "IBM Plex Mono";
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  src: url("https://cdn.jsdelivr.net/fontsource/fonts/ibm-plex-mono@latest/latin-ext-400-normal.woff2") format("woff2");
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308,
+    U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113,
+    U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: "IBM Plex Mono";
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+  src: url("https://cdn.jsdelivr.net/fontsource/fonts/ibm-plex-mono@latest/latin-500-normal.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304,
+    U+0308, U+0329, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF,
+    U+FFFD;
+}
+@font-face {
+  font-family: "IBM Plex Mono";
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+  src: url("https://cdn.jsdelivr.net/fontsource/fonts/ibm-plex-mono@latest/latin-ext-500-normal.woff2") format("woff2");
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308,
+    U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113,
+    U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: "IBM Plex Mono";
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+  src: url("https://cdn.jsdelivr.net/fontsource/fonts/ibm-plex-mono@latest/latin-600-normal.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304,
+    U+0308, U+0329, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF,
+    U+FFFD;
+}
+@font-face {
+  font-family: "IBM Plex Mono";
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+  src: url("https://cdn.jsdelivr.net/fontsource/fonts/ibm-plex-mono@latest/latin-ext-600-normal.woff2") format("woff2");
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308,
+    U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113,
+    U+2C60-2C7F, U+A720-A7FF;
+}
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* 정적 디자인 토큰 (폰트 / radius / shadow / easing / animation).
+   색상이 아닌 토큰은 base layer 에서 var() 로 참조하므로 non-inline @theme 로 둔다. */
+@theme {
+  --font-sans: "Pretendard Variable", "Pretendard", ui-sans-serif, system-ui, sans-serif;
+  /* IBM Plex Mono 는 라틴/숫자만 커버(한글 글리프 없음). CJK 는 Pretendard 로 폴백해야
+     mono 컨텍스트의 한글이 OS 기본 monospace 로 깨지지 않는다. 라틴/숫자는 여전히 Plex Mono 우선. (2026-07-10) */
+  --font-mono: "IBM Plex Mono", "Pretendard Variable", "Pretendard", ui-monospace, SFMono-Regular, Menlo, monospace;
+  /* 디스플레이/히어로 전용 (v0.10.3): SUIT. 미로드 시 본문 Pretendard 로 폴백. 큰 글씨에만 사용. */
+  --font-display: "SUIT Variable", "SUIT", "Pretendard Variable", "Pretendard", ui-sans-serif, system-ui, sans-serif;
+
+  --radius-sm: 4px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+
+  /* xs: outline/ghost 처럼 "떠 있지 않지만 종이 한 장 두께"인 표면용 (v0.12.0). */
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.03);
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04), 0 1px 3px rgba(0, 0, 0, 0.06);
+  --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.04), 0 2px 4px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 12px 24px rgba(0, 0, 0, 0.06), 0 4px 8px rgba(0, 0, 0, 0.06);
+  --shadow-xl: 0 20px 40px rgba(0, 0, 0, 0.08), 0 8px 16px rgba(0, 0, 0, 0.06);
+
+  --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-decelerate: cubic-bezier(0, 0, 0.2, 1);
+  --ease-accelerate: cubic-bezier(0.4, 0, 1, 1);
+  --ease-emphasized: cubic-bezier(0.2, 0, 0, 1);
+
+  --animate-accordion-down: accordion-down 0.2s ease-out;
+  --animate-accordion-up: accordion-up 0.2s ease-out;
+
+  @keyframes accordion-down {
+    from {
+      height: 0;
+    }
+    to {
+      height: var(--radix-accordion-content-height);
+    }
+  }
+  @keyframes accordion-up {
+    from {
+      height: var(--radix-accordion-content-height);
+    }
+    to {
+      height: 0;
+    }
+  }
+}
+
+/* 시맨틱 색상 토큰. inline 으로 두어 .dark 채널 변수 cascade 와
+   opacity modifier(color-mix) 가 정확히 동작하도록 한다. */
+@theme inline {
+  --color-border: hsl(var(--border));
+  --color-input: hsl(var(--input));
+  --color-ring: hsl(var(--ring));
+  --color-focus-ring: hsl(var(--focus-ring));
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+
+  --color-surface: hsl(var(--surface));
+  --color-surface-elevated: hsl(var(--surface-elevated));
+  --color-surface-subtle: hsl(var(--surface-subtle));
+  --color-surface-raised: hsl(var(--surface-raised));
+
+  --color-muted: hsl(var(--muted));
+  --color-muted-foreground: hsl(var(--muted-foreground));
+
+  --color-accent: hsl(var(--accent));
+  --color-accent-foreground: hsl(var(--accent-foreground));
+  --color-accent-brand: hsl(var(--accent-brand));
+
+  --color-popover: hsl(var(--popover));
+  --color-popover-foreground: hsl(var(--popover-foreground));
+  --color-overlay: hsl(var(--overlay));
+
+  --color-primary: hsl(var(--primary));
+  --color-primary-foreground: hsl(var(--primary-foreground));
+  /* 스케일도 CSS 변수를 참조한다. hex 를 직접 박으면 브랜드 컬러 스킴(.theme-*)이
+     --primary 만 덮고 스케일은 인디고로 남아, Badge(text-primary-700)의 글자색만
+     인디고로 튀는 반쪽 테마가 된다. 유틸 이름(text-primary-700)은 그대로다. */
+  --color-primary-50: hsl(var(--primary-50));
+  --color-primary-100: hsl(var(--primary-100));
+  --color-primary-200: hsl(var(--primary-200));
+  --color-primary-300: hsl(var(--primary-300));
+  --color-primary-400: hsl(var(--primary-400));
+  --color-primary-500: hsl(var(--primary-500));
+  --color-primary-600: hsl(var(--primary-600));
+  --color-primary-700: hsl(var(--primary-700));
+  --color-primary-800: hsl(var(--primary-800));
+  --color-primary-900: hsl(var(--primary-900));
+  --color-primary-950: hsl(var(--primary-950));
+
+  --color-destructive: hsl(var(--destructive));
+  --color-destructive-foreground: hsl(var(--destructive-foreground));
+  --color-destructive-text: hsl(var(--destructive-text));
+
+  --color-neutral-50: #fafaf9;
+  --color-neutral-100: #f5f4f2;
+  --color-neutral-200: #e7e5e1;
+  --color-neutral-300: #d3d0ca;
+  --color-neutral-400: #a8a49c;
+  --color-neutral-500: #78746c;
+  --color-neutral-600: #57544e;
+  --color-neutral-700: #433f3b;
+  --color-neutral-800: #2a2724;
+  --color-neutral-900: #1a1815;
+  --color-neutral-950: #0f0e0c;
+
+  /* deprecated: 상태 표현에는 아래 --color-status-*-bg / -fg 를 쓴다. 이 플랫 색들은
+     라이트/다크 대응이 없고(단일 hex) 대비 검증도 받지 않아, 다크에서 배경과 충돌한다.
+     Alert / Badge / Toast 는 전부 status-* 토큰을 쓰며 내부 사용처는 0이다.
+     Tailwind 가 이 변수로 text-success / bg-danger 같은 유틸을 생성하므로, 이미 쓰고 있는
+     소비자를 깨뜨리지 않도록 제거는 다음 major 로 미룬다. 신규 코드에서는 쓰지 말 것. */
+  --color-success: #12b76a;
+  --color-warning: #f2a900;
+  --color-danger: #f04438;
+  --color-info: #3d7eff;
+
+  --color-status-success-bg: hsl(var(--status-success-bg));
+  --color-status-success-fg: hsl(var(--status-success-fg));
+  --color-status-warning-bg: hsl(var(--status-warning-bg));
+  --color-status-warning-fg: hsl(var(--status-warning-fg));
+  --color-status-danger-bg: hsl(var(--status-danger-bg));
+  --color-status-danger-fg: hsl(var(--status-danger-fg));
+  --color-status-info-bg: hsl(var(--status-info-bg));
+  --color-status-info-fg: hsl(var(--status-info-fg));
+
+  --color-interactive-hover: hsl(var(--interactive-hover));
+  --color-interactive-active: hsl(var(--interactive-active));
+}
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222 16% 11%;
+    --surface: 0 0% 100%;
+    --surface-elevated: 30 10% 96%;
+    --surface-subtle: 30 10% 98%;
+    --surface-raised: 0 0% 100%;
+    --muted: 30 10% 96%;
+    --muted-foreground: 30 4% 40%;
+    --border: 30 8% 90%;
+    --input: 30 8% 90%;
+
+    /* 브랜드 컬러 스킴의 기본값 = indigo. `.theme-<name>` 클래스로 통째로 덮어쓴다.
+       스케일(50~950)은 모드와 무관하다(indigo-700 은 라이트든 다크든 같은 색).
+       --primary 는 "흰 글씨로 AA 를 넘는 가장 밝은 스텝"을 가리킨다. 색마다 다르다
+       (indigo/rose/violet 은 600, emerald/amber 는 휘도가 높아 600 으론 AA 미달이라 700). */
+    --primary-50: 226 100% 97%;
+    --primary-100: 226 100% 94%;
+    --primary-200: 228 96% 89%;
+    --primary-300: 230 94% 82%;
+    --primary-400: 234 89% 74%;
+    --primary-500: 239 84% 67%;
+    --primary-600: 243 75% 59%;
+    --primary-700: 245 58% 51%;
+    --primary-800: 244 55% 41%;
+    --primary-900: 242 47% 34%;
+    --primary-950: 244 47% 20%;
+
+    --ring: var(--primary-600);
+    --primary: var(--primary-600);
+    --primary-foreground: 0 0% 100%;
+    --accent: 30 10% 96%;
+    --accent-foreground: 222 16% 11%;
+    --accent-brand: 173 80% 26%;
+    /* destructive 는 색조 0 / 채도 58% 로 고정하고 명도만 변주한다.
+       버튼 배경(흰 라벨을 얹음)과 에러 텍스트(표면 위에 얹힘)는 요구 명도가 정반대라
+       단일 토큰으로는 다크에서 절대 양립할 수 없다. 그래서 -text 를 분리했다.
+       라이트에서는 두 값이 같아도 AA 를 만족해서 동일하게 둔다. */
+    --destructive: 0 58% 46%;
+    --destructive-foreground: 0 0% 100%;
+    --destructive-text: 0 58% 46%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222 16% 11%;
+    --overlay: 222 16% 6%;
+    /* Status intent (filled bg + readable fg). Alert / Toast / Badge 의 상태 표현용. */
+    --status-success-bg: 142 76% 95%;
+    --status-success-fg: 142 76% 28%;
+    --status-warning-bg: 38 92% 95%;
+    --status-warning-fg: 38 92% 30%;
+    --status-danger-bg: 0 84% 95%;
+    --status-danger-fg: 0 84% 35%;
+    --status-info-bg: 217 91% 95%;
+    --status-info-fg: 217 91% 35%;
+    /* Interactive intent. hover / active 시 사용하는 layer. focus-ring 은 ring 별칭. */
+    --interactive-hover: 30 10% 92%;
+    --interactive-active: 30 10% 88%;
+    --focus-ring: var(--primary-600);
+  }
+  .dark {
+    /* L >= 15 absolute lightness rule applied to every dark surface */
+    --background: 230 18% 15%;
+    --foreground: 230 10% 87%;
+    --surface: 230 16% 18%;
+    --surface-elevated: 230 16% 22%;
+    --surface-subtle: 230 14% 16%;
+    --surface-raised: 230 16% 24%;
+    --muted: 230 16% 22%;
+    --muted-foreground: 230 8% 70%;
+    --border: 230 14% 28%;
+    --input: 230 14% 28%;
+    /* 다크는 스케일을 다시 선언하지 않는다(:root 것을 그대로 상속). primary 만 400 을 가리켜
+       "밝은 배경 + 어두운 라벨" 로 뒤집는다. */
+    --ring: var(--primary-400);
+    --primary: var(--primary-400);
+    --primary-foreground: 240 25% 12%;
+    --accent: 230 16% 22%;
+    --accent-foreground: 230 10% 87%;
+    --accent-brand: 172 66% 65%;
+    /* 버튼 배경은 라이트와 같은 값으로 둔다 - 배경이 자기 색이라 모드와 무관하게 흰 라벨 대비만 보면 된다.
+       에러 텍스트만 명도를 올린다(46 -> 74). 같은 색을 쓰면 어두운 표면 위에서 2.01:1 로 묻힌다. */
+    --destructive: 0 58% 46%;
+    --destructive-foreground: 0 0% 100%;
+    --destructive-text: 0 58% 74%;
+    --popover: 230 16% 18%;
+    --popover-foreground: 230 10% 87%;
+    --overlay: 0 0% 0%;
+    /* Status intent (dark: bg 진하게, fg 밝게) */
+    --status-success-bg: 142 60% 14%;
+    --status-success-fg: 142 70% 70%;
+    --status-warning-bg: 38 80% 14%;
+    --status-warning-fg: 38 92% 72%;
+    --status-danger-bg: 0 70% 16%;
+    --status-danger-fg: 0 84% 76%;
+    --status-info-bg: 217 80% 18%;
+    --status-info-fg: 217 91% 78%;
+    --interactive-hover: 230 16% 26%;
+    --interactive-active: 230 16% 32%;
+    --focus-ring: var(--primary-400);
+  }
+
+  /* =========================================================================
+     브랜드 컬러 스킴
+     -------------------------------------------------------------------------
+     `.theme-<name>` 을 `.dark` 와 조합해 쓴다. 무설정이면 위의 기본(indigo)이다.
+       <html class="theme-rose">          라이트 + 로즈
+       <html class="dark theme-emerald">  다크 + 에메랄드
+       <html class="dark">                기존 그대로 (인디고)
+
+     스킴은 **브랜드 색만** 덮는다. 중립 토큰(background/surface/border/muted)과 의미가
+     고정된 토큰(destructive 는 항상 빨강, status-success 는 항상 초록)은 건드리지 않는다.
+
+     라이트 --primary 가 스킴마다 다른 스텝(600 vs 700)을 가리키는 것은 의도한 것이다.
+     흰 라벨로 WCAG AA 를 넘는 가장 밝은 스텝이 색마다 다르다. emerald/amber 는 휘도가 높아
+     600 으로는 미달이다(emerald 3.77, amber 3.19). tokens.test.ts 가 전 조합을 검증한다.
+     ========================================================================= */
+
+  .theme-rose {
+    --primary-50: 356 100% 97%;
+    --primary-100: 356 100% 95%;
+    --primary-200: 353 96% 90%;
+    --primary-300: 353 96% 82%;
+    --primary-400: 351 95% 72%;
+    --primary-500: 350 89% 60%;
+    --primary-600: 347 77% 50%;
+    --primary-700: 345 83% 41%;
+    --primary-800: 343 80% 35%;
+    --primary-900: 342 75% 30%;
+    --primary-950: 343 88% 16%;
+    --ring: var(--primary-600);
+    --primary: var(--primary-600);
+    --primary-foreground: 0 0% 100%;
+    --focus-ring: var(--primary-600);
+    --accent-brand: 26 90% 37%;
+  }
+  .dark.theme-rose {
+    --ring: var(--primary-400);
+    --primary: var(--primary-400);
+    --primary-foreground: 240 25% 12%;
+    --focus-ring: var(--primary-400);
+    --accent-brand: 46 97% 65%;
+  }
+  .dark .theme-rose {
+    --ring: var(--primary-400);
+    --primary: var(--primary-400);
+    --primary-foreground: 240 25% 12%;
+    --focus-ring: var(--primary-400);
+    --accent-brand: 46 97% 65%;
+  }
+
+  .theme-emerald {
+    --primary-50: 152 81% 96%;
+    --primary-100: 149 80% 90%;
+    --primary-200: 152 76% 80%;
+    --primary-300: 156 72% 67%;
+    --primary-400: 158 64% 52%;
+    --primary-500: 160 84% 39%;
+    --primary-600: 161 94% 30%;
+    --primary-700: 163 94% 24%;
+    --primary-800: 163 88% 20%;
+    --primary-900: 164 86% 16%;
+    --primary-950: 166 91% 9%;
+    --ring: var(--primary-700);
+    --primary: var(--primary-700);
+    --primary-foreground: 0 0% 100%;
+    --focus-ring: var(--primary-700);
+    --accent-brand: 263 70% 50%;
+  }
+  .dark.theme-emerald {
+    --ring: var(--primary-400);
+    --primary: var(--primary-400);
+    --primary-foreground: 240 25% 12%;
+    --focus-ring: var(--primary-400);
+    /* emerald 스킴의 accent-brand 는 violet 계열이다(primary 초록과 충분히 구별되는 색).
+       그런데 violet-300(L=76)은 surface-raised 위에서 4.28 로 AA 미달이라 명도를 80 으로 올렸다. */
+    --accent-brand: 255 92% 80%;
+  }
+  .dark .theme-emerald {
+    --ring: var(--primary-400);
+    --primary: var(--primary-400);
+    --primary-foreground: 240 25% 12%;
+    --focus-ring: var(--primary-400);
+    /* emerald 스킴의 accent-brand 는 violet 계열이다(primary 초록과 충분히 구별되는 색).
+       그런데 violet-300(L=76)은 surface-raised 위에서 4.28 로 AA 미달이라 명도를 80 으로 올렸다. */
+    --accent-brand: 255 92% 80%;
+  }
+
+  .theme-amber {
+    --primary-50: 48 100% 96%;
+    --primary-100: 48 96% 89%;
+    --primary-200: 48 97% 77%;
+    --primary-300: 46 97% 65%;
+    --primary-400: 43 96% 56%;
+    --primary-500: 38 92% 50%;
+    --primary-600: 32 95% 44%;
+    --primary-700: 26 90% 37%;
+    --primary-800: 23 83% 31%;
+    --primary-900: 22 78% 26%;
+    --primary-950: 21 92% 14%;
+    --ring: var(--primary-700);
+    --primary: var(--primary-700);
+    --primary-foreground: 0 0% 100%;
+    --focus-ring: var(--primary-700);
+    --accent-brand: 201 96% 32%;
+  }
+  .dark.theme-amber {
+    --ring: var(--primary-400);
+    --primary: var(--primary-400);
+    --primary-foreground: 240 25% 12%;
+    --focus-ring: var(--primary-400);
+    --accent-brand: 199 95% 74%;
+  }
+  .dark .theme-amber {
+    --ring: var(--primary-400);
+    --primary: var(--primary-400);
+    --primary-foreground: 240 25% 12%;
+    --focus-ring: var(--primary-400);
+    --accent-brand: 199 95% 74%;
+  }
+
+  .theme-violet {
+    --primary-50: 250 100% 98%;
+    --primary-100: 251 91% 95%;
+    --primary-200: 251 95% 92%;
+    --primary-300: 252 95% 85%;
+    --primary-400: 255 92% 76%;
+    --primary-500: 258 90% 66%;
+    --primary-600: 262 83% 58%;
+    --primary-700: 263 70% 50%;
+    --primary-800: 263 69% 42%;
+    --primary-900: 264 67% 35%;
+    --primary-950: 261 73% 23%;
+    --ring: var(--primary-600);
+    --primary: var(--primary-600);
+    --primary-foreground: 0 0% 100%;
+    --focus-ring: var(--primary-600);
+    --accent-brand: 175 84% 26%;
+  }
+  .dark.theme-violet {
+    --ring: var(--primary-400);
+    --primary: var(--primary-400);
+    --primary-foreground: 240 25% 12%;
+    --focus-ring: var(--primary-400);
+    --accent-brand: 172 66% 65%;
+  }
+  .dark .theme-violet {
+    --ring: var(--primary-400);
+    --primary: var(--primary-400);
+    --primary-foreground: 240 25% 12%;
+    --focus-ring: var(--primary-400);
+    --accent-brand: 172 66% 65%;
+  }
+
+  html {
+    font-family: var(--font-sans);
+  }
+  body {
+    background-color: hsl(var(--background));
+    color: hsl(var(--foreground));
+  }
+  code,
+  kbd,
+  pre,
+  samp {
+    font-family: var(--font-mono);
+  }
+
+  /* =========================================================================
+     모션 접근성 (v0.12.0) - prefers-reduced-motion
+     -------------------------------------------------------------------------
+     전정기관 장애가 있는 사용자에게 transform / 확대축소 / 무한 애니메이션은 어지럼증과
+     메스꺼움을 유발한다(WCAG 2.3.3 Animation from Interactions). OS 의 "동작 줄이기"
+     설정을 켠 사용자에게는 움직임을 끈다.
+
+     그동안 sym-ui 는 animate-in / animate-out / animate-pulse / transition 을 쓰면서도
+     이 처리가 전혀 없었다. 모션을 늘릴수록 결함이 커지므로 먼저 깔아둔다.
+
+     0 이 아니라 0.01ms 인 이유: 널리 쓰이는 관례다. 지속시간이 0 이면 transitionend /
+     animationend 가 발화하지 않아, 그 이벤트로 언마운트하는 컴포넌트(Radix 오버레이 등)가
+     열린 채 멈춘다는 것이 통설이다. 다만 **직접 확인해보니 Chromium 은 0s 에서도 이벤트를
+     발화했고 Radix 오버레이는 정상적으로 DOM 에서 제거됐다**(0.01ms 를 0s 로 바꿔 재현).
+     그러니 이건 "0 이면 반드시 깨진다"는 증명된 제약이 아니라, 엔진/라이브러리 구현에
+     기대지 않기 위한 안전망이다. 비용이 없으므로 관례를 따른다.
+
+     오버레이가 실제로 닫히는지는 apps/docs/tests/behavior/reduced-motion.spec.ts 가 지킨다.
+     메커니즘이 무엇이든 "모션 민감 사용자가 다이얼로그를 닫을 수 있다"는 결과를 못박는다.
+
+     iteration-count 를 1 로 죽이지 않으면 animate-pulse 같은 무한 반복이 계속 돈다.
+     ========================================================================= */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+/* sym-ui:end */
+
+/* Vite 템플릿 기본 스타일(#root 가운데 정렬, 자체 폰트/색)은 제거했다.
+   sym-ui 토큰과 충돌해 레이아웃과 타이포를 덮어쓴다. */

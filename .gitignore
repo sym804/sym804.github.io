@@ -2,3 +2,7 @@ _qa/
 *.pptx
 .DS_Store
 Thumbs.db
+
+# 서사 문서 빌드 산출물
+narrative-app/node_modules/
+narrative-app/dist/
