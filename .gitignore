@@ -6,3 +6,6 @@ Thumbs.db
 # 서사 문서 빌드 산출물
 narrative-app/node_modules/
 narrative-app/dist/
+
+# 도구가 뱉은 중간 산출물 (index.html 에서 참조하지 않음)
+assets/
