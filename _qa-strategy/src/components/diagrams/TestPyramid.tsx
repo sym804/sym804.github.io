@@ -61,7 +61,7 @@ export function TestPyramid() {
         })}
       </svg>
       <figcaption className="text-center text-xs text-muted-foreground mt-2">
-        피라미드 비율은 가이드라인. 도메인 특성에 따라 조정한다.
+        피라미드 비율은 가이드라인. 도메인 특성에 따라 조정합니다.
       </figcaption>
     </figure>
   );

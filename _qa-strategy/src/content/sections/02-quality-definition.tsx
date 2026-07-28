@@ -34,8 +34,8 @@ export function QualityDefinitionSection() {
       meta={META}
       why={
         <p>
-          측정할 수 없으면 관리할 수 없다. 같은 단어를 다르게 쓰는 한 협업은 우연에 의지한다. DoR
-          (착수 기준) / DoD (완료 기준) / Severity 를 명문화하는 순간 의사결정의 분산이 줄고 학습이 누적된다.
+          측정할 수 없으면 관리할 수 없습니다. 같은 단어를 다르게 쓰는 한 협업은 우연에 의지합니다. DoR
+          (착수 기준) / DoD (완료 기준) / Severity 를 명문화하는 순간 의사결정의 분산이 줄고 학습이 누적됩니다.
         </p>
       }
       body={
@@ -90,8 +90,8 @@ export function QualityDefinitionSection() {
               </table>
             </div>
             <p className="mt-3 text-sm text-muted-foreground">
-              하한 룰: 보안 이슈는 Minor 이상으로, 데이터 / DB 이슈는 Major 이상으로 분류한다. 개선
-              (enhancement) 은 Major / Minor / Trivial 3단계로 별도 운영한다.
+              하한 룰: 보안 이슈는 Minor 이상으로, 데이터 / DB 이슈는 Major 이상으로 분류합니다. 개선
+              (enhancement) 은 Major / Minor / Trivial 3단계로 별도 운영합니다.
             </p>
           </div>
           <div>
@@ -107,9 +107,9 @@ export function QualityDefinitionSection() {
       triangleRecap={
         <TriangleRecap
           notes={{
-            risk: 'Severity 와 영향도가 만나는 지점이 우선순위가 된다.',
-            'shift-left': 'DoR (착수 기준) 은 요구사항 단계에서 결함을 차단하는 첫 번째 게이트다.',
-            roi: 'DoD (완료 기준) 이 분명할수록 자동화의 종료 조건이 분명해진다.',
+            risk: 'Severity 와 영향도가 만나는 지점이 우선순위가 됩니다.',
+            'shift-left': 'DoR (착수 기준) 은 요구사항 단계에서 결함을 차단하는 첫 번째 게이트입니다.',
+            roi: 'DoD (완료 기준) 이 분명할수록 자동화의 종료 조건이 분명해집니다.',
           }}
         />
       }

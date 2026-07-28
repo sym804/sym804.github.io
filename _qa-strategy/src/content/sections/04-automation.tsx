@@ -26,9 +26,9 @@ export function AutomationSection() {
       meta={META}
       why={
         <p>
-          자동화는 ROI 가 입증될 때만 자산이다. 입증 없이 늘어난 자동화는 유지보수 비용으로 변하고,
-          Flaky 테스트가 누적되면 신호가 노이즈에 묻힌다. 무엇을 자동화하지 않을지가 무엇을 자동화할지
-          만큼 중요하다.
+          자동화는 ROI 가 입증될 때만 자산입니다. 입증 없이 늘어난 자동화는 유지보수 비용으로 변하고,
+          Flaky 테스트가 누적되면 신호가 노이즈에 묻힙니다. 무엇을 자동화하지 않을지가 무엇을 자동화할지
+          만큼 중요합니다.
         </p>
       }
       body={
@@ -47,7 +47,7 @@ export function AutomationSection() {
               ))}
             </ol>
             <p className="text-sm text-muted-foreground mt-3">
-              네 질문 모두에 Yes 일 때 자동화 후보로 채택한다. 한 항목이라도 No 가 있으면 수동 또는
+              네 질문 모두에 Yes 일 때 자동화 후보로 채택합니다. 한 항목이라도 No 가 있으면 수동 또는
               샘플링으로 대체.
             </p>
           </div>
@@ -79,9 +79,9 @@ export function AutomationSection() {
           <div>
             <h3 className="text-xl font-semibold mb-2">안티 패턴</h3>
             <ul className="list-disc list-inside space-y-1 text-muted-foreground">
-              <li>모든 것을 자동화: ROI 미입증 영역까지 자동화하면 누적 비용이 폭발한다.</li>
-              <li>Flaky 테스트 방치: 신뢰도 잃은 테스트는 차라리 없는 것이 낫다.</li>
-              <li>자동화율 KPI 의 의례화: 숫자만 추적하면 가치가 빈 자동화가 늘어난다.</li>
+              <li>모든 것을 자동화: ROI 미입증 영역까지 자동화하면 누적 비용이 폭발합니다.</li>
+              <li>Flaky 테스트 방치: 신뢰도 잃은 테스트는 차라리 없는 것이 낫습니다.</li>
+              <li>자동화율 KPI 의 의례화: 숫자만 추적하면 가치가 빈 자동화가 늘어납니다.</li>
             </ul>
           </div>
         </>
@@ -89,19 +89,19 @@ export function AutomationSection() {
       fieldNote={
         <FieldNote assets={(META.caseAssets ?? []).map((c) => ({ title: c.title, href: `../${c.asset}.html` }))}>
           <p>
-            PC / Web / Mobile 통합 자동화에서 가장 큰 비용은 셀렉터 / 식별자의 변동 대응이다. 셀렉터 추출
+            PC / Web / Mobile 통합 자동화에서 가장 큰 비용은 셀렉터 / 식별자의 변동 대응입니다. 셀렉터 추출
             보조 도구를 별도로 마련하여 작성 비용을 단축하고 (ID / data-testid / 유니크 클래스 / ARIA Role
             등 7가지 타입 자동 추출 + 우선 정렬), 변동에 강한 식별 전략 (역할 + 라벨 + 안정 ID 우선) 으로
-            유지 비용도 낮췄다.
+            유지 비용도 낮췄습니다.
           </p>
         </FieldNote>
       }
       triangleRecap={
         <TriangleRecap
           notes={{
-            risk: '자동화 후보 결정에 리스크 점수가 가중치로 반영되어야 한다.',
-            'shift-left': 'CI 의 가능한 한 왼쪽 단계로 자동화 게이트를 옮긴다.',
-            roi: '본 섹션 자체가 Automation ROI 의 본진이다.',
+            risk: '자동화 후보 결정에 리스크 점수가 가중치로 반영되어야 합니다.',
+            'shift-left': 'CI 의 가능한 한 왼쪽 단계로 자동화 게이트를 옮깁니다.',
+            roi: '본 섹션 자체가 Automation ROI 의 본진입니다.',
           }}
         />
       }

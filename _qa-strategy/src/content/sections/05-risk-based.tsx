@@ -19,8 +19,8 @@ export function RiskBasedSection() {
       meta={META}
       why={
         <p>
-          모든 결함이 동등하지 않다. 영향도와 발생도를 곱한 점수로 우선순위를 그어야 한정된 리소스가
-          진짜 위험에 닿는다. 점수 없이 모든 것을 똑같이 다루면 결국 가장 중요한 곳이 가장 부실해진다.
+          모든 결함이 동등하지 않습니다. 영향도와 발생도를 곱한 점수로 우선순위를 그어야 한정된 리소스가
+          진짜 위험에 닿습니다. 점수 없이 모든 것을 똑같이 다루면 결국 가장 중요한 곳이 가장 부실해집니다.
         </p>
       }
       body={
@@ -29,7 +29,7 @@ export function RiskBasedSection() {
             <h3 className="text-xl font-semibold mb-2">5x5 매트릭스 정의</h3>
             <p className="text-muted-foreground mb-3">
               영향도 (사용자 가치 손상의 크기) 5단계와 발생도 (빈도 / 노출 사용자 비율) 5단계를 결합해
-              25 셀의 등급을 부여한다. 두 축의 합 (impact + frequency) 을 등급으로 분류:
+              25 셀의 등급을 부여합니다. 두 축의 합 (impact + frequency) 을 등급으로 분류:
               7 이상 Critical, 5-6 High, 3-4 Medium, 그 외 Low.
             </p>
           </div>
@@ -63,16 +63,16 @@ export function RiskBasedSection() {
           <div>
             <h3 className="text-xl font-semibold mb-2">리뷰 주기</h3>
             <p className="text-muted-foreground">
-              스프린트 단위로 변경된 기능 / 발생한 결함을 인풋으로 등급을 재평가한다. 릴리즈 단위로
-              전체 매트릭스를 한 번 점검하여 누락된 영역과 과대 평가된 영역을 균형 잡는다.
+              스프린트 단위로 변경된 기능 / 발생한 결함을 인풋으로 등급을 재평가합니다. 릴리즈 단위로
+              전체 매트릭스를 한 번 점검하여 누락된 영역과 과대 평가된 영역을 균형 잡습니다.
             </p>
           </div>
           <div>
             <h3 className="text-xl font-semibold mb-2">안티 패턴</h3>
             <ul className="list-disc list-inside space-y-1 text-muted-foreground">
-              <li>모든 결함을 동일 등급으로 처리하여 진짜 위험이 묻힌다.</li>
-              <li>한 번 부여한 등급을 갱신하지 않아 매트릭스가 화석화된다.</li>
-              <li>등급을 두고 협상이 벌어져 점수가 정치화된다.</li>
+              <li>모든 결함을 동일 등급으로 처리하여 진짜 위험이 묻힙니다.</li>
+              <li>한 번 부여한 등급을 갱신하지 않아 매트릭스가 화석화됩니다.</li>
+              <li>등급을 두고 협상이 벌어져 점수가 정치화됩니다.</li>
             </ul>
           </div>
         </>
@@ -85,7 +85,7 @@ export function RiskBasedSection() {
             high-impact 영역. 다중 소스 교차 검증 (한국투자증권 API → 네이버 폴백) 으로 단일 소스 장애 /
             차단에 대비했고, 산식 결함은 이슈 트래킹 (ISS-002 거래대금 산식, ISS-007 52주 신고가 종가
             기준) 으로 식별·보정. DART 기반 결측 보완 파이프라인 (ROE / PBR / PER) 으로 핵심 재무 지표의
-            신뢰성을 확보했다. 우선순위 높은 데이터 경로에 검증 자원을 집중한다는 리스크 기반 사고가
+            신뢰성을 확보했습니다. 우선순위 높은 데이터 경로에 검증 자원을 집중한다는 리스크 기반 사고가
             자연스럽게 적용된 사례.
           </p>
         </FieldNote>
@@ -93,9 +93,9 @@ export function RiskBasedSection() {
       triangleRecap={
         <TriangleRecap
           notes={{
-            risk: '본 섹션 자체가 Risk-Based 의 본진이다.',
-            'shift-left': '점수 산정은 요구사항 단계에서 시작해야 늦지 않다.',
-            roi: '점수에 비례한 자동화 투자 결정이 ROI 의 출발점이다.',
+            risk: '본 섹션 자체가 Risk-Based 의 본진입니다.',
+            'shift-left': '점수 산정은 요구사항 단계에서 시작해야 늦지 않습니다.',
+            roi: '점수에 비례한 자동화 투자 결정이 ROI 의 출발점입니다.',
           }}
         />
       }

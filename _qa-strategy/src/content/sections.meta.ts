@@ -15,7 +15,12 @@ export interface SectionMeta {
 
 export const SECTIONS: SectionMeta[] = [
   { id: 'philosophy', number: 1, title: 'QA 철학 & 미션', oneLiner: '우리는 왜 테스트하는가' },
-  { id: 'quality-definition', number: 2, title: '품질의 정의 & 기준', oneLiner: 'DoR (착수 기준) / DoD (완료 기준) / Severity' },
+  {
+    id: 'quality-definition',
+    number: 2,
+    title: '품질의 정의 & 기준',
+    oneLiner: 'DoR (착수 기준) / DoD (완료 기준) / Severity',
+  },
   {
     id: 'test-strategy',
     number: 3,
@@ -47,7 +52,12 @@ export const SECTIONS: SectionMeta[] = [
     oneLiner: '단계별 게이트 통합',
     caseAssets: [{ asset: 'AI_Squad', title: 'AI Squad' }],
   },
-  { id: 'defect-management', number: 7, title: '결함관리 & 지속개선', oneLiner: '라이프사이클 + 5 Whys / RCA (근본 원인 분석)' },
+  {
+    id: 'defect-management',
+    number: 7,
+    title: '결함관리 & 지속개선',
+    oneLiner: '라이프사이클 + 5 Whys / RCA (근본 원인 분석)',
+  },
 ];
 
 export const PRINCIPLE_LABELS: Record<Principle, { label: string; axis: string }> = {
