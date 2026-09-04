@@ -6,7 +6,7 @@ import { SECTIONS } from '@/content/sections.meta';
 const META = SECTIONS.find((s) => s.id === 'quality-definition')!;
 
 const SEVERITY = [
-  { level: 'Block', desc: '서비스 장애, 아무것도 못하는 상태', cls: 'bg-status-danger-bg text-status-danger-fg' },
+  { level: 'Blocker', desc: '제품 전면 사용 불가. 우회 경로가 없다', cls: 'bg-status-danger-bg text-status-danger-fg' },
   { level: 'Critical', desc: '핵심 기능 마비, 데이터 손실 위험', cls: 'bg-status-danger-bg text-status-danger-fg' },
   { level: 'Major', desc: '주요 기능 오류, 중요 UI 이슈', cls: 'bg-status-warning-bg text-status-warning-fg' },
   { level: 'Minor', desc: '사소한 기능 오류, UI / 텍스트 이슈', cls: 'bg-muted text-muted-foreground' },
