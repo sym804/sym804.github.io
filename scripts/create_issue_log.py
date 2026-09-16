@@ -8,7 +8,7 @@ from openpyxl.styles import Alignment, Font, PatternFill
 from datetime import date
 from pathlib import Path
 
-OUT = Path(r'C:\Users\ymseo\Documents\Portfolio_QA_sym\issue_log.xlsx')
+OUT = Path(__file__).resolve().parent.parent / 'issue_log.xlsx'
 
 HEADERS = [
     '이슈번호', '발견일', '유형', '제목', '사전 조건',
