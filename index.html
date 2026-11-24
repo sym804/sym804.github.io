@@ -399,6 +399,46 @@ section { padding: 100px 0; }
   margin-top: 12px; font-size: 12px; color: var(--text-muted); font-style: italic;
 }
 
+/* ── QA Wiki ── */
+.wiki { border-top: 1px solid var(--border); word-break: keep-all; }
+.wiki-panel {
+  display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 40px;
+  background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+  padding: 40px; position: relative; overflow: hidden;
+}
+.wiki-panel::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  background: linear-gradient(90deg, #F59E0B, #FBBF24);
+}
+.wiki-panel .card-icon { background: var(--amber-bg); color: var(--amber); }
+.wiki-url {
+  font-family: var(--font-mono); font-size: 13px; color: var(--amber);
+  text-decoration: none; word-break: break-all;
+}
+.wiki-url:hover { text-decoration: underline; }
+.wiki-panel .card-list li::before { background: rgba(251,191,36,.5); }
+/* 흰 글자 대비 4.5:1 이상을 지키는 진한 파랑(#1D4ED8, 약 6.7:1). 빛번짐 그림자 대신 중립 그림자 */
+.wiki-panel .card-btn-html:hover { background: #1D4ED8; box-shadow: var(--shadow-sm); }
+.wiki-side { display: flex; flex-direction: column; gap: 24px; }
+.wiki-stats { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+.wiki-stats .stat { min-width: 0; }
+.wiki-cats {
+  background: var(--bg); border-radius: var(--radius-sm); padding: 20px 22px;
+}
+.wiki-cats-title { font-size: 13px; font-weight: 600; color: var(--text-sub); margin-bottom: 14px; }
+.wiki-cat { display: grid; grid-template-columns: 7.5em 1fr 2.5em; align-items: center; gap: 12px; }
+.wiki-cat + .wiki-cat { margin-top: 10px; }
+.wiki-cat-name { font-size: 13px; color: var(--text-dim); }
+.wiki-cat-bar { height: 6px; border-radius: 999px; background: var(--border); overflow: hidden; }
+.wiki-cat-bar span { display: block; height: 100%; border-radius: inherit; background: linear-gradient(90deg, #F59E0B, #FBBF24); }
+.wiki-cat-count { font-family: var(--font-display); font-size: 13px; font-weight: 700; color: var(--text-sub); text-align: right; }
+@media (max-width: 900px) {
+  .wiki-panel { grid-template-columns: 1fr; gap: 32px; }
+}
+@media (max-width: 768px) {
+  .wiki-panel { padding: 28px; }
+}
+
 /* ── Competencies ── */
 .competencies { background: var(--bg-hero); }
 
@@ -514,6 +554,7 @@ section { padding: 100px 0; }
     <div class="nav-logo">YM.portfolio</div>
     <ul class="nav-links">
       <li><a href="#projects">Projects</a></li>
+      <li><a href="#wiki">QA Wiki</a></li>
       <li><a href="#competencies">Competencies</a></li>
       <li><a href="https://github.com/sym804" target="_blank" rel="noopener">GitHub</a></li>
     </ul>
@@ -557,6 +598,10 @@ section { padding: 100px 0; }
         <a href="#projects" class="btn btn-primary">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
           프로젝트 보기
+        </a>
+        <a href="qa-wiki/" target="_blank" rel="noopener" class="btn btn-secondary">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+          QA 지식 창고
         </a>
         <a href="https://github.com/sym804" target="_blank" rel="noopener" class="btn btn-secondary">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
@@ -940,6 +985,77 @@ section { padding: 100px 0; }
         <p class="card-note">* HTML 파일이 열리지 않을 경우 PDF를 확인해 주세요.</p>
       </div>
 
+    </div>
+  </div>
+</section>
+
+<!-- QA Wiki -->
+<section id="wiki" class="wiki">
+  <div class="container">
+    <div class="section-header reveal">
+      <h2 class="section-title">QA 지식 창고</h2>
+      <p class="section-desc">QA 개념과 실무 판단 기준을 정리해 공개한 위키입니다</p>
+    </div>
+
+    <div class="wiki-panel reveal">
+      <div class="wiki-main">
+        <div class="card-top">
+          <div class="card-icon">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/><path d="M9 7h7"/><path d="M9 11h5"/></svg>
+          </div>
+          <div class="card-meta">
+            <h3 class="card-title">QA Wiki</h3>
+            <a class="wiki-url" href="qa-wiki/" target="_blank" rel="noopener">sym804.github.io/qa-wiki</a>
+          </div>
+        </div>
+        <p class="card-desc">
+          테스트 설계, 결함과 릴리즈 관리, 테스트 자동화, AI 활용 검증을 76편으로 정리했고, 개념은 ISTQB와 ISO 공식 자료를, 판단 기준은 직접 운영한 경험을 근거로 합니다.
+        </p>
+        <ul class="card-list">
+          <li>기본기 55편: ISTQB CTFL 실라버스와 ISO/IEC 25010, ISO/IEC/IEEE 29119 공식 자료를 근거로 V-모델, 검증과 확인(V&amp;V), 테스트 기법, 품질비용 정리</li>
+          <li>노하우 21편: TC(테스트 케이스) 작성 원칙, E2E 실패 분류, 심각도 기준처럼 운영하며 정한 판단 기준과 재발 방지 장치</li>
+          <li>분류별로는 도구 문서가 20편으로 가장 많음: Jira, TestRail, Playwright, Appium, k6, Wireshark</li>
+          <li>위키도 QA 대상으로 운영: 표기, 깨진 링크, 공개 범위 누출 검사를 통과해야 배포하고, 화면은 접근성 검사(axe)를 포함한 E2E 154건으로 검증</li>
+        </ul>
+        <div class="card-tags">
+          <span class="card-tag">ISTQB CTFL</span>
+          <span class="card-tag">ISO/IEC 25010</span>
+          <span class="card-tag">ISO/IEC/IEEE 29119</span>
+          <span class="card-tag">Test Design</span>
+          <span class="card-tag">Defect Management</span>
+          <span class="card-tag">Test Automation</span>
+          <span class="card-tag">AI QA</span>
+        </div>
+        <div class="card-actions">
+          <a href="qa-wiki/" class="card-btn card-btn-html" target="_blank" rel="noopener">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            위키 열기
+          </a>
+          <a href="qa-wiki/basics/istqb-ctfl-overview/" class="card-btn card-btn-pdf" target="_blank" rel="noopener">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="M12 5l7 7-7 7"/></svg>
+            추천 순서로 읽기
+          </a>
+        </div>
+      </div>
+
+      <div class="wiki-side">
+        <div class="wiki-stats">
+          <div class="stat"><span class="stat-value">76</span><span class="stat-label">문서</span></div>
+          <div class="stat"><span class="stat-value">7</span><span class="stat-label">분류</span></div>
+          <div class="stat"><span class="stat-value">55</span><span class="stat-label">기본기</span></div>
+          <div class="stat"><span class="stat-value">21</span><span class="stat-label">노하우</span></div>
+        </div>
+        <div class="wiki-cats">
+          <p class="wiki-cats-title">분류별 문서 수</p>
+          <div class="wiki-cat"><span class="wiki-cat-name">도구</span><span class="wiki-cat-bar"><span style="width:100%"></span></span><span class="wiki-cat-count">20</span></div>
+          <div class="wiki-cat"><span class="wiki-cat-name">기초와 용어</span><span class="wiki-cat-bar"><span style="width:70%"></span></span><span class="wiki-cat-count">14</span></div>
+          <div class="wiki-cat"><span class="wiki-cat-name">AI와 QA</span><span class="wiki-cat-bar"><span style="width:65%"></span></span><span class="wiki-cat-count">13</span></div>
+          <div class="wiki-cat"><span class="wiki-cat-name">자동화</span><span class="wiki-cat-bar"><span style="width:50%"></span></span><span class="wiki-cat-count">10</span></div>
+          <div class="wiki-cat"><span class="wiki-cat-name">테스트 설계</span><span class="wiki-cat-bar"><span style="width:40%"></span></span><span class="wiki-cat-count">8</span></div>
+          <div class="wiki-cat"><span class="wiki-cat-name">프로세스</span><span class="wiki-cat-bar"><span style="width:35%"></span></span><span class="wiki-cat-count">7</span></div>
+          <div class="wiki-cat"><span class="wiki-cat-name">도메인별</span><span class="wiki-cat-bar"><span style="width:20%"></span></span><span class="wiki-cat-count">4</span></div>
+        </div>
+      </div>
     </div>
   </div>
 </section>
