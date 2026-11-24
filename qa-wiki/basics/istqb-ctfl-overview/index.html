@@ -1,0 +1,693 @@
+<!DOCTYPE html><html lang="ko" dir="ltr" data-theme="dark" data-has-toc data-has-sidebar data-astro-cid-g5ptsecz><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><title>ISTQB CTFL 실라버스 핵심 정리 | QA 지식 창고</title><link rel="canonical" href="https://sym804.github.io/qa-wiki/basics/istqb-ctfl-overview/"/><link rel="sitemap" href="/qa-wiki/sitemap-index.xml"/><link rel="shortcut icon" href="/qa-wiki/favicon.svg" type="image/svg+xml"/><meta name="generator" content="Astro v7.4.13"/><meta name="generator" content="Starlight v0.43.1"/><meta property="og:title" content="ISTQB CTFL 실라버스 핵심 정리"/><meta property="og:type" content="article"/><meta property="og:url" content="https://sym804.github.io/qa-wiki/basics/istqb-ctfl-overview/"/><meta property="og:locale" content="ko"/><meta property="og:description" content="ISTQB Certified Tester Foundation Level 실라버스 v4.0.1의 6개 장(테스팅 기초, 개발 수명주기와 테스팅, 정적 테스트, 테스트 분석과 설계, 테스트 활동 관리, 테스트 도구) 핵심 개념. 개념마다 실무에 적용한 위키 문서를 연결한다."/><meta property="og:site_name" content="QA 지식 창고"/><meta name="twitter:card" content="summary_large_image"/><meta name="description" content="ISTQB Certified Tester Foundation Level 실라버스 v4.0.1의 6개 장(테스팅 기초, 개발 수명주기와 테스팅, 정적 테스트, 테스트 분석과 설계, 테스트 활동 관리, 테스트 도구) 핵심 개념. 개념마다 실무에 적용한 위키 문서를 연결한다."/><script>
+	(() => {
+		const storedTheme =
+			typeof localStorage !== 'undefined' && localStorage.getItem('starlight-theme');
+		const theme =
+			storedTheme ||
+			(window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+		document.documentElement.dataset.theme = theme === 'light' ? 'light' : 'dark';
+	})();
+</script><script>
+  (() => {
+    const el = document.documentElement;
+    const sync = () => {
+      el.classList.add('base-spec');
+      el.classList.toggle('dark', el.dataset.theme !== 'light');
+    };
+    sync();
+    new MutationObserver(sync).observe(el, { attributes: true, attributeFilter: ['data-theme'] });
+  })();
+</script><noscript><style>:root { --background: 230 18% 15%; --foreground: 230 10% 92%; --surface: 230 16% 19%; --surface-elevated: 230 16% 22%; --surface-subtle: 230 16% 17%; --surface-raised: 230 16% 24%; --muted: 230 16% 22%; --muted-foreground: 230 8% 70%; --border: 230 14% 27%; --input: 230 14% 27%; --accent: 230 16% 22%; --accent-foreground: 230 10% 92%; --popover: 230 16% 19%; --popover-foreground: 230 10% 92%; --interactive-hover: 230 16% 26%; --interactive-active: 230 16% 32%; --radius-sm: 4px; --radius-md: 12px; --radius-lg: 16px; --radius-xl: 24px; --surface-inverse: 230 18% 15%; --surface-inverse-raised: 230 16% 18%; --surface-inverse-border: 230 14% 28%; --surface-inverse-foreground: 230 10% 94%; --surface-inverse-muted: 230 8% 70%; --callout-note-bg: 152 40% 17%; --callout-note-fg: 152 60% 88%; --callout-note-border: 152 40% 30%; --callout-note-title: 152 60% 84%; --callout-tip-bg: 230 16% 19%; --callout-tip-fg: 230 10% 92%; --callout-tip-border: 230 14% 36%; --callout-tip-title: 152 60% 58%; --masthead-bg: 230 16% 17%; --masthead-fg: 230 10% 92%; --masthead-rule: 230 14% 27%; --masthead-rule-width: 1px; --spec-grid: 230 14% 19%; --primary-50: 152 81% 96%; --primary-100: 149 80% 90%; --primary-200: 152 76% 80%; --primary-300: 156 72% 67%; --primary-400: 152 60% 58%; --primary-500: 160 84% 39%; --primary-600: 161 94% 30%; --primary-700: 163 94% 24%; --primary-800: 163 88% 20%; --primary-900: 164 86% 16%; --primary-950: 166 91% 9%; --ring: var(--primary-400); --primary: var(--primary-400); --primary-foreground: 240 25% 12%; --focus-ring: var(--primary-400); --accent-brand: 172 66% 65%; } body { background-image: linear-gradient(hsl(var(--spec-grid)) 1px, transparent 1px), linear-gradient(90deg, hsl(var(--spec-grid)) 1px, transparent 1px); background-size: 28px 28px; }</style></noscript><link rel="stylesheet" href="/qa-wiki/qa-assets/print.C9eyqPGL.css" media="print"><link rel="stylesheet" href="/qa-wiki/qa-assets/middleware.kl0vZ4Xr.css"><script type="module" src="/qa-wiki/qa-assets/page.cNngjUgL.js"></script></head><body data-astro-cid-g5ptsecz><a class="sl-skip-link" href="#_top" data-astro-cid-qb7clj6f>콘텐츠로 이동</a><div class="page sl-flex" data-astro-cid-yntsjkba><header class="header" data-astro-cid-yntsjkba><div class="header" data-astro-cid-by6fddyj><div class="title-wrapper sl-flex" data-astro-cid-by6fddyj><a href="/qa-wiki/" class="site-title sl-flex" data-astro-cid-6rvad3va><span translate="no" data-astro-cid-6rvad3va>QA 지식 창고</span></a></div><div class="sl-flex print:hidden" data-astro-cid-by6fddyj><site-search data-translations="{&quot;placeholder&quot;:&quot;검색&quot;}" data-astro-cid-b5kgnn7o="true"><button data-open-modal disabled aria-label="검색" aria-keyshortcuts="Control+K" data-astro-cid-b5kgnn7o><svg data-astro-cid-b5kgnn7o="true" aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;" data-astro-cid-hkc32dio><path d="M21.71 20.29 18 16.61A9 9 0 1 0 16.61 18l3.68 3.68a.999.999 0 0 0 1.42 0 1 1 0 0 0 0-1.39ZM11 18a7 7 0 1 1 0-14 7 7 0 0 1 0 14Z"/></svg><span class="sl-hidden md:sl-block" aria-hidden="true" data-astro-cid-b5kgnn7o>검색</span><kbd class="sl-hidden md:sl-flex" style="display: none" data-astro-cid-b5kgnn7o><kbd data-astro-cid-b5kgnn7o>Ctrl</kbd><kbd data-astro-cid-b5kgnn7o>K</kbd></kbd></button><dialog style="padding: 0" aria-label="검색" data-astro-cid-b5kgnn7o><div class="dialog-frame sl-flex" data-astro-cid-b5kgnn7o><button data-close-modal class="sl-flex md:sl-hidden" data-astro-cid-b5kgnn7o>취소</button><div class="search-container" data-astro-cid-b5kgnn7o><div id="starlight__search" data-astro-cid-b5kgnn7o></div></div></div></dialog></site-search><script>
+	(() => {
+		const openBtn = document.querySelector('button[data-open-modal]');
+		const shortcut = openBtn?.querySelector('kbd');
+		if (!openBtn || !(shortcut instanceof HTMLElement)) return;
+		const platformKey = shortcut.querySelector('kbd');
+		if (platformKey && /(Mac|iPhone|iPod|iPad)/i.test(navigator.platform)) {
+			platformKey.textContent = '⌘';
+			openBtn.setAttribute('aria-keyshortcuts', 'Meta+K');
+		}
+		shortcut.style.display = '';
+	})();
+</script><script type="module" src="/qa-wiki/qa-assets/Search.astro_astro_type_script_index_0_lang.DuNn5Etx.js"></script></div><div class="sl-hidden md:sl-flex print:hidden right-group" data-astro-cid-by6fddyj><div class="sl-flex social-icons" data-astro-cid-by6fddyj></div><starlight-theme-select data-astro-cid-smhvfpqh="true"><label style="--sl-select-width: 6.25em" data-astro-cid-2z5xp7gb><span class="sr-only" data-astro-cid-2z5xp7gb>테마 선택</span><span class="icon label-icon" data-astro-cid-2z5xp7gb><svg class="sl-theme-icon-dark" data-astro-cid-smhvfpqh="true" aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;" data-astro-cid-hkc32dio><path d="M21.64 13a1 1 0 0 0-1.05-.14 8.049 8.049 0 0 1-3.37.73 8.15 8.15 0 0 1-8.14-8.1 8.59 8.59 0 0 1 .25-2A1 1 0 0 0 8 2.36a10.14 10.14 0 1 0 14 11.69 1 1 0 0 0-.36-1.05Zm-9.5 6.69A8.14 8.14 0 0 1 7.08 5.22v.27a10.15 10.15 0 0 0 10.14 10.14 9.784 9.784 0 0 0 2.1-.22 8.11 8.11 0 0 1-7.18 4.32v-.04Z"/></svg><svg class="sl-theme-icon-light" data-astro-cid-smhvfpqh="true" aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;" data-astro-cid-hkc32dio><path d="M5 12a1 1 0 0 0-1-1H3a1 1 0 0 0 0 2h1a1 1 0 0 0 1-1Zm.64 5-.71.71a1 1 0 0 0 0 1.41 1 1 0 0 0 1.41 0l.71-.71A1 1 0 0 0 5.64 17ZM12 5a1 1 0 0 0 1-1V3a1 1 0 0 0-2 0v1a1 1 0 0 0 1 1Zm5.66 2.34a1 1 0 0 0 .7-.29l.71-.71a1 1 0 1 0-1.41-1.41l-.66.71a1 1 0 0 0 0 1.41 1 1 0 0 0 .66.29Zm-12-.29a1 1 0 0 0 1.41 0 1 1 0 0 0 0-1.41l-.71-.71a1.004 1.004 0 1 0-1.43 1.41l.73.71ZM21 11h-1a1 1 0 0 0 0 2h1a1 1 0 0 0 0-2Zm-2.64 6A1 1 0 0 0 17 18.36l.71.71a1 1 0 0 0 1.41 0 1 1 0 0 0 0-1.41l-.76-.66ZM12 6.5a5.5 5.5 0 1 0 5.5 5.5A5.51 5.51 0 0 0 12 6.5Zm0 9a3.5 3.5 0 1 1 0-7 3.5 3.5 0 0 1 0 7Zm0 3.5a1 1 0 0 0-1 1v1a1 1 0 0 0 2 0v-1a1 1 0 0 0-1-1Z"/></svg><svg class="sl-theme-icon-auto" data-astro-cid-smhvfpqh="true" aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;" data-astro-cid-hkc32dio><path d="M21 14h-1V7a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v7H3a1 1 0 0 0-1 1v2a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-2a1 1 0 0 0-1-1ZM6 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7H6V7Zm14 10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1h16v1Z"/></svg></span><select autocomplete="off" data-astro-cid-2z5xp7gb><option value="dark" data-astro-cid-2z5xp7gb>어두운 테마</option><option value="light" data-astro-cid-2z5xp7gb>밝은 테마</option><option value="auto" selected data-astro-cid-2z5xp7gb>자동</option></select><svg class="icon caret" data-astro-cid-2z5xp7gb="true" aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;" data-astro-cid-hkc32dio><path d="M17 9.17a1 1 0 0 0-1.41 0L12 12.71 8.46 9.17a1 1 0 1 0-1.41 1.42l4.24 4.24a1.002 1.002 0 0 0 1.42 0L17 10.59a1.002 1.002 0 0 0 0-1.42Z"/></svg></label></starlight-theme-select><script>(() => {
+		const theme = (typeof localStorage !== 'undefined' && localStorage.getItem('starlight-theme'));
+		if (theme) document.querySelectorAll('starlight-theme-select select').forEach((s) => { s.value = theme; });
+	})();</script><script type="module">var e=`starlight-theme`,t=e=>e===`auto`||e===`dark`||e===`light`?e:`auto`,n=()=>t(typeof localStorage<`u`&&localStorage.getItem(e));function r(t){typeof localStorage<`u`&&localStorage.setItem(e,t===`light`||t===`dark`?t:``)}var i=()=>matchMedia(`(prefers-color-scheme: light)`).matches?`light`:`dark`;function a(e){document.querySelectorAll(`starlight-theme-select select`).forEach(t=>{t.value=e}),document.documentElement.dataset.theme=e===`auto`?i():e,r(e)}matchMedia(`(prefers-color-scheme: light)`).addEventListener(`change`,()=>{n()===`auto`&&a(`auto`)});var o=class extends HTMLElement{constructor(){super(),a(n()),this.querySelector(`select`)?.addEventListener(`change`,e=>{e.currentTarget instanceof HTMLSelectElement&&a(t(e.currentTarget.value))})}};customElements.define(`starlight-theme-select`,o);</script><script type="module">var e=class extends HTMLElement{constructor(){super();let e=this.querySelector(`select`);e&&(e.addEventListener(`change`,e=>{e.currentTarget instanceof HTMLSelectElement&&(window.location.pathname=e.currentTarget.value)}),window.addEventListener(`pageshow`,t=>{if(!t.persisted)return;let n=e.querySelector(`option[selected]`)?.index;n!==e.selectedIndex&&(e.selectedIndex=n??0)}))}};customElements.define(`starlight-lang-select`,e);</script></div></div></header><nav class="sidebar print:hidden" aria-label="메인" data-astro-cid-yntsjkba><button popovertarget="starlight__sidebar" class="sl-menu-button sl-flex md:sl-hidden print:hidden" data-astro-cid-r2osgdlg><svg class="open-menu" data-astro-cid-r2osgdlg="true" aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;" data-astro-cid-hkc32dio><path d="M3 8h18a1 1 0 1 0 0-2H3a1 1 0 0 0 0 2Zm18 8H3a1 1 0 0 0 0 2h18a1 1 0 0 0 0-2Zm0-5H3a1 1 0 0 0 0 2h18a1 1 0 0 0 0-2Z"/></svg><svg class="close-menu" data-astro-cid-r2osgdlg="true" aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;" data-astro-cid-hkc32dio><path d="m13.41 12 6.3-6.29a1.004 1.004 0 1 0-1.42-1.42L12 10.59l-6.29-6.3a1.004 1.004 0 0 0-1.42 1.42l6.3 6.29-6.3 6.29a1 1 0 0 0 0 1.42.998.998 0 0 0 1.42 0l6.29-6.3 6.29 6.3a.999.999 0 0 0 1.42 0 1 1 0 0 0 0-1.42L13.41 12Z"/></svg><span class="sr-only" data-astro-cid-r2osgdlg>메뉴</span></button><script type="module">var e=class extends HTMLElement{constructor(){super();let e=matchMedia(`(min-width: 50em)`),t=()=>{this.popover=e.matches?null:`auto`};t(),e.addEventListener(`change`,()=>t()),this.addEventListener(`toggle`,({newState:e})=>this.trapFocus(e===`open`))}trapFocus(e){document.querySelectorAll(`.main-frame, .sl-skip-link`).forEach(t=>{t.toggleAttribute(`inert`,e)})}};customElements.define(`sl-sidebar-pane`,e);</script><sl-sidebar-pane popover id="starlight__sidebar" class="sidebar-pane" data-astro-cid-yntsjkba="true"><div class="sidebar-content sl-flex" data-astro-cid-yntsjkba><sl-sidebar-state-persist data-hash="1pcu6hq" data-astro-cid-ipdry5cl="true"><script aria-hidden="true">
+		(() => {
+			try {
+				if (!matchMedia('(min-width: 50em)').matches) return;
+				/** @type {HTMLElement | null} */
+				const target = document.querySelector('sl-sidebar-state-persist');
+				const state = JSON.parse(sessionStorage.getItem('sl-sidebar-state') || '0');
+				if (!target || !state || target.dataset.hash !== state.hash) return;
+				window._starlightScrollRestore = state.scroll;
+				customElements.define(
+					'sl-sidebar-restore',
+					class SidebarRestore extends HTMLElement {
+						connectedCallback() {
+							try {
+								const idx = parseInt(this.dataset.index || '');
+								const details = this.closest('details');
+								if (details && typeof state.open[idx] === 'boolean') details.open = state.open[idx];
+							} catch {}
+						}
+					}
+				);
+			} catch {}
+		})();
+	</script><ul class="top-level" data-astro-cid-rmhv4bp6><li data-astro-cid-rmhv4bp6><details open data-astro-cid-rmhv4bp6><summary data-astro-cid-rmhv4bp6><span class="group-label" data-astro-cid-rmhv4bp6><span class="large" data-astro-cid-rmhv4bp6>기초와 용어</span></span><svg class="caret" data-astro-cid-rmhv4bp6="true" aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;" data-astro-cid-hkc32dio><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></summary><sl-sidebar-restore data-index="0"></sl-sidebar-restore><ul data-astro-cid-rmhv4bp6><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/basics/istqb-ctfl-overview/" aria-current="page" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>ISTQB CTFL 실라버스 핵심 정리</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/basics/testing-principles/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>테스팅의 7원칙</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/basics/qa-qc-qm/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>QA, QC, QM의 차이</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/basics/verification-and-validation/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>검증과 확인(V&amp;V)</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/basics/sdlc-and-v-model/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>개발 수명주기와 V-모델</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/basics/test-levels-and-types/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>테스트 레벨과 테스트 유형</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/basics/api-testing/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>API 테스트 기본</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/basics/accessibility-testing/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>접근성 테스트 기본</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/basics/quality-standards-map/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>품질 표준 지도</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/basics/iso-25010-quality-model/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>ISO/IEC 25010 품질 모델</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/basics/iso-29119-test-standards/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>ISO/IEC/IEEE 29119 테스트 표준</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/basics/cost-of-quality/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>품질비용</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/basics/configuration-management/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>형상관리 기본</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/basics/glossary/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>용어 사전</span></a></li></ul></details></li><li data-astro-cid-rmhv4bp6><details open data-astro-cid-rmhv4bp6><summary data-astro-cid-rmhv4bp6><span class="group-label" data-astro-cid-rmhv4bp6><span class="large" data-astro-cid-rmhv4bp6>테스트 설계</span></span><svg class="caret" data-astro-cid-rmhv4bp6="true" aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;" data-astro-cid-hkc32dio><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></summary><sl-sidebar-restore data-index="1"></sl-sidebar-restore><ul data-astro-cid-rmhv4bp6><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/test-design/test-techniques-overview/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>테스트 기법 분류</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/test-design/equivalence-partitioning/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>동등 분할</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/test-design/boundary-value-analysis/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>경계값 분석</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/test-design/decision-table/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>결정 테이블 테스트</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/test-design/state-transition/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>상태 전이 테스트</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/test-design/pairwise-testing/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>조합 테스트(페어와이즈)</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/test-design/exploratory-testing/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>탐색적 테스트와 세션 기반 테스트 관리</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/test-design/risk-based-testing/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>리스크 기반 테스트</span></a></li></ul></details></li><li data-astro-cid-rmhv4bp6><details open data-astro-cid-rmhv4bp6><summary data-astro-cid-rmhv4bp6><span class="group-label" data-astro-cid-rmhv4bp6><span class="large" data-astro-cid-rmhv4bp6>프로세스</span></span><svg class="caret" data-astro-cid-rmhv4bp6="true" aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;" data-astro-cid-hkc32dio><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></summary><sl-sidebar-restore data-index="2"></sl-sidebar-restore><ul data-astro-cid-rmhv4bp6><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/process/tc-writing-principles/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>TC 작성 원칙</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/process/defect-lifecycle/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>결함 생명주기</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/process/severity/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>심각도 기준</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/process/issue-template/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>이슈 양식</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/process/regression-test-selection/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>회귀 테스트 범위 선정</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/process/release-notes-versioning/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>릴리즈 노트와 버전 번호</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/process/issue-log-join-key/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>이슈 로그와 트래커의 조인 키</span></a></li></ul></details></li><li data-astro-cid-rmhv4bp6><details open data-astro-cid-rmhv4bp6><summary data-astro-cid-rmhv4bp6><span class="group-label" data-astro-cid-rmhv4bp6><span class="large" data-astro-cid-rmhv4bp6>자동화</span></span><svg class="caret" data-astro-cid-rmhv4bp6="true" aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;" data-astro-cid-hkc32dio><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></summary><sl-sidebar-restore data-index="3"></sl-sidebar-restore><ul data-astro-cid-rmhv4bp6><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/automation/test-automation-basics/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>테스트 자동화 기본</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/automation/e2e-after-build/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>E2E 테스트 전 빌드</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/automation/test-what-you-commit/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>작업 트리와 커밋 상태 구분</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/automation/visual-regression/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>시각 회귀 테스트</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/automation/flaky-tests/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>Flaky 테스트 관리</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/automation/e2e-failure-triage/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>E2E 실패 분류</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/automation/mutation-check/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>변이 주입으로 테스트 검출력 확인</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/automation/zero-findings-check/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>검사 결과 0건 검증</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/automation/verify-after-write/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>쓰기 작업 결과 대조</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/automation/book-implementing-automated-software-testing/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>책 정리: 소프트웨어 테스트 자동화 구축</span></a></li></ul></details></li><li data-astro-cid-rmhv4bp6><details open data-astro-cid-rmhv4bp6><summary data-astro-cid-rmhv4bp6><span class="group-label" data-astro-cid-rmhv4bp6><span class="large" data-astro-cid-rmhv4bp6>도메인별</span></span><svg class="caret" data-astro-cid-rmhv4bp6="true" aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;" data-astro-cid-hkc32dio><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></summary><sl-sidebar-restore data-index="4"></sl-sidebar-restore><ul data-astro-cid-rmhv4bp6><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/domains/security-testing/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>보안 테스트의 기본 관점</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/domains/ecommerce/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>이커머스 테스트 관점</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/domains/embedded-device/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>임베디드·디바이스 테스트 관점</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/domains/financial-data/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>금융 데이터 검증의 함정</span></a></li></ul></details></li><li data-astro-cid-rmhv4bp6><details open data-astro-cid-rmhv4bp6><summary data-astro-cid-rmhv4bp6><span class="group-label" data-astro-cid-rmhv4bp6><span class="large" data-astro-cid-rmhv4bp6>AI와 QA</span></span><svg class="caret" data-astro-cid-rmhv4bp6="true" aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;" data-astro-cid-hkc32dio><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></summary><sl-sidebar-restore data-index="5"></sl-sidebar-restore><ul data-astro-cid-rmhv4bp6><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/ai-qa/qa-in-the-ai-era/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>AI 시대의 QA</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/ai-qa/llm-feature-testing/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>LLM 기능 테스트</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/ai-qa/llm-evaluation/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>LLM 평가셋과 LLM 심판</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/ai-qa/rag-testing/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>RAG 테스트</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/ai-qa/llm-security-testing/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>LLM 보안 테스트</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/ai-qa/ai-quality-model/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>AI 시스템 품질 모델(ISO/IEC 25059)</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/ai-qa/ai-generated-tests/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>AI가 생성한 TC와 테스트 코드 검토</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/ai-qa/verify-ai-reports/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>AI 보고 확인</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/ai-qa/ai-memory-and-long-sessions/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>AI 장기 메모리와 긴 세션의 함정</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/ai-qa/ai-written-docs/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>AI가 작성한 문서 검사</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/ai-qa/ai-data-exposure/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>AI에 제공한 정보와 외부 전송</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/ai-qa/ai-agent-guardrails/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>AI 에이전트 권한 통제</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/ai-qa/ai-cross-review/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>AI 교차 검증</span></a></li></ul></details></li><li data-astro-cid-rmhv4bp6><details open data-astro-cid-rmhv4bp6><summary data-astro-cid-rmhv4bp6><span class="group-label" data-astro-cid-rmhv4bp6><span class="large" data-astro-cid-rmhv4bp6>도구</span></span><svg class="caret" data-astro-cid-rmhv4bp6="true" aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;" data-astro-cid-hkc32dio><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></summary><sl-sidebar-restore data-index="6"></sl-sidebar-restore><ul data-astro-cid-rmhv4bp6><li data-astro-cid-rmhv4bp6><details open data-astro-cid-rmhv4bp6><summary data-astro-cid-rmhv4bp6><span class="group-label" data-astro-cid-rmhv4bp6><span class="large" data-astro-cid-rmhv4bp6>이슈 관리</span></span><svg class="caret" data-astro-cid-rmhv4bp6="true" aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;" data-astro-cid-hkc32dio><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></summary><sl-sidebar-restore data-index="7"></sl-sidebar-restore><ul data-astro-cid-rmhv4bp6><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/tools-career/jira/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>Jira</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/tools-career/linear/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>Linear</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/tools-career/github-issues/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>GitHub Issues</span></a></li></ul></details></li><li data-astro-cid-rmhv4bp6><details open data-astro-cid-rmhv4bp6><summary data-astro-cid-rmhv4bp6><span class="group-label" data-astro-cid-rmhv4bp6><span class="large" data-astro-cid-rmhv4bp6>TC 관리</span></span><svg class="caret" data-astro-cid-rmhv4bp6="true" aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;" data-astro-cid-hkc32dio><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></summary><sl-sidebar-restore data-index="8"></sl-sidebar-restore><ul data-astro-cid-rmhv4bp6><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/tools-career/tc-management-tool-operations/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>TC 관리 도구 운영 기준</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/tools-career/testrail/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>TestRail</span></a></li></ul></details></li><li data-astro-cid-rmhv4bp6><details open data-astro-cid-rmhv4bp6><summary data-astro-cid-rmhv4bp6><span class="group-label" data-astro-cid-rmhv4bp6><span class="large" data-astro-cid-rmhv4bp6>웹 UI 자동화</span></span><svg class="caret" data-astro-cid-rmhv4bp6="true" aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;" data-astro-cid-hkc32dio><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></summary><sl-sidebar-restore data-index="9"></sl-sidebar-restore><ul data-astro-cid-rmhv4bp6><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/tools-career/playwright/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>Playwright</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/tools-career/selenium/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>Selenium</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/tools-career/cypress/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>Cypress</span></a></li></ul></details></li><li data-astro-cid-rmhv4bp6><details open data-astro-cid-rmhv4bp6><summary data-astro-cid-rmhv4bp6><span class="group-label" data-astro-cid-rmhv4bp6><span class="large" data-astro-cid-rmhv4bp6>모바일 자동화</span></span><svg class="caret" data-astro-cid-rmhv4bp6="true" aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;" data-astro-cid-hkc32dio><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></summary><sl-sidebar-restore data-index="10"></sl-sidebar-restore><ul data-astro-cid-rmhv4bp6><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/tools-career/appium/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>Appium</span></a></li></ul></details></li><li data-astro-cid-rmhv4bp6><details open data-astro-cid-rmhv4bp6><summary data-astro-cid-rmhv4bp6><span class="group-label" data-astro-cid-rmhv4bp6><span class="large" data-astro-cid-rmhv4bp6>API 테스트</span></span><svg class="caret" data-astro-cid-rmhv4bp6="true" aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;" data-astro-cid-hkc32dio><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></summary><sl-sidebar-restore data-index="11"></sl-sidebar-restore><ul data-astro-cid-rmhv4bp6><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/tools-career/postman/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>Postman</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/tools-career/swagger/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>Swagger와 OpenAPI</span></a></li></ul></details></li><li data-astro-cid-rmhv4bp6><details open data-astro-cid-rmhv4bp6><summary data-astro-cid-rmhv4bp6><span class="group-label" data-astro-cid-rmhv4bp6><span class="large" data-astro-cid-rmhv4bp6>성능 테스트</span></span><svg class="caret" data-astro-cid-rmhv4bp6="true" aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;" data-astro-cid-hkc32dio><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></summary><sl-sidebar-restore data-index="12"></sl-sidebar-restore><ul data-astro-cid-rmhv4bp6><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/tools-career/k6/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>Grafana k6</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/tools-career/jmeter/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>Apache JMeter</span></a></li></ul></details></li><li data-astro-cid-rmhv4bp6><details open data-astro-cid-rmhv4bp6><summary data-astro-cid-rmhv4bp6><span class="group-label" data-astro-cid-rmhv4bp6><span class="large" data-astro-cid-rmhv4bp6>네트워크 분석</span></span><svg class="caret" data-astro-cid-rmhv4bp6="true" aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;" data-astro-cid-hkc32dio><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></summary><sl-sidebar-restore data-index="13"></sl-sidebar-restore><ul data-astro-cid-rmhv4bp6><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/tools-career/browser-devtools/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>브라우저 개발자 도구</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/tools-career/fiddler/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>Fiddler</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/tools-career/charles/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>Charles</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/tools-career/wireshark/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>Wireshark</span></a></li></ul></details></li><li data-astro-cid-rmhv4bp6><details open data-astro-cid-rmhv4bp6><summary data-astro-cid-rmhv4bp6><span class="group-label" data-astro-cid-rmhv4bp6><span class="large" data-astro-cid-rmhv4bp6>CI/CD</span></span><svg class="caret" data-astro-cid-rmhv4bp6="true" aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;" data-astro-cid-hkc32dio><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></summary><sl-sidebar-restore data-index="14"></sl-sidebar-restore><ul data-astro-cid-rmhv4bp6><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/tools-career/jenkins/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>Jenkins</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/tools-career/github-actions/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>GitHub Actions</span></a></li></ul></details></li><li data-astro-cid-rmhv4bp6><details open data-astro-cid-rmhv4bp6><summary data-astro-cid-rmhv4bp6><span class="group-label" data-astro-cid-rmhv4bp6><span class="large" data-astro-cid-rmhv4bp6>형상관리</span></span><svg class="caret" data-astro-cid-rmhv4bp6="true" aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;" data-astro-cid-hkc32dio><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></summary><sl-sidebar-restore data-index="15"></sl-sidebar-restore><ul data-astro-cid-rmhv4bp6><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/tools-career/git-basics/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>Git 기본</span></a></li></ul></details></li></ul></details></li></ul><script aria-hidden="true">
+		(() => {
+			const scroller = document.getElementById('starlight__sidebar');
+			if (!window._starlightScrollRestore || !scroller) return;
+			scroller.scrollTop = window._starlightScrollRestore;
+			delete window._starlightScrollRestore;
+		})();
+	</script></sl-sidebar-state-persist><div class="md:sl-hidden"><div class="mobile-preferences sl-flex" data-astro-cid-p4azlveh><div class="social-icons" data-astro-cid-p4azlveh></div><starlight-theme-select data-astro-cid-smhvfpqh="true"><label style="--sl-select-width: 6.25em" data-astro-cid-2z5xp7gb><span class="sr-only" data-astro-cid-2z5xp7gb>테마 선택</span><span class="icon label-icon" data-astro-cid-2z5xp7gb><svg class="sl-theme-icon-dark" data-astro-cid-smhvfpqh="true" aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;" data-astro-cid-hkc32dio><path d="M21.64 13a1 1 0 0 0-1.05-.14 8.049 8.049 0 0 1-3.37.73 8.15 8.15 0 0 1-8.14-8.1 8.59 8.59 0 0 1 .25-2A1 1 0 0 0 8 2.36a10.14 10.14 0 1 0 14 11.69 1 1 0 0 0-.36-1.05Zm-9.5 6.69A8.14 8.14 0 0 1 7.08 5.22v.27a10.15 10.15 0 0 0 10.14 10.14 9.784 9.784 0 0 0 2.1-.22 8.11 8.11 0 0 1-7.18 4.32v-.04Z"/></svg><svg class="sl-theme-icon-light" data-astro-cid-smhvfpqh="true" aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;" data-astro-cid-hkc32dio><path d="M5 12a1 1 0 0 0-1-1H3a1 1 0 0 0 0 2h1a1 1 0 0 0 1-1Zm.64 5-.71.71a1 1 0 0 0 0 1.41 1 1 0 0 0 1.41 0l.71-.71A1 1 0 0 0 5.64 17ZM12 5a1 1 0 0 0 1-1V3a1 1 0 0 0-2 0v1a1 1 0 0 0 1 1Zm5.66 2.34a1 1 0 0 0 .7-.29l.71-.71a1 1 0 1 0-1.41-1.41l-.66.71a1 1 0 0 0 0 1.41 1 1 0 0 0 .66.29Zm-12-.29a1 1 0 0 0 1.41 0 1 1 0 0 0 0-1.41l-.71-.71a1.004 1.004 0 1 0-1.43 1.41l.73.71ZM21 11h-1a1 1 0 0 0 0 2h1a1 1 0 0 0 0-2Zm-2.64 6A1 1 0 0 0 17 18.36l.71.71a1 1 0 0 0 1.41 0 1 1 0 0 0 0-1.41l-.76-.66ZM12 6.5a5.5 5.5 0 1 0 5.5 5.5A5.51 5.51 0 0 0 12 6.5Zm0 9a3.5 3.5 0 1 1 0-7 3.5 3.5 0 0 1 0 7Zm0 3.5a1 1 0 0 0-1 1v1a1 1 0 0 0 2 0v-1a1 1 0 0 0-1-1Z"/></svg><svg class="sl-theme-icon-auto" data-astro-cid-smhvfpqh="true" aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;" data-astro-cid-hkc32dio><path d="M21 14h-1V7a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v7H3a1 1 0 0 0-1 1v2a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-2a1 1 0 0 0-1-1ZM6 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7H6V7Zm14 10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1h16v1Z"/></svg></span><select autocomplete="off" data-astro-cid-2z5xp7gb><option value="dark" data-astro-cid-2z5xp7gb>어두운 테마</option><option value="light" data-astro-cid-2z5xp7gb>밝은 테마</option><option value="auto" selected data-astro-cid-2z5xp7gb>자동</option></select><svg class="icon caret" data-astro-cid-2z5xp7gb="true" aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;" data-astro-cid-hkc32dio><path d="M17 9.17a1 1 0 0 0-1.41 0L12 12.71 8.46 9.17a1 1 0 1 0-1.41 1.42l4.24 4.24a1.002 1.002 0 0 0 1.42 0L17 10.59a1.002 1.002 0 0 0 0-1.42Z"/></svg></label></starlight-theme-select><script>(() => {
+		const theme = (typeof localStorage !== 'undefined' && localStorage.getItem('starlight-theme'));
+		if (theme) document.querySelectorAll('starlight-theme-select select').forEach((s) => { s.value = theme; });
+	})();</script></div></div></div></sl-sidebar-pane></nav><div class="main-frame" data-astro-cid-yntsjkba><script type="module">var e=document.getElementById(`starlight__sidebar`),t=e?.querySelector(`sl-sidebar-state-persist`),n=`sl-sidebar-state`,r=()=>{let r=[],i=t?.dataset.hash||``;try{let e=sessionStorage.getItem(n),t=JSON.parse(e||`{}`);Array.isArray(t.open)&&t.hash===i&&(r=t.open)}catch{}return{hash:i,open:r,scroll:e?.scrollTop||0}},i=e=>{try{sessionStorage.setItem(n,JSON.stringify(e))}catch{}},a=()=>i(r()),o=(e,t)=>{let n=r();n.open[t]=e,i(n)};t?.addEventListener(`click`,e=>{if(!(e.target instanceof Element))return;let t=e.target.closest(`summary`)?.closest(`details`);if(!t)return;let n=t.querySelector(`sl-sidebar-restore`),r=parseInt(n?.dataset.index||``);isNaN(r)||o(!t.open,r)}),addEventListener(`visibilitychange`,()=>{document.visibilityState===`hidden`&&a()});</script><div class="lg:sl-flex" data-astro-cid-lrzkfocr><aside class="right-sidebar-container print:hidden" data-astro-cid-lrzkfocr><div class="right-sidebar" data-astro-cid-lrzkfocr><div class="lg:sl-hidden" data-astro-cid-qok35upx><mobile-starlight-toc data-min-h="2" data-max-h="3" data-astro-cid-66cqc7ze="true"><nav aria-labelledby="starlight__on-this-page--mobile" data-astro-cid-66cqc7ze><details id="starlight__mobile-toc" data-astro-cid-66cqc7ze><summary id="starlight__on-this-page--mobile" class="sl-flex" data-astro-cid-66cqc7ze><span class="toggle sl-flex" data-astro-cid-66cqc7ze>목차<svg class="caret" data-astro-cid-66cqc7ze="true" aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1rem;" data-astro-cid-hkc32dio><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></span><span class="display-current" data-astro-cid-66cqc7ze></span></summary><div class="dropdown" data-astro-cid-66cqc7ze><ul class="isMobile" style="--depth: 0;" data-astro-cid-jugkfwgx><li style="--depth: 0;" data-astro-cid-jugkfwgx><a href="#_top" style="--depth: 0;" data-astro-cid-jugkfwgx><span style="--depth: 0;" data-astro-cid-jugkfwgx>개요</span></a></li><li style="--depth: 0;" data-astro-cid-jugkfwgx><a href="#1장-테스팅-기초" style="--depth: 0;" data-astro-cid-jugkfwgx><span style="--depth: 0;" data-astro-cid-jugkfwgx>1장. 테스팅 기초</span></a><ul class="isMobile" style="--depth: 1;" data-astro-cid-jugkfwgx><li style="--depth: 1;" data-astro-cid-jugkfwgx><a href="#테스팅이란" style="--depth: 1;" data-astro-cid-jugkfwgx><span style="--depth: 1;" data-astro-cid-jugkfwgx>테스팅이란</span></a></li><li style="--depth: 1;" data-astro-cid-jugkfwgx><a href="#테스트-목적" style="--depth: 1;" data-astro-cid-jugkfwgx><span style="--depth: 1;" data-astro-cid-jugkfwgx>테스트 목적</span></a></li><li style="--depth: 1;" data-astro-cid-jugkfwgx><a href="#테스팅과-디버깅" style="--depth: 1;" data-astro-cid-jugkfwgx><span style="--depth: 1;" data-astro-cid-jugkfwgx>테스팅과 디버깅</span></a></li><li style="--depth: 1;" data-astro-cid-jugkfwgx><a href="#테스팅과-qa" style="--depth: 1;" data-astro-cid-jugkfwgx><span style="--depth: 1;" data-astro-cid-jugkfwgx>테스팅과 QA</span></a></li><li style="--depth: 1;" data-astro-cid-jugkfwgx><a href="#오류-결함-장애-근본-원인" style="--depth: 1;" data-astro-cid-jugkfwgx><span style="--depth: 1;" data-astro-cid-jugkfwgx>오류, 결함, 장애, 근본 원인</span></a></li><li style="--depth: 1;" data-astro-cid-jugkfwgx><a href="#테스팅의-7원칙" style="--depth: 1;" data-astro-cid-jugkfwgx><span style="--depth: 1;" data-astro-cid-jugkfwgx>테스팅의 7원칙</span></a></li><li style="--depth: 1;" data-astro-cid-jugkfwgx><a href="#테스트-활동" style="--depth: 1;" data-astro-cid-jugkfwgx><span style="--depth: 1;" data-astro-cid-jugkfwgx>테스트 활동</span></a></li><li style="--depth: 1;" data-astro-cid-jugkfwgx><a href="#역할-역량-독립성" style="--depth: 1;" data-astro-cid-jugkfwgx><span style="--depth: 1;" data-astro-cid-jugkfwgx>역할, 역량, 독립성</span></a></li></ul></li><li style="--depth: 0;" data-astro-cid-jugkfwgx><a href="#2장-소프트웨어-개발-수명주기와-테스팅" style="--depth: 0;" data-astro-cid-jugkfwgx><span style="--depth: 0;" data-astro-cid-jugkfwgx>2장. 소프트웨어 개발 수명주기와 테스팅</span></a><ul class="isMobile" style="--depth: 1;" data-astro-cid-jugkfwgx><li style="--depth: 1;" data-astro-cid-jugkfwgx><a href="#개발-수명주기가-테스팅에-미치는-영향" style="--depth: 1;" data-astro-cid-jugkfwgx><span style="--depth: 1;" data-astro-cid-jugkfwgx>개발 수명주기가 테스팅에 미치는 영향</span></a></li><li style="--depth: 1;" data-astro-cid-jugkfwgx><a href="#테스트-우선-개발-방식" style="--depth: 1;" data-astro-cid-jugkfwgx><span style="--depth: 1;" data-astro-cid-jugkfwgx>테스트 우선 개발 방식</span></a></li><li style="--depth: 1;" data-astro-cid-jugkfwgx><a href="#devops와-시프트-레프트" style="--depth: 1;" data-astro-cid-jugkfwgx><span style="--depth: 1;" data-astro-cid-jugkfwgx>DevOps와 시프트 레프트</span></a></li><li style="--depth: 1;" data-astro-cid-jugkfwgx><a href="#회고" style="--depth: 1;" data-astro-cid-jugkfwgx><span style="--depth: 1;" data-astro-cid-jugkfwgx>회고</span></a></li><li style="--depth: 1;" data-astro-cid-jugkfwgx><a href="#테스트-레벨-테스트-유형-확인회귀-테스트" style="--depth: 1;" data-astro-cid-jugkfwgx><span style="--depth: 1;" data-astro-cid-jugkfwgx>테스트 레벨, 테스트 유형, 확인·회귀 테스트</span></a></li><li style="--depth: 1;" data-astro-cid-jugkfwgx><a href="#유지보수-테스트" style="--depth: 1;" data-astro-cid-jugkfwgx><span style="--depth: 1;" data-astro-cid-jugkfwgx>유지보수 테스트</span></a></li></ul></li><li style="--depth: 0;" data-astro-cid-jugkfwgx><a href="#3장-정적-테스트" style="--depth: 0;" data-astro-cid-jugkfwgx><span style="--depth: 0;" data-astro-cid-jugkfwgx>3장. 정적 테스트</span></a><ul class="isMobile" style="--depth: 1;" data-astro-cid-jugkfwgx><li style="--depth: 1;" data-astro-cid-jugkfwgx><a href="#정적-테스트의-대상과-가치" style="--depth: 1;" data-astro-cid-jugkfwgx><span style="--depth: 1;" data-astro-cid-jugkfwgx>정적 테스트의 대상과 가치</span></a></li><li style="--depth: 1;" data-astro-cid-jugkfwgx><a href="#리뷰-프로세스와-역할" style="--depth: 1;" data-astro-cid-jugkfwgx><span style="--depth: 1;" data-astro-cid-jugkfwgx>리뷰 프로세스와 역할</span></a></li><li style="--depth: 1;" data-astro-cid-jugkfwgx><a href="#리뷰-유형" style="--depth: 1;" data-astro-cid-jugkfwgx><span style="--depth: 1;" data-astro-cid-jugkfwgx>리뷰 유형</span></a></li></ul></li><li style="--depth: 0;" data-astro-cid-jugkfwgx><a href="#4장-테스트-분석과-설계" style="--depth: 0;" data-astro-cid-jugkfwgx><span style="--depth: 0;" data-astro-cid-jugkfwgx>4장. 테스트 분석과 설계</span></a></li><li style="--depth: 0;" data-astro-cid-jugkfwgx><a href="#5장-테스트-활동-관리" style="--depth: 0;" data-astro-cid-jugkfwgx><span style="--depth: 0;" data-astro-cid-jugkfwgx>5장. 테스트 활동 관리</span></a><ul class="isMobile" style="--depth: 1;" data-astro-cid-jugkfwgx><li style="--depth: 1;" data-astro-cid-jugkfwgx><a href="#테스트-계획서" style="--depth: 1;" data-astro-cid-jugkfwgx><span style="--depth: 1;" data-astro-cid-jugkfwgx>테스트 계획서</span></a></li><li style="--depth: 1;" data-astro-cid-jugkfwgx><a href="#진입-기준과-종료-기준" style="--depth: 1;" data-astro-cid-jugkfwgx><span style="--depth: 1;" data-astro-cid-jugkfwgx>진입 기준과 종료 기준</span></a></li><li style="--depth: 1;" data-astro-cid-jugkfwgx><a href="#추정-기법" style="--depth: 1;" data-astro-cid-jugkfwgx><span style="--depth: 1;" data-astro-cid-jugkfwgx>추정 기법</span></a></li><li style="--depth: 1;" data-astro-cid-jugkfwgx><a href="#tc-우선순위" style="--depth: 1;" data-astro-cid-jugkfwgx><span style="--depth: 1;" data-astro-cid-jugkfwgx>TC 우선순위</span></a></li><li style="--depth: 1;" data-astro-cid-jugkfwgx><a href="#테스트-피라미드와-테스트-사분면" style="--depth: 1;" data-astro-cid-jugkfwgx><span style="--depth: 1;" data-astro-cid-jugkfwgx>테스트 피라미드와 테스트 사분면</span></a></li><li style="--depth: 1;" data-astro-cid-jugkfwgx><a href="#리스크-관리" style="--depth: 1;" data-astro-cid-jugkfwgx><span style="--depth: 1;" data-astro-cid-jugkfwgx>리스크 관리</span></a></li><li style="--depth: 1;" data-astro-cid-jugkfwgx><a href="#모니터링-통제-완료와-보고" style="--depth: 1;" data-astro-cid-jugkfwgx><span style="--depth: 1;" data-astro-cid-jugkfwgx>모니터링, 통제, 완료와 보고</span></a></li><li style="--depth: 1;" data-astro-cid-jugkfwgx><a href="#형상-관리" style="--depth: 1;" data-astro-cid-jugkfwgx><span style="--depth: 1;" data-astro-cid-jugkfwgx>형상 관리</span></a></li><li style="--depth: 1;" data-astro-cid-jugkfwgx><a href="#결함-관리" style="--depth: 1;" data-astro-cid-jugkfwgx><span style="--depth: 1;" data-astro-cid-jugkfwgx>결함 관리</span></a></li></ul></li><li style="--depth: 0;" data-astro-cid-jugkfwgx><a href="#6장-테스트-도구" style="--depth: 0;" data-astro-cid-jugkfwgx><span style="--depth: 0;" data-astro-cid-jugkfwgx>6장. 테스트 도구</span></a></li><li style="--depth: 0;" data-astro-cid-jugkfwgx><a href="#실무에서-이-실라버스를-사용하는-방법" style="--depth: 0;" data-astro-cid-jugkfwgx><span style="--depth: 0;" data-astro-cid-jugkfwgx>실무에서 이 실라버스를 사용하는 방법</span></a></li><li style="--depth: 0;" data-astro-cid-jugkfwgx><a href="#출처" style="--depth: 0;" data-astro-cid-jugkfwgx><span style="--depth: 0;" data-astro-cid-jugkfwgx>출처</span></a></li></ul></div></details></nav></mobile-starlight-toc><script type="module" src="/qa-wiki/qa-assets/MobileTableOfContents.astro_astro_type_script_index_0_lang.C3fM4Kra.js"></script></div><div class="right-sidebar-panel sl-hidden lg:sl-block" data-astro-cid-qok35upx><div class="sl-container" data-astro-cid-qok35upx><starlight-toc data-min-h="2" data-max-h="3"><nav aria-labelledby="starlight__on-this-page"><h2 id="starlight__on-this-page">목차</h2><ul style="--depth: 0;" data-astro-cid-jugkfwgx><li style="--depth: 0;" data-astro-cid-jugkfwgx><a href="#_top" style="--depth: 0;" data-astro-cid-jugkfwgx><span style="--depth: 0;" data-astro-cid-jugkfwgx>개요</span></a></li><li style="--depth: 0;" data-astro-cid-jugkfwgx><a href="#1장-테스팅-기초" style="--depth: 0;" data-astro-cid-jugkfwgx><span style="--depth: 0;" data-astro-cid-jugkfwgx>1장. 테스팅 기초</span></a><ul style="--depth: 1;" data-astro-cid-jugkfwgx><li style="--depth: 1;" data-astro-cid-jugkfwgx><a href="#테스팅이란" style="--depth: 1;" data-astro-cid-jugkfwgx><span style="--depth: 1;" data-astro-cid-jugkfwgx>테스팅이란</span></a></li><li style="--depth: 1;" data-astro-cid-jugkfwgx><a href="#테스트-목적" style="--depth: 1;" data-astro-cid-jugkfwgx><span style="--depth: 1;" data-astro-cid-jugkfwgx>테스트 목적</span></a></li><li style="--depth: 1;" data-astro-cid-jugkfwgx><a href="#테스팅과-디버깅" style="--depth: 1;" data-astro-cid-jugkfwgx><span style="--depth: 1;" data-astro-cid-jugkfwgx>테스팅과 디버깅</span></a></li><li style="--depth: 1;" data-astro-cid-jugkfwgx><a href="#테스팅과-qa" style="--depth: 1;" data-astro-cid-jugkfwgx><span style="--depth: 1;" data-astro-cid-jugkfwgx>테스팅과 QA</span></a></li><li style="--depth: 1;" data-astro-cid-jugkfwgx><a href="#오류-결함-장애-근본-원인" style="--depth: 1;" data-astro-cid-jugkfwgx><span style="--depth: 1;" data-astro-cid-jugkfwgx>오류, 결함, 장애, 근본 원인</span></a></li><li style="--depth: 1;" data-astro-cid-jugkfwgx><a href="#테스팅의-7원칙" style="--depth: 1;" data-astro-cid-jugkfwgx><span style="--depth: 1;" data-astro-cid-jugkfwgx>테스팅의 7원칙</span></a></li><li style="--depth: 1;" data-astro-cid-jugkfwgx><a href="#테스트-활동" style="--depth: 1;" data-astro-cid-jugkfwgx><span style="--depth: 1;" data-astro-cid-jugkfwgx>테스트 활동</span></a></li><li style="--depth: 1;" data-astro-cid-jugkfwgx><a href="#역할-역량-독립성" style="--depth: 1;" data-astro-cid-jugkfwgx><span style="--depth: 1;" data-astro-cid-jugkfwgx>역할, 역량, 독립성</span></a></li></ul></li><li style="--depth: 0;" data-astro-cid-jugkfwgx><a href="#2장-소프트웨어-개발-수명주기와-테스팅" style="--depth: 0;" data-astro-cid-jugkfwgx><span style="--depth: 0;" data-astro-cid-jugkfwgx>2장. 소프트웨어 개발 수명주기와 테스팅</span></a><ul style="--depth: 1;" data-astro-cid-jugkfwgx><li style="--depth: 1;" data-astro-cid-jugkfwgx><a href="#개발-수명주기가-테스팅에-미치는-영향" style="--depth: 1;" data-astro-cid-jugkfwgx><span style="--depth: 1;" data-astro-cid-jugkfwgx>개발 수명주기가 테스팅에 미치는 영향</span></a></li><li style="--depth: 1;" data-astro-cid-jugkfwgx><a href="#테스트-우선-개발-방식" style="--depth: 1;" data-astro-cid-jugkfwgx><span style="--depth: 1;" data-astro-cid-jugkfwgx>테스트 우선 개발 방식</span></a></li><li style="--depth: 1;" data-astro-cid-jugkfwgx><a href="#devops와-시프트-레프트" style="--depth: 1;" data-astro-cid-jugkfwgx><span style="--depth: 1;" data-astro-cid-jugkfwgx>DevOps와 시프트 레프트</span></a></li><li style="--depth: 1;" data-astro-cid-jugkfwgx><a href="#회고" style="--depth: 1;" data-astro-cid-jugkfwgx><span style="--depth: 1;" data-astro-cid-jugkfwgx>회고</span></a></li><li style="--depth: 1;" data-astro-cid-jugkfwgx><a href="#테스트-레벨-테스트-유형-확인회귀-테스트" style="--depth: 1;" data-astro-cid-jugkfwgx><span style="--depth: 1;" data-astro-cid-jugkfwgx>테스트 레벨, 테스트 유형, 확인·회귀 테스트</span></a></li><li style="--depth: 1;" data-astro-cid-jugkfwgx><a href="#유지보수-테스트" style="--depth: 1;" data-astro-cid-jugkfwgx><span style="--depth: 1;" data-astro-cid-jugkfwgx>유지보수 테스트</span></a></li></ul></li><li style="--depth: 0;" data-astro-cid-jugkfwgx><a href="#3장-정적-테스트" style="--depth: 0;" data-astro-cid-jugkfwgx><span style="--depth: 0;" data-astro-cid-jugkfwgx>3장. 정적 테스트</span></a><ul style="--depth: 1;" data-astro-cid-jugkfwgx><li style="--depth: 1;" data-astro-cid-jugkfwgx><a href="#정적-테스트의-대상과-가치" style="--depth: 1;" data-astro-cid-jugkfwgx><span style="--depth: 1;" data-astro-cid-jugkfwgx>정적 테스트의 대상과 가치</span></a></li><li style="--depth: 1;" data-astro-cid-jugkfwgx><a href="#리뷰-프로세스와-역할" style="--depth: 1;" data-astro-cid-jugkfwgx><span style="--depth: 1;" data-astro-cid-jugkfwgx>리뷰 프로세스와 역할</span></a></li><li style="--depth: 1;" data-astro-cid-jugkfwgx><a href="#리뷰-유형" style="--depth: 1;" data-astro-cid-jugkfwgx><span style="--depth: 1;" data-astro-cid-jugkfwgx>리뷰 유형</span></a></li></ul></li><li style="--depth: 0;" data-astro-cid-jugkfwgx><a href="#4장-테스트-분석과-설계" style="--depth: 0;" data-astro-cid-jugkfwgx><span style="--depth: 0;" data-astro-cid-jugkfwgx>4장. 테스트 분석과 설계</span></a></li><li style="--depth: 0;" data-astro-cid-jugkfwgx><a href="#5장-테스트-활동-관리" style="--depth: 0;" data-astro-cid-jugkfwgx><span style="--depth: 0;" data-astro-cid-jugkfwgx>5장. 테스트 활동 관리</span></a><ul style="--depth: 1;" data-astro-cid-jugkfwgx><li style="--depth: 1;" data-astro-cid-jugkfwgx><a href="#테스트-계획서" style="--depth: 1;" data-astro-cid-jugkfwgx><span style="--depth: 1;" data-astro-cid-jugkfwgx>테스트 계획서</span></a></li><li style="--depth: 1;" data-astro-cid-jugkfwgx><a href="#진입-기준과-종료-기준" style="--depth: 1;" data-astro-cid-jugkfwgx><span style="--depth: 1;" data-astro-cid-jugkfwgx>진입 기준과 종료 기준</span></a></li><li style="--depth: 1;" data-astro-cid-jugkfwgx><a href="#추정-기법" style="--depth: 1;" data-astro-cid-jugkfwgx><span style="--depth: 1;" data-astro-cid-jugkfwgx>추정 기법</span></a></li><li style="--depth: 1;" data-astro-cid-jugkfwgx><a href="#tc-우선순위" style="--depth: 1;" data-astro-cid-jugkfwgx><span style="--depth: 1;" data-astro-cid-jugkfwgx>TC 우선순위</span></a></li><li style="--depth: 1;" data-astro-cid-jugkfwgx><a href="#테스트-피라미드와-테스트-사분면" style="--depth: 1;" data-astro-cid-jugkfwgx><span style="--depth: 1;" data-astro-cid-jugkfwgx>테스트 피라미드와 테스트 사분면</span></a></li><li style="--depth: 1;" data-astro-cid-jugkfwgx><a href="#리스크-관리" style="--depth: 1;" data-astro-cid-jugkfwgx><span style="--depth: 1;" data-astro-cid-jugkfwgx>리스크 관리</span></a></li><li style="--depth: 1;" data-astro-cid-jugkfwgx><a href="#모니터링-통제-완료와-보고" style="--depth: 1;" data-astro-cid-jugkfwgx><span style="--depth: 1;" data-astro-cid-jugkfwgx>모니터링, 통제, 완료와 보고</span></a></li><li style="--depth: 1;" data-astro-cid-jugkfwgx><a href="#형상-관리" style="--depth: 1;" data-astro-cid-jugkfwgx><span style="--depth: 1;" data-astro-cid-jugkfwgx>형상 관리</span></a></li><li style="--depth: 1;" data-astro-cid-jugkfwgx><a href="#결함-관리" style="--depth: 1;" data-astro-cid-jugkfwgx><span style="--depth: 1;" data-astro-cid-jugkfwgx>결함 관리</span></a></li></ul></li><li style="--depth: 0;" data-astro-cid-jugkfwgx><a href="#6장-테스트-도구" style="--depth: 0;" data-astro-cid-jugkfwgx><span style="--depth: 0;" data-astro-cid-jugkfwgx>6장. 테스트 도구</span></a></li><li style="--depth: 0;" data-astro-cid-jugkfwgx><a href="#실무에서-이-실라버스를-사용하는-방법" style="--depth: 0;" data-astro-cid-jugkfwgx><span style="--depth: 0;" data-astro-cid-jugkfwgx>실무에서 이 실라버스를 사용하는 방법</span></a></li><li style="--depth: 0;" data-astro-cid-jugkfwgx><a href="#출처" style="--depth: 0;" data-astro-cid-jugkfwgx><span style="--depth: 0;" data-astro-cid-jugkfwgx>출처</span></a></li></ul></nav></starlight-toc><script type="module" src="/qa-wiki/qa-assets/TableOfContents.astro_astro_type_script_index_0_lang.BpJaGz7G.js"></script></div></div></div></aside><div class="main-pane" data-astro-cid-lrzkfocr><main data-pagefind-body lang="ko" dir="ltr" data-astro-cid-g5ptsecz><div class="content-panel" data-astro-cid-a7po4psb><div class="sl-container" data-astro-cid-a7po4psb><h1 id="_top">ISTQB CTFL 실라버스 핵심 정리</h1><p class="wiki-lede">ISTQB Certified Tester Foundation Level 실라버스 v4.0.1의 6개 장(테스팅 기초, 개발 수명주기와 테스팅, 정적 테스트, 테스트 분석과 설계, 테스트 활동 관리, 테스트 도구) 핵심 개념. 개념마다 실무에 적용한 위키 문서를 연결한다.</p><div class="wiki-chips"><a class="wiki-chip wiki-chip-link" href="/qa-wiki/kinds/fundamentals/">기본기</a><span class="wiki-chip">난이도 기초</span><span class="wiki-chip">최종 업데이트 2026-11-24</span></div></div></div><div class="content-panel" data-astro-cid-a7po4psb><div class="sl-container" data-astro-cid-a7po4psb><div class="sl-markdown-content"><p>ISTQB(International Software Testing Qualifications Board)의 CTFL(Certified Tester Foundation Level)은 소프트웨어 테스팅의 기본 개념과 용어를 정한 국제 자격 체계의 기초 과정이다. 아래 절은 2024-09-15에 나온 실라버스 v4.0.1의 장 순서를 따르고, 개념마다 실무에 적용한 위키 문서를 연결한다. 실라버스 원문은 ISTQB 사이트에서 무료로 받을 수 있다.</p>
+<table>
+<thead>
+<tr>
+<th>장</th>
+<th>주제</th>
+<th>학습 시간</th>
+<th>위키에서 이어 볼 문서</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>테스팅 기초</td>
+<td>180분</td>
+<td><a href="/qa-wiki/basics/testing-principles/">테스팅의 7원칙</a></td>
+</tr>
+<tr>
+<td>2</td>
+<td>소프트웨어 개발 수명주기와 테스팅</td>
+<td>130분</td>
+<td><a href="/qa-wiki/basics/test-levels-and-types/">테스트 레벨과 테스트 유형</a>, <a href="/qa-wiki/process/regression-test-selection/">회귀 테스트 범위 선정</a></td>
+</tr>
+<tr>
+<td>3</td>
+<td>정적 테스트</td>
+<td>80분</td>
+<td><a href="/qa-wiki/process/tc-writing-principles/">TC 작성 원칙</a></td>
+</tr>
+<tr>
+<td>4</td>
+<td>테스트 분석과 설계</td>
+<td>390분</td>
+<td><a href="/qa-wiki/test-design/test-techniques-overview/">테스트 기법 분류</a></td>
+</tr>
+<tr>
+<td>5</td>
+<td>테스트 활동 관리</td>
+<td>335분</td>
+<td><a href="/qa-wiki/test-design/risk-based-testing/">리스크 기반 테스트</a>, <a href="/qa-wiki/process/defect-lifecycle/">결함 생명주기</a></td>
+</tr>
+<tr>
+<td>6</td>
+<td>테스트 도구</td>
+<td>20분</td>
+<td><a href="/qa-wiki/automation/test-automation-basics/">테스트 자동화 기본</a></td>
+</tr>
+</tbody>
+</table>
+<div class="sl-heading-wrapper level-h2"><h2 id="1장-테스팅-기초">1장. 테스팅 기초</h2><a class="sl-anchor-link" href="#1장-테스팅-기초"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>섹션 제목: “1장. 테스팅 기초”</span></a></div>
+<div class="sl-heading-wrapper level-h3"><h3 id="테스팅이란">테스팅이란</h3><a class="sl-anchor-link" href="#테스팅이란"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>섹션 제목: “테스팅이란”</span></a></div>
+<p>소프트웨어 테스팅은 결함을 발견하고 소프트웨어 작업 산출물의 품질을 평가하는 활동의 묶음이다. 테스트하는 산출물을 테스트 대상(Test Object)이라고 한다. 실라버스는 두 가지 흔한 오해를 짚는다.</p>
+<ul>
+<li>테스팅은 테스트 실행만이 아님. 계획, 분석, 설계, 구현, 완료 같은 활동을 포함하고 개발 수명주기와 맞물려 진행함</li>
+<li>테스팅은 검증만이 아님. 명세된 요구사항을 만족하는지 확인하는 검증(Verification)과 함께, 운영 환경에서 사용자와 이해관계자의 필요를 만족하는지 확인하는 확인(Validation)을 포함함</li>
+</ul>
+<p>테스팅은 동적 테스트(소프트웨어를 실행함)와 정적 테스트(실행하지 않음. 리뷰와 정적 분석)로 나뉜다.</p>
+<div class="sl-heading-wrapper level-h3"><h3 id="테스트-목적">테스트 목적</h3><a class="sl-anchor-link" href="#테스트-목적"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>섹션 제목: “테스트 목적”</span></a></div>
+<ul>
+<li>요구사항, 사용자 스토리, 설계, 코드 같은 작업 산출물 평가</li>
+<li>장애를 일으키고 결함 발견</li>
+<li>테스트 대상의 필요한 커버리지 확보</li>
+<li>품질 부족으로 인한 리스크 수준 감소</li>
+<li>명세된 요구사항 충족 여부 검증</li>
+<li>계약, 법률, 규제 요구사항 준수 여부 검증</li>
+<li>이해관계자의 의사 결정에 필요한 정보 제공</li>
+<li>테스트 대상의 품질에 대한 신뢰 형성</li>
+<li>테스트 대상이 완전하고 이해관계자의 기대대로 동작하는지 확인</li>
+</ul>
+<p>목적은 테스트 대상 산출물, 테스트 레벨, 리스크, 개발 수명주기, 사업 상황에 따라 달라진다.</p>
+<div class="sl-heading-wrapper level-h3"><h3 id="테스팅과-디버깅">테스팅과 디버깅</h3><a class="sl-anchor-link" href="#테스팅과-디버깅"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>섹션 제목: “테스팅과 디버깅”</span></a></div>
+<p>두 활동은 별개다. 동적 테스트가 장애를 일으키면 디버깅이 장애의 원인(결함)을 찾아 분석하고 제거한다. 디버깅은 장애 재현, 진단(결함 찾기), 결함 수정으로 진행된다. 수정 뒤 확인 테스트로 문제가 해결되었는지 확인하며, 처음 테스트한 사람이 수행하는 것이 바람직하다. 이어서 회귀 테스트로 수정이 다른 부분에 장애를 일으키지 않았는지 확인한다. 정적 테스트는 결함을 직접 찾으므로 재현과 진단 없이 제거한다.</p>
+<div class="sl-heading-wrapper level-h3"><h3 id="테스팅과-qa">테스팅과 QA</h3><a class="sl-anchor-link" href="#테스팅과-qa"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>섹션 제목: “테스팅과 QA”</span></a></div>
+<p>두 용어를 섞어 쓰는 경우가 많지만 같은 것이 아니다.</p>
+<table>
+<thead>
+<tr>
+<th>구분</th>
+<th>테스팅</th>
+<th>QA(품질 보증)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>지향</td>
+<td>제품 지향, 교정적</td>
+<td>프로세스 지향, 예방적</td>
+</tr>
+<tr>
+<td>초점</td>
+<td>적절한 품질 수준 달성을 돕는 활동. 품질 관리(QC)의 주된 형태</td>
+<td>프로세스의 구현과 개선. 좋은 프로세스를 올바르게 따르면 좋은 제품이 나온다는 전제</td>
+</tr>
+<tr>
+<td>담당</td>
+<td>주로 테스트 활동 수행자</td>
+<td>프로젝트의 모든 사람</td>
+</tr>
+<tr>
+<td>테스트 결과 사용</td>
+<td>결함 수정</td>
+<td>개발·테스트 프로세스가 얼마나 잘 동작하는지에 대한 피드백</td>
+</tr>
+</tbody>
+</table>
+<div class="sl-heading-wrapper level-h3"><h3 id="오류-결함-장애-근본-원인">오류, 결함, 장애, 근본 원인</h3><a class="sl-anchor-link" href="#오류-결함-장애-근본-원인"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>섹션 제목: “오류, 결함, 장애, 근본 원인”</span></a></div>
+<ul>
+<li>사람이 오류(Error, 실수)를 하면 결함(Defect, Fault, Bug)이 만들어지고, 결함이 실행되면 장애(Failure)가 발생할 수 있음</li>
+<li>오류의 원인: 시간 압박, 산출물·프로세스·인프라의 복잡도, 피로, 교육 부족 등</li>
+<li>결함은 요구사항 명세, 테스트 스크립트, 소스 코드, 빌드 파일 등 어디에나 있음. 앞 단계 산출물의 결함은 뒤 단계 산출물의 결함으로 이어지기 쉬움</li>
+<li>실행하면 항상 장애가 되는 결함, 특정 조건에서만 장애가 되는 결함, 장애로 이어지지 않는 결함이 있음</li>
+<li>방사선, 전자기장처럼 환경 조건이 장애를 일으키기도 함</li>
+<li>근본 원인(Root Cause)은 문제가 발생한 근본적인 이유이고, 근본 원인 분석으로 찾음. 근본 원인을 제거하면 비슷한 장애와 결함을 예방하거나 줄일 수 있음</li>
+</ul>
+<div class="sl-heading-wrapper level-h3"><h3 id="테스팅의-7원칙">테스팅의 7원칙</h3><a class="sl-anchor-link" href="#테스팅의-7원칙"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>섹션 제목: “테스팅의 7원칙”</span></a></div>
+<p>결함 존재의 증명, 완벽한 테스팅의 불가능, 조기 테스팅, 결함 집중, 테스트 효과 감소, 정황 의존성, 결함 부재의 오류. 원칙마다 뜻과 실무 적용은 <a href="/qa-wiki/basics/testing-principles/">테스팅의 7원칙</a>에 정리했다.</p>
+<div class="sl-heading-wrapper level-h3"><h3 id="테스트-활동">테스트 활동</h3><a class="sl-anchor-link" href="#테스트-활동"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>섹션 제목: “테스트 활동”</span></a></div>
+<p>테스트 프로세스는 아래 활동 묶음으로 구성된다. 순서대로 보이지만 실제로는 반복하거나 병행하며, 시스템과 프로젝트에 맞게 조정한다.</p>
+<table>
+<thead>
+<tr>
+<th>활동</th>
+<th>하는 일</th>
+<th>대표 산출물(테스트웨어)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>테스트 계획</td>
+<td>테스트 목적을 정하고 제약 안에서 목적을 가장 잘 달성할 접근법을 선택함</td>
+<td>테스트 계획서, 일정, 리스크 목록, 진입·종료 기준</td>
+</tr>
+<tr>
+<td>테스트 모니터링과 통제</td>
+<td>진행 상황을 계획과 비교하고(모니터링) 목적 달성에 필요한 조치를 취함(통제)</td>
+<td>진행 보고서, 통제 지시 기록</td>
+</tr>
+<tr>
+<td>테스트 분석</td>
+<td>테스트 베이시스를 분석해 테스트 가능한 기능과 테스트 조건을 정하고 우선순위를 매김. “무엇을 테스트할지”</td>
+<td>우선순위를 매긴 테스트 조건, 테스트 베이시스의 결함 보고</td>
+</tr>
+<tr>
+<td>테스트 설계</td>
+<td>테스트 조건을 TC로 구체화하고 커버리지 항목, 테스트 데이터, 환경 요구를 정함. “어떻게 테스트할지”</td>
+<td>TC, 테스트 차터, 커버리지 항목</td>
+</tr>
+<tr>
+<td>테스트 구현</td>
+<td>실행에 필요한 테스트웨어를 만들고 절차와 스위트를 구성하며 환경을 준비함</td>
+<td>테스트 절차, 수동·자동 스크립트, 테스트 데이터, 실행 일정, 스텁·드라이버</td>
+</tr>
+<tr>
+<td>테스트 실행</td>
+<td>일정에 따라 테스트를 실행하고 실제 결과와 기대 결과를 비교해 기록하며 이상을 분석함</td>
+<td>테스트 로그, 결함 보고서</td>
+</tr>
+<tr>
+<td>테스트 완료</td>
+<td>마일스톤에서 미해결 결함을 변경 요청으로 넘기고 테스트웨어를 보관하며 교훈을 정리함</td>
+<td>테스트 완료 보고서, 개선 조치 항목</td>
+</tr>
+</tbody>
+</table>
+<p>테스트 베이시스(Test Basis)는 테스트 분석과 설계의 근거가 되는 정보(요구사항, 사용자 스토리, 설계 문서, 코드 등)다. 테스트 베이시스와 테스트웨어, 테스트 결과, 결함 사이의 추적성을 유지하면 커버리지를 평가하고 변경의 영향을 판단할 수 있다. 예를 들어 TC와 요구사항을 연결하면 요구사항이 TC로 커버되었는지 확인할 수 있고, 테스트 결과와 리스크를 연결하면 남은 리스크 수준을 평가할 수 있다.</p>
+<p>테스트 프로세스의 모습은 이해관계자, 팀 역량, 도메인, 기술, 프로젝트 제약, 조직, 개발 수명주기, 도구 같은 정황 요인에 따라 달라진다.</p>
+<div class="sl-heading-wrapper level-h3"><h3 id="역할-역량-독립성">역할, 역량, 독립성</h3><a class="sl-anchor-link" href="#역할-역량-독립성"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>섹션 제목: “역할, 역량, 독립성”</span></a></div>
+<ul>
+<li>테스트 관리 역할: 테스트 프로세스와 팀을 책임지고 계획, 모니터링, 통제, 완료에 집중함</li>
+<li>테스팅 역할: 테스트의 기술적 측면을 책임지고 분석, 설계, 구현, 실행에 집중함. 한 사람이 두 역할을 함께 맡을 수도 있음</li>
+<li>필요한 역량: 테스팅 지식, 꼼꼼함과 호기심, 의사소통과 경청, 분석적·비판적 사고와 창의성, 기술 지식, 도메인 지식</li>
+<li>테스터는 나쁜 소식을 전하는 사람이 되기 쉬움. 결함과 장애 정보는 건설적으로 전달함</li>
+<li>전체 팀 접근법(Whole Team Approach): 필요한 역량이 있는 팀원은 누구든 어떤 작업이든 수행하고, 품질은 모두의 책임임. 안전 필수 분야처럼 높은 독립성이 필요한 경우에는 맞지 않을 수 있음</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>독립성 수준</th>
+<th>테스트 수행자</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>없음</td>
+<td>작성자 본인</td>
+</tr>
+<tr>
+<td>일부</td>
+<td>같은 팀의 동료</td>
+</tr>
+<tr>
+<td>높음</td>
+<td>같은 조직의 다른 팀 테스터</td>
+</tr>
+<tr>
+<td>매우 높음</td>
+<td>조직 외부의 테스터</td>
+</tr>
+</tbody>
+</table>
+<p>독립적인 테스터는 작성자와 다른 인지 편향을 가져 다른 종류의 결함을 찾는다. 반면 개발팀과 고립되거나, 개발자가 품질에 대한 책임감을 잃거나, 테스터가 출시 지연의 병목으로 비난받는 단점이 있다. 대부분의 프로젝트는 여러 수준의 독립성을 섞어 쓴다(개발자는 컴포넌트·컴포넌트 통합, 테스트 팀은 시스템·시스템 통합, 사업 담당자는 인수 테스트).</p>
+<div class="sl-heading-wrapper level-h2"><h2 id="2장-소프트웨어-개발-수명주기와-테스팅">2장. 소프트웨어 개발 수명주기와 테스팅</h2><a class="sl-anchor-link" href="#2장-소프트웨어-개발-수명주기와-테스팅"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>섹션 제목: “2장. 소프트웨어 개발 수명주기와 테스팅”</span></a></div>
+<div class="sl-heading-wrapper level-h3"><h3 id="개발-수명주기가-테스팅에-미치는-영향">개발 수명주기가 테스팅에 미치는 영향</h3><a class="sl-anchor-link" href="#개발-수명주기가-테스팅에-미치는-영향"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>섹션 제목: “개발 수명주기가 테스팅에 미치는 영향”</span></a></div>
+<p>개발 수명주기(SDLC) 모델은 순차형(폭포수, V 모델), 반복형(나선형, 프로토타이핑), 점진형(통합 프로세스)으로 나뉜다. 선택한 모델에 따라 테스트 활동의 범위와 시점, 문서화 수준, 기법과 접근법, 자동화 정도, 테스터의 역할이 달라진다.</p>
+<ul>
+<li>순차형: 초기에는 요구사항 리뷰, 분석, 설계에 참여하고 실행 가능한 코드는 후반에 나와 동적 테스트는 늦게 시작함</li>
+<li>반복·점진형: 매 반복마다 정적·동적 테스트를 모든 레벨에서 수행하며 빠른 피드백과 대규모 회귀 테스트가 필요함</li>
+<li>애자일: 변경을 전제로 가벼운 문서와 광범위한 자동화를 선호하고, 수동 테스트는 주로 경험 기반 기법으로 수행함</li>
+</ul>
+<p>모델과 무관한 좋은 실천</p>
+<ul>
+<li>모든 개발 활동에 대응하는 테스트 활동이 있음</li>
+<li>테스트 레벨마다 목적을 달리해 중복 없이 충분히 테스트함</li>
+<li>각 레벨의 테스트 분석과 설계를 대응하는 개발 단계에서 시작함</li>
+<li>산출물 초안이 나오는 즉시 리뷰에 참여함</li>
+</ul>
+<div class="sl-heading-wrapper level-h3"><h3 id="테스트-우선-개발-방식">테스트 우선 개발 방식</h3><a class="sl-anchor-link" href="#테스트-우선-개발-방식"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>섹션 제목: “테스트 우선 개발 방식”</span></a></div>
+<table>
+<thead>
+<tr>
+<th>방식</th>
+<th>핵심</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>TDD(테스트 주도 개발)</td>
+<td>TC로 코딩을 이끎. 테스트를 먼저 작성하고, 통과하도록 코드를 작성한 뒤, 테스트와 코드를 리팩터링함</td>
+</tr>
+<tr>
+<td>ATDD(인수 테스트 주도 개발)</td>
+<td>시스템 설계 과정에서 인수 기준으로부터 테스트를 도출하고, 해당 부분을 개발하기 전에 작성함</td>
+</tr>
+<tr>
+<td>BDD(행위 주도 개발)</td>
+<td>원하는 동작을 이해관계자가 읽을 수 있는 자연어(주로 Given/When/Then)로 TC에 표현하고, 이를 실행 가능한 테스트로 변환함</td>
+</tr>
+</tbody>
+</table>
+<p>세 방식 모두 조기 테스팅 원칙을 구현하고, 테스트가 자동화 테스트로 남아 이후 변경과 리팩터링에서 코드 품질을 지킨다.</p>
+<div class="sl-heading-wrapper level-h3"><h3 id="devops와-시프트-레프트">DevOps와 시프트 레프트</h3><a class="sl-anchor-link" href="#devops와-시프트-레프트"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>섹션 제목: “DevOps와 시프트 레프트”</span></a></div>
+<p>DevOps는 개발(테스트 포함)과 운영이 공동 목표를 위해 함께 일하는 조직 접근법이다. 테스트 관점의 이점은 빠른 피드백, CI를 통한 시프트 레프트, 안정적인 테스트 환경, 비기능 특성의 가시성, 반복 수동 테스트 감소, 회귀 리스크 감소다. 반면 배포 파이프라인 정의, CI/CD 도구 도입과 유지, 자동화에 필요한 추가 자원이 부담이 된다. 자동화 비중이 높아도 사용자 관점의 수동 테스트는 여전히 필요하다.</p>
+<p>시프트 레프트는 테스트를 개발 수명주기의 더 이른 시점에 수행하는 접근법이다. 뒤 단계 테스트를 소홀히 한다는 뜻은 아니다.</p>
+<ul>
+<li>테스터 관점에서 명세 리뷰</li>
+<li>코드 작성 전에 TC 작성, 구현 중 테스트 하네스에서 코드 실행</li>
+<li>CI와 CD로 빠른 피드백과 자동 컴포넌트 테스트</li>
+<li>동적 테스트 전에 정적 분석 수행</li>
+<li>가능한 경우 컴포넌트 레벨부터 비기능 테스트 수행</li>
+</ul>
+<div class="sl-heading-wrapper level-h3"><h3 id="회고">회고</h3><a class="sl-anchor-link" href="#회고"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>섹션 제목: “회고”</span></a></div>
+<p>반복이나 프로젝트가 끝날 때 무엇이 잘 되었고, 무엇을 개선할지, 어떻게 유지하고 개선할지를 논의한다. 결과는 테스트 완료 보고서에 기록하고, 개선 항목은 후속 조치를 확인한다.</p>
+<div class="sl-heading-wrapper level-h3"><h3 id="테스트-레벨-테스트-유형-확인회귀-테스트">테스트 레벨, 테스트 유형, 확인·회귀 테스트</h3><a class="sl-anchor-link" href="#테스트-레벨-테스트-유형-확인회귀-테스트"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>섹션 제목: “테스트 레벨, 테스트 유형, 확인·회귀 테스트”</span></a></div>
+<ul>
+<li>테스트 레벨 다섯: 컴포넌트, 컴포넌트 통합, 시스템, 시스템 통합, 인수. 레벨은 테스트 대상, 목적, 테스트 베이시스, 결함과 장애, 접근법과 책임으로 구분함</li>
+<li>테스트 유형 넷: 기능, 비기능, 블랙박스, 화이트박스. 모든 레벨에 적용할 수 있음</li>
+<li>확인 테스트: 원래의 결함이 제대로 수정되었는지 확인함</li>
+<li>회귀 테스트: 변경(이미 확인 테스트를 마친 수정 포함)이 나쁜 영향을 주지 않았는지 확인함. 범위를 정하기 전에 영향 분석을 수행하고, 반복 실행되므로 자동화의 우선 대상임</li>
+</ul>
+<p>자세한 내용과 TC 예시는 <a href="/qa-wiki/basics/test-levels-and-types/">테스트 레벨과 테스트 유형</a>과 <a href="/qa-wiki/process/regression-test-selection/">회귀 테스트 범위 선정</a>에 있다.</p>
+<div class="sl-heading-wrapper level-h3"><h3 id="유지보수-테스트">유지보수 테스트</h3><a class="sl-anchor-link" href="#유지보수-테스트"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>섹션 제목: “유지보수 테스트”</span></a></div>
+<p>운영 중인 시스템의 변경을 테스트한다. 변경이 성공적으로 구현되었는지와 변경하지 않은 부분(대개 시스템의 대부분)에 회귀가 없는지를 함께 확인한다. 범위는 변경의 리스크, 기존 시스템의 크기, 변경의 크기로 정한다.</p>
+<ul>
+<li>계기 1, 수정: 계획된 기능 개선, 결함 수정, 핫픽스</li>
+<li>계기 2, 운영 환경의 업그레이드나 이전: 새 환경에서의 테스트, 데이터 이전 시 데이터 변환 테스트</li>
+<li>계기 3, 폐기: 데이터 보관 테스트, 보관 뒤 복원·조회 절차 테스트</li>
+</ul>
+<div class="sl-heading-wrapper level-h2"><h2 id="3장-정적-테스트">3장. 정적 테스트</h2><a class="sl-anchor-link" href="#3장-정적-테스트"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>섹션 제목: “3장. 정적 테스트”</span></a></div>
+<div class="sl-heading-wrapper level-h3"><h3 id="정적-테스트의-대상과-가치">정적 테스트의 대상과 가치</h3><a class="sl-anchor-link" href="#정적-테스트의-대상과-가치"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>섹션 제목: “정적 테스트의 대상과 가치”</span></a></div>
+<p>정적 테스트는 소프트웨어를 실행하지 않고 산출물을 사람의 검토(리뷰)나 도구(정적 분석)로 평가한다. 읽고 이해할 수 있는 산출물은 모두 리뷰 대상이다(요구사항, 코드, 테스트 계획, TC, 백로그 항목, 계약서 등). 정적 분석은 구조가 정해진 산출물(코드, 모델, 형식이 있는 문서)에 적용한다.</p>
+<ul>
+<li>개발 수명주기 초기에 결함을 찾음</li>
+<li>동적 테스트로 찾을 수 없는 결함(도달할 수 없는 코드, 의도대로 구현되지 않은 설계 패턴, 실행할 수 없는 산출물의 결함)을 찾음</li>
+<li>이해관계자 사이에 공통 이해를 만들고 소통을 개선함</li>
+<li>리뷰에도 비용이 들지만, 리뷰하지 않을 때 뒤에서 결함을 수정하는 비용보다 대체로 적음</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>비교</th>
+<th>정적 테스트</th>
+<th>동적 테스트</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>결함 발견 방식</td>
+<td>결함을 직접 찾음</td>
+<td>장애를 일으킨 뒤 분석으로 결함을 찾음</td>
+</tr>
+<tr>
+<td>적용 대상</td>
+<td>실행할 수 없는 산출물 포함</td>
+<td>실행 가능한 산출물만</td>
+</tr>
+<tr>
+<td>잘 찾는 곳</td>
+<td>거의 실행되지 않거나 도달하기 어려운 경로</td>
+<td>실행해야 드러나는 동작</td>
+</tr>
+<tr>
+<td>측정하는 품질 특성</td>
+<td>실행과 무관한 특성(유지보수성 등)</td>
+<td>실행에 의존하는 특성(성능 효율성 등)</td>
+</tr>
+</tbody>
+</table>
+<p>정적 테스트로 더 쉽거나 싸게 찾는 결함</p>
+<ul>
+<li>요구사항 결함: 불일치, 모호함, 모순, 누락, 부정확, 중복</li>
+<li>설계 결함: 비효율적인 DB 구조, 잘못된 모듈화</li>
+<li>일부 코딩 결함: 값이 정해지지 않은 변수, 선언하지 않은 변수, 도달할 수 없거나 중복된 코드, 과도한 복잡도</li>
+<li>표준 위반: 명명 규칙 미준수</li>
+<li>인터페이스 명세 오류: 파라미터의 개수, 타입, 순서 불일치</li>
+<li>특정 보안 취약점: 버퍼 오버플로</li>
+<li>테스트 베이시스 커버리지 누락: 인수 기준에 대응하는 테스트 누락</li>
+</ul>
+<div class="sl-heading-wrapper level-h3"><h3 id="리뷰-프로세스와-역할">리뷰 프로세스와 역할</h3><a class="sl-anchor-link" href="#리뷰-프로세스와-역할"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>섹션 제목: “리뷰 프로세스와 역할”</span></a></div>
+<p>ISO/IEC 20246이 정한 일반 리뷰 프로세스의 활동은 다음과 같다. 형식을 갖춘 리뷰일수록 더 많은 작업을 수행한다.</p>
+<ol>
+<li>계획: 목적, 대상 산출물, 평가할 품질 특성, 중점 영역, 종료 기준, 일정을 정의함</li>
+<li>리뷰 착수: 참가자가 산출물에 접근하고 역할과 책임을 이해하도록 준비함</li>
+<li>개별 리뷰: 리뷰어마다 체크리스트 기반, 시나리오 기반 등의 기법으로 이상, 제안, 질문을 기록함</li>
+<li>의사소통과 분석: 이상이 결함인지 분석하고 상태, 담당자, 조치를 결정함</li>
+<li>수정과 보고: 결함 보고서를 작성하고, 종료 기준을 만족하면 산출물을 승인함</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>역할</th>
+<th>책임</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>관리자</td>
+<td>리뷰 대상을 정하고 인력과 시간을 제공함</td>
+</tr>
+<tr>
+<td>작성자</td>
+<td>리뷰 대상 산출물을 작성하고 수정함</td>
+</tr>
+<tr>
+<td>중재자(퍼실리테이터)</td>
+<td>리뷰 회의를 효과적으로 진행하고 누구나 자유롭게 말할 수 있는 환경을 만듦</td>
+</tr>
+<tr>
+<td>기록자</td>
+<td>리뷰어의 이상을 모으고 결정 사항과 새로 찾은 이상을 기록함</td>
+</tr>
+<tr>
+<td>리뷰어</td>
+<td>리뷰를 수행함. 프로젝트 구성원, 전문가, 이해관계자 누구나 가능함</td>
+</tr>
+<tr>
+<td>리뷰 리더</td>
+<td>참가자, 일정, 장소를 정하는 등 리뷰 전체를 책임짐</td>
+</tr>
+</tbody>
+</table>
+<div class="sl-heading-wrapper level-h3"><h3 id="리뷰-유형">리뷰 유형</h3><a class="sl-anchor-link" href="#리뷰-유형"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>섹션 제목: “리뷰 유형”</span></a></div>
+<table>
+<thead>
+<tr>
+<th>유형</th>
+<th>형식 수준</th>
+<th>주도</th>
+<th>주된 목적</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>비공식 리뷰</td>
+<td>정해진 프로세스와 문서 산출물 없음</td>
+<td>정해지지 않음</td>
+<td>이상 발견</td>
+</tr>
+<tr>
+<td>워크스루</td>
+<td>중간</td>
+<td>작성자</td>
+<td>품질 평가, 신뢰 형성, 리뷰어 교육, 합의, 아이디어, 이상 발견</td>
+</tr>
+<tr>
+<td>기술 리뷰</td>
+<td>중간</td>
+<td>중재자. 기술 역량이 있는 리뷰어 참여</td>
+<td>기술 문제에 대한 합의와 결정, 이상 발견</td>
+</tr>
+<tr>
+<td>인스펙션</td>
+<td>가장 높음. 일반 프로세스 전체 수행, 지표 수집</td>
+<td>리뷰 리더(작성자는 리뷰 리더나 기록자를 맡을 수 없음)</td>
+<td>최대한 많은 이상 발견</td>
+</tr>
+</tbody>
+</table>
+<p>리뷰가 성공하려면 명확한 목적과 측정 가능한 종료 기준(참가자 평가는 목적이 될 수 없음), 목적에 맞는 리뷰 유형, 작은 단위로 나눈 리뷰, 충분한 준비 시간, 관리자의 지원, 참가자 교육, 회의 진행이 필요하다.</p>
+<div class="sl-heading-wrapper level-h2"><h2 id="4장-테스트-분석과-설계">4장. 테스트 분석과 설계</h2><a class="sl-anchor-link" href="#4장-테스트-분석과-설계"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>섹션 제목: “4장. 테스트 분석과 설계”</span></a></div>
+<p>기법을 블랙박스(동등 분할, 경계값 분석, 결정 테이블, 상태 전이), 화이트박스(구문 테스트, 분기 테스트), 경험 기반(오류 추측, 탐색적 테스트, 체크리스트 기반)으로 나누고, 협업 기반 접근법(협업 스토리 작성, 인수 기준, ATDD)을 다룬다. 정의, 커버리지 계산, 예시는 <a href="/qa-wiki/test-design/test-techniques-overview/">테스트 기법 분류</a>와 기법별 문서에 정리했다.</p>
+<div class="sl-heading-wrapper level-h2"><h2 id="5장-테스트-활동-관리">5장. 테스트 활동 관리</h2><a class="sl-anchor-link" href="#5장-테스트-활동-관리"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>섹션 제목: “5장. 테스트 활동 관리”</span></a></div>
+<div class="sl-heading-wrapper level-h3"><h3 id="테스트-계획서">테스트 계획서</h3><a class="sl-anchor-link" href="#테스트-계획서"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>섹션 제목: “테스트 계획서”</span></a></div>
+<p>계획서는 테스트 목적, 자원, 프로세스를 기술하고 이해관계자와 소통하는 수단이다. 전형적인 내용은 다음과 같다.</p>
+<ul>
+<li>테스트 정황: 범위, 목적, 테스트 베이시스</li>
+<li>가정과 제약</li>
+<li>이해관계자: 역할, 책임, 채용·교육 필요</li>
+<li>의사소통: 형식, 빈도, 문서 양식</li>
+<li>리스크 목록: 제품 리스크, 프로젝트 리스크</li>
+<li>테스트 접근법: 레벨, 유형, 기법, 산출물, 진입·종료 기준, 독립성, 수집할 지표, 테스트 데이터와 환경 요구, 테스트 정책·전략과 다른 점</li>
+<li>예산과 일정</li>
+</ul>
+<p>반복형 개발에서 테스터는 릴리즈 계획(테스트 가능한 스토리와 인수 기준 작성, 리스크 분석, 테스트 노력 추정)과 반복 계획(스토리의 상세 리스크 분석, 테스트 용이성 판단, 테스트 작업 분해와 추정)에 참여한다.</p>
+<div class="sl-heading-wrapper level-h3"><h3 id="진입-기준과-종료-기준">진입 기준과 종료 기준</h3><a class="sl-anchor-link" href="#진입-기준과-종료-기준"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>섹션 제목: “진입 기준과 종료 기준”</span></a></div>
+<ul>
+<li>진입 기준: 활동을 시작하기 위한 사전 조건. 예: 인력·도구·환경·데이터 확보, 테스트 가능한 요구사항 확보, 스모크 테스트 통과</li>
+<li>종료 기준: 활동 완료를 선언하기 위한 조건. 예: 커버리지 달성 수준, 미해결 결함 수, 결함 밀도, 실패 TC 수(철저함 측정), 계획한 테스트 실행 여부와 회귀 테스트 자동화 여부(예·아니요 판정)</li>
+<li>시간과 예산 소진도 종료 기준이 될 수 있음. 단, 이해관계자가 추가 테스트 없이 출시하는 리스크를 검토하고 수용한 경우에 한함</li>
+<li>애자일에서는 종료 기준을 완료 정의(DoD, Definition of Done), 스토리의 진입 기준을 준비 정의(DoR, Definition of Ready)라고 부름</li>
+</ul>
+<div class="sl-heading-wrapper level-h3"><h3 id="추정-기법">추정 기법</h3><a class="sl-anchor-link" href="#추정-기법"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>섹션 제목: “추정 기법”</span></a></div>
+<table>
+<thead>
+<tr>
+<th>기법</th>
+<th>방식</th>
+<th>예</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>비율 기반</td>
+<td>조직의 과거 프로젝트 비율을 사용함</td>
+<td>이전 프로젝트의 개발 대 테스트 노력이 3:2이고 이번 개발 노력이 600인일이면 테스트 노력은 400인일</td>
+</tr>
+<tr>
+<td>외삽</td>
+<td>현재 프로젝트 초기 측정값으로 남은 작업을 추정함</td>
+<td>직전 세 반복의 평균 테스트 노력으로 다음 반복을 추정</td>
+</tr>
+<tr>
+<td>와이드밴드 델파이</td>
+<td>전문가가 각자 추정하고, 편차가 크면 논의 후 다시 각자 추정하는 과정을 합의까지 반복함. 플래닝 포커는 그 변형</td>
+<td>스토리 포인트 카드로 추정</td>
+</tr>
+<tr>
+<td>3점 추정</td>
+<td>낙관(a), 최빈(m), 비관(b) 추정의 가중 평균. E = (a + 4m + b) / 6, 표준편차 SD = (b - a) / 6</td>
+<td>a=6, m=9, b=18이면 E=10, SD=2. 즉 10±2인시</td>
+</tr>
+</tbody>
+</table>
+<p>큰 작업은 작은 작업으로 나눠 추정하면 정확도가 높아진다. 추정은 가정에 기반하고 오차가 있다는 점을 이해관계자에게 분명히 알린다.</p>
+<div class="sl-heading-wrapper level-h3"><h3 id="tc-우선순위">TC 우선순위</h3><a class="sl-anchor-link" href="#tc-우선순위"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>섹션 제목: “TC 우선순위”</span></a></div>
+<ul>
+<li>리스크 기반: 리스크 분석 결과로 순서를 정하고 가장 중요한 리스크를 다루는 TC부터 실행함</li>
+<li>커버리지 기반: 커버리지(예: 구문 커버리지)가 가장 높은 TC부터 실행함. 변형인 추가 커버리지 우선순위는 매번 추가 커버리지가 가장 큰 TC를 다음으로 실행함</li>
+<li>요구사항 기반: 이해관계자가 정한 요구사항 우선순위를 따름</li>
+</ul>
+<p>우선순위가 높은 TC가 낮은 TC에 의존하면 낮은 TC를 먼저 실행한다. 도구, 환경, 사람을 쓸 수 있는 시간대도 실행 순서에 반영한다. 위키의 우선순위 등급 예는 <a href="/qa-wiki/test-design/risk-based-testing/">리스크 기반 테스트</a>에 있다.</p>
+<div class="sl-heading-wrapper level-h3"><h3 id="테스트-피라미드와-테스트-사분면">테스트 피라미드와 테스트 사분면</h3><a class="sl-anchor-link" href="#테스트-피라미드와-테스트-사분면"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>섹션 제목: “테스트 피라미드와 테스트 사분면”</span></a></div>
+<p>테스트 피라미드는 테스트마다 세분성(Granularity)이 다르다는 것을 보여 주는 모델이다. 위로 갈수록 세분성과 격리 수준이 낮고 실행 시간이 길다. 아래층은 작고 격리되고 빠른 테스트라 많이 필요하고, 위층은 복잡한 E2E 테스트라 적은 수로 충분한 커버리지를 얻는다. 원래 모델(Cohn 2009)은 단위, 서비스, UI 세 층이고, 단위(컴포넌트), 통합(컴포넌트 통합), E2E로 나누는 모델도 많이 쓴다.</p>
+<p>테스트 사분면(Marick)은 애자일에서 테스트 레벨, 유형, 활동을 두 축으로 묶는다. 축 하나는 비즈니스 관점과 기술 관점, 다른 하나는 팀 지원(개발을 안내함)과 제품 비평(기대와 비교해 평가함)이다.</p>
+<figure class="wiki-fig">
+<div class="wiki-fig-scroll" role="region" tabindex="0" aria-label="테스트 사분면, 좁은 화면에서는 가로로 스크롤">
+<svg class="wiki-fig-wide" viewBox="0 0 764 456" role="img" aria-labelledby="tq-title" aria-describedby="tq-desc"><title id="tq-title">테스트 사분면</title><desc id="tq-desc">위는 비즈니스 관점, 아래는 기술 관점, 왼쪽은 팀 지원, 오른쪽은 제품 비평. Q2 왼쪽 위 기능·스토리·API 테스트(수동 또는 자동), Q3 오른쪽 위 탐색적·사용성·사용자 인수 테스트(주로 수동), Q1 왼쪽 아래 컴포넌트·컴포넌트 통합 테스트(자동화해 CI에 포함), Q4 오른쪽 아래 스모크·비기능 테스트(주로 자동).</desc><defs><marker id="tq-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="f-head" d="M0 0L10 5L0 10z"/></marker></defs><g data-q="Q2" data-v="비즈니스" data-h="팀 지원"><rect class="f-node f-acc" x="92" y="46" width="284" height="174" rx="10"/><text class="f-q" x="110" y="78">Q2</text><text x="110" y="110">기능 테스트, 예시, 스토리 테스트</text><text x="110" y="132">UX 프로토타입, API 테스트</text><text x="110" y="154">시뮬레이션</text><text class="f-sub" x="110" y="202">수동 또는 자동. 인수 기준 확인</text></g><g data-q="Q3" data-v="비즈니스" data-h="제품 비평"><rect class="f-node f-t2 f-acc" x="388" y="46" width="284" height="174" rx="10"/><text class="f-q" x="406" y="78">Q3</text><text x="406" y="110">탐색적 테스트, 사용성 테스트</text><text x="406" y="132">사용자 인수 테스트</text><text class="f-sub" x="406" y="202">주로 수동</text></g><g data-q="Q1" data-v="기술" data-h="팀 지원"><rect class="f-node f-acc" x="92" y="232" width="284" height="174" rx="10"/><text class="f-q" x="110" y="264">Q1</text><text x="110" y="296">컴포넌트 테스트</text><text x="110" y="318">컴포넌트 통합 테스트</text><text class="f-sub" x="110" y="388">자동화해 CI에 포함</text></g><g data-q="Q4" data-v="기술" data-h="제품 비평"><rect class="f-node f-t2 f-acc" x="388" y="232" width="284" height="174" rx="10"/><text class="f-q" x="406" y="264">Q4</text><text x="406" y="296">스모크 테스트</text><text x="406" y="318">비기능 테스트(사용성 제외)</text><text class="f-sub" x="406" y="388">주로 자동</text></g><path class="f-axisline" d="M382 36 V416" marker-start="url(#tq-arrow)" marker-end="url(#tq-arrow)"/><path class="f-axisline" d="M82 226 H682" marker-start="url(#tq-arrow)" marker-end="url(#tq-arrow)"/><text class="f-axis" x="382" y="26" text-anchor="middle">비즈니스 관점</text><text class="f-axis" x="382" y="440" text-anchor="middle">기술 관점</text><text class="f-axis" x="70" y="231" text-anchor="end">팀 지원</text><text class="f-axis" x="694" y="231">제품 비평</text></svg>
+</div>
+<figcaption>세로는 비즈니스 관점과 기술 관점, 가로는 팀 지원과 제품 비평. 오른쪽 두 칸(제품 비평)에만 색을 칠해 왼쪽 두 칸(팀 지원)과 구분. 칸 아래 회색 글자는 주된 수행 방식</figcaption>
+</figure>
+<table>
+<thead>
+<tr>
+<th>사분면</th>
+<th>관점</th>
+<th>포함하는 테스트</th>
+<th>수행 방식</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Q1</td>
+<td>기술, 팀 지원</td>
+<td>컴포넌트, 컴포넌트 통합 테스트</td>
+<td>자동화해 CI에 포함</td>
+</tr>
+<tr>
+<td>Q2</td>
+<td>비즈니스, 팀 지원</td>
+<td>기능 테스트, 예시, 스토리 테스트, UX 프로토타입, API 테스트, 시뮬레이션</td>
+<td>수동 또는 자동. 인수 기준 확인</td>
+</tr>
+<tr>
+<td>Q3</td>
+<td>비즈니스, 제품 비평</td>
+<td>탐색적 테스트, 사용성 테스트, 사용자 인수 테스트</td>
+<td>주로 수동</td>
+</tr>
+<tr>
+<td>Q4</td>
+<td>기술, 제품 비평</td>
+<td>스모크 테스트, 비기능 테스트(사용성 제외)</td>
+<td>주로 자동</td>
+</tr>
+</tbody>
+</table>
+<div class="sl-heading-wrapper level-h3"><h3 id="리스크-관리">리스크 관리</h3><a class="sl-anchor-link" href="#리스크-관리"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>섹션 제목: “리스크 관리”</span></a></div>
+<p>리스크는 발생하면 나쁜 영향을 주는 잠재적 사건이나 상황이다. 리스크 가능성(0보다 크고 1보다 작은 발생 확률)과 리스크 영향(발생 시 결과)이 리스크 수준을 정한다. 리스크 관리는 리스크 분석(식별과 평가)과 리스크 통제(완화와 모니터링)로 구성되고, 리스크 분석과 통제로 테스트 활동을 선택하고 우선순위를 정하는 접근법이 리스크 기반 테스트다.</p>
+<table>
+<thead>
+<tr>
+<th>구분</th>
+<th>프로젝트 리스크</th>
+<th>제품 리스크</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>관련 대상</td>
+<td>프로젝트의 관리와 통제</td>
+<td>제품 품질 특성</td>
+</tr>
+<tr>
+<td>예</td>
+<td>산출물 지연, 부정확한 추정, 인력 부족과 역량 부족, 범위 확대, 도구 지원 부족, 외부 공급자 문제</td>
+<td>기능 누락·오류, 계산 오류, 런타임 오류, 목표 응답 시간 초과, 나쁜 사용자 경험, 보안 취약점</td>
+</tr>
+<tr>
+<td>발생 시 영향</td>
+<td>일정, 예산, 범위</td>
+<td>사용자 불만, 매출·신뢰 손실, 제3자 피해, 유지보수 비용, 법적 처벌, 극단적으로 인명 피해</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>제품 리스크 분석: 브레인스토밍, 워크숍, 인터뷰, 원인 결과 다이어그램으로 식별하고, 분류와 가능성·영향 평가로 우선순위를 정함. 정량 방식은 가능성 x 영향, 정성 방식은 리스크 매트릭스를 사용함</li>
+<li>분석 결과의 사용: 테스트 범위, 레벨과 유형, 기법과 커버리지, 작업별 노력 추정, 우선순위, 테스트 외 추가 활동을 정함</li>
+<li>리스크 대응: 테스트로 완화, 수용, 전가, 비상 계획 중에서 선택함. 테스트로 완화하는 방법은 적합한 테스터 배정, 적절한 독립성, 리뷰와 정적 분석, 적절한 기법과 커버리지, 해당 품질 특성의 테스트 유형, 회귀 테스트를 포함한 동적 테스트임</li>
+</ul>
+<p>실무 적용은 <a href="/qa-wiki/test-design/risk-based-testing/">리스크 기반 테스트</a>에 있다.</p>
+<div class="sl-heading-wrapper level-h3"><h3 id="모니터링-통제-완료와-보고">모니터링, 통제, 완료와 보고</h3><a class="sl-anchor-link" href="#모니터링-통제-완료와-보고"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>섹션 제목: “모니터링, 통제, 완료와 보고”</span></a></div>
+<ul>
+<li>모니터링: 테스트 정보를 모아 진행 상황과 종료 기준 충족 여부를 평가함</li>
+<li>통제 지시: 리스크가 현실화되면 우선순위를 재조정함. 재작업 후 진입·종료 기준을 재평가하고, 환경 지연에 맞춰 일정을 조정하고, 필요한 곳에 자원을 추가함</li>
+<li>완료: 레벨 완료, 반복 종료, 출시 같은 마일스톤에서 경험과 테스트웨어를 정리함</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>지표 분류</th>
+<th>예</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>프로젝트 진행</td>
+<td>작업 완료율, 자원 사용, 테스트 노력</td>
+</tr>
+<tr>
+<td>테스트 진행</td>
+<td>TC 구현 진행률, 실행·미실행 수, 통과·실패 수, 실행 시간</td>
+</tr>
+<tr>
+<td>제품 품질</td>
+<td>가용성, 응답 시간, 평균 고장 시간(MTTF, 장애 발생까지의 평균 동작 시간)</td>
+</tr>
+<tr>
+<td>결함</td>
+<td>발견·수정 결함 수와 우선순위, 결함 밀도, 결함 검출률</td>
+</tr>
+<tr>
+<td>리스크</td>
+<td>남은 리스크 수준</td>
+</tr>
+<tr>
+<td>커버리지</td>
+<td>요구사항 커버리지, 코드 커버리지</td>
+</tr>
+<tr>
+<td>비용</td>
+<td>테스트 비용, 조직의 품질 비용</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>진행 보고서(정기): 기간, 진행 상황과 편차, 장애물과 우회책, 지표, 새로 생겼거나 바뀐 리스크, 다음 기간 계획</li>
+<li>완료 보고서(1회): 요약, 계획 대비 테스트와 제품 품질 평가, 계획과의 편차, 장애물, 지표, 완화되지 않은 리스크와 수정되지 않은 결함, 교훈</li>
+<li>전달 수단: 구두, 대시보드(CI/CD 대시보드, 작업 보드, 번다운 차트), 메일·채팅, 온라인 문서, 공식 보고서. 이해관계자마다 필요한 정보가 다르므로 맞춰서 전달함</li>
+</ul>
+<div class="sl-heading-wrapper level-h3"><h3 id="형상-관리">형상 관리</h3><a class="sl-anchor-link" href="#형상-관리"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>섹션 제목: “형상 관리”</span></a></div>
+<p>테스트 계획, TC, 스크립트, 결과, 로그, 보고서를 형상 항목으로 식별, 통제, 추적한다. 모든 형상 항목은 고유하게 식별되고 버전이 관리되며 다른 항목과 연결되어 추적성을 유지한다. 테스트 환경처럼 복잡한 항목은 구성 요소와 관계, 버전을 기록하고, 테스트용으로 승인되면 베이스라인이 되어 공식 변경 통제로만 바꾼다. 이전 베이스라인으로 돌아가 이전 테스트 결과를 재현할 수 있다.</p>
+<div class="sl-heading-wrapper level-h3"><h3 id="결함-관리">결함 관리</h3><a class="sl-anchor-link" href="#결함-관리"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>섹션 제목: “결함 관리”</span></a></div>
+<p>보고된 이상은 실제 결함일 수도, 다른 것(거짓 양성 결과, 변경 요청)일 수도 있다. 결함 관리 프로세스는 최소한 발견부터 종결까지의 워크플로와 분류 규칙을 포함하고, 모든 이해관계자가 따라야 한다.</p>
+<p>동적 테스트에서 기록하는 결함 보고서의 전형적인 항목</p>
+<ul>
+<li>고유 식별자, 요약 제목</li>
+<li>관찰 날짜, 작성 조직과 작성자(역할 포함)</li>
+<li>테스트 대상과 테스트 환경</li>
+<li>정황(수행 중이던 TC, 테스트 활동, 개발 단계, 사용한 기법·체크리스트·데이터)</li>
+<li>재현과 해결에 필요한 장애 설명(절차, 로그, DB 덤프, 스크린샷, 녹화)</li>
+<li>기대 결과와 실제 결과</li>
+<li>심각도(영향 정도), 수정 우선순위</li>
+<li>상태(열림, 보류, 중복, 수정 대기, 확인 테스트 대기, 재개, 종결, 거부)</li>
+<li>참조(관련 TC 등)</li>
+</ul>
+<p>위키의 양식과 상태 전이는 <a href="/qa-wiki/process/issue-template/">이슈 양식</a>, <a href="/qa-wiki/process/severity/">심각도 기준</a>, <a href="/qa-wiki/process/defect-lifecycle/">결함 생명주기</a>에 있다.</p>
+<div class="sl-heading-wrapper level-h2"><h2 id="6장-테스트-도구">6장. 테스트 도구</h2><a class="sl-anchor-link" href="#6장-테스트-도구"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>섹션 제목: “6장. 테스트 도구”</span></a></div>
+<p>도구 유형: 테스트 관리, 정적 테스트, 테스트 설계·구현, 테스트 실행·커버리지 측정, 비기능 테스트, DevOps(파이프라인, 빌드 자동화, CI/CD), 협업, 확장성과 배포 표준화(가상 머신, 컨테이너), 그 밖에 테스트를 돕는 모든 도구(스프레드시트 포함).</p>
+<p>도구를 도입하는 것만으로 성공이 보장되지는 않는다. 도입, 유지보수, 교육에 노력이 들고, 분석하고 완화해야 할 리스크가 있다. 자동화의 이점과 위험은 <a href="/qa-wiki/automation/test-automation-basics/">테스트 자동화 기본</a>에 정리했다.</p>
+<div class="sl-heading-wrapper level-h2"><h2 id="실무에서-이-실라버스를-사용하는-방법">실무에서 이 실라버스를 사용하는 방법</h2><a class="sl-anchor-link" href="#실무에서-이-실라버스를-사용하는-방법"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>섹션 제목: “실무에서 이 실라버스를 사용하는 방법”</span></a></div>
+<ul>
+<li>팀의 용어를 맞추는 기준으로 사용함. 결함과 장애, 확인 테스트와 회귀 테스트, 진입 기준과 종료 기준처럼 혼동하기 쉬운 용어를 실라버스 정의로 통일함(<a href="/qa-wiki/basics/glossary/">용어 사전</a>)</li>
+<li>테스트 계획서 목차의 점검표로 사용함. 5장의 계획서 내용과 보고서 내용을 빠짐없이 다뤘는지 확인함</li>
+<li>신규 팀원 교육의 순서로 사용함. 1장(원칙과 활동), 4장(기법), 5장(계획과 보고) 순으로 익히고 위키의 실무 문서로 이어 감</li>
+</ul>
+<aside aria-label="규칙" class="starlight-aside starlight-aside--note"><p class="starlight-aside__title" aria-hidden="true"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" class="starlight-aside__icon"><path d="M12 11a1 1 0 0 0-1 1v4a1 1 0 0 0 2 0v-4a1 1 0 0 0-1-1Zm.38-3.92a1 1 0 0 0-.76 0 1 1 0 0 0-.33.21 1.15 1.15 0 0 0-.21.33 1 1 0 0 0 .21 1.09c.097.088.209.16.33.21A1 1 0 0 0 13 8a1.05 1.05 0 0 0-.29-.71 1 1 0 0 0-.33-.21ZM12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20Zm0 18a8 8 0 1 1 0-16.001A8 8 0 0 1 12 20Z"/></svg>규칙</p><div class="starlight-aside__content"><ul>
+<li>이 문서는 실라버스 v4.0.1의 내용을 정리한 것이며 학습 목표의 수준(K1~K3)과 시험 정보는 다루지 않음. 시험 준비는 원문과 공식 샘플 문제를 사용함</li>
+<li>실라버스 원문의 저작권은 ISTQB에 있음. 테스트 목적, 계획서 내용, 결함 보고서 항목 같은 목록은 원문의 항목 구성을 유지해 우리말로 옮겼고, 설명 문장은 요약함</li>
+</ul></div></aside>
+<div class="sl-heading-wrapper level-h2"><h2 id="출처">출처</h2><a class="sl-anchor-link" href="#출처"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>섹션 제목: “출처”</span></a></div>
+<ul>
+<li><a href="https://istqb.org/certifications/certified-tester-foundation-level-ctfl-v4-0/">ISTQB Certified Tester Foundation Level(CTFL) 실라버스 v4.0.1</a>, 2024-09-15</li>
+<li><a href="https://www.iso.org/standard/67407.html">ISO/IEC 20246:2017 Work product reviews</a></li>
+<li><a href="https://www.iso.org/standard/79429.html">ISO/IEC/IEEE 29119-3:2021 Test documentation</a></li>
+<li>ISO 표준 원문은 유료이며 링크는 ISO 공식 안내 페이지임</li>
+</ul>
+</div><nav class="wiki-path" aria-labelledby="wiki-path-h"><h2 class="wiki-path-h" id="wiki-path-h">추천 읽기 순서 1/6</h2><ol><li><span aria-current="step">ISTQB CTFL 실라버스 핵심 정리</span></li><li><a href="/qa-wiki/basics/testing-principles/">테스팅의 7원칙</a></li><li><a href="/qa-wiki/test-design/test-techniques-overview/">테스트 기법 분류: 블랙박스, 화이트박스, 경험 기반, 협업 기반</a></li><li><a href="/qa-wiki/process/tc-writing-principles/">TC 작성 원칙</a></li><li><a href="/qa-wiki/process/defect-lifecycle/">결함 생명주기</a></li><li><a href="/qa-wiki/automation/test-automation-basics/">테스트 자동화 기본</a></li></ol><div class="wiki-path-nav"><a data-dir="next" href="/qa-wiki/basics/testing-principles/"><span>다음</span>테스팅의 7원칙</a></div></nav><section class="wiki-related"><h2>관련 문서</h2><div class="wiki-rel-grid"><a class="wiki-rel" href="/qa-wiki/basics/testing-principles/"><span class="wiki-rel-cat">기초와 용어</span><span class="wiki-rel-title">테스팅의 7원칙</span><span class="wiki-rel-desc">테스팅의 일반 원칙 7가지(ISTQB CTFL v4.0.1 1.3)는 테스트로 보장할 수 있는 것과 없는 것을 정한다. 원칙마다 뜻과 근거, 테스트 계획·설계·보고에 반영하는 방법을 사례와 함께 설명한다.</span></a><a class="wiki-rel" href="/qa-wiki/test-design/test-techniques-overview/"><span class="wiki-rel-cat">테스트 설계</span><span class="wiki-rel-title">테스트 기법 분류: 블랙박스, 화이트박스, 경험 기반, 협업 기반</span><span class="wiki-rel-desc">테스트 기법은 블랙박스(명세 기반), 화이트박스(구조 기반), 경험 기반, 협업 기반으로 나뉜다. 분류마다 정의, 근거, 커버리지, 강점과 한계를 설명하고 구문·분기 커버리지 계산 예를 든다.</span></a><a class="wiki-rel" href="/qa-wiki/basics/test-levels-and-types/"><span class="wiki-rel-cat">기초와 용어</span><span class="wiki-rel-title">테스트 레벨과 테스트 유형</span><span class="wiki-rel-desc">테스트 레벨은 시스템을 어느 통합 단계에서 검증하는지를, 테스트 유형은 어떤 품질 특성을 검증하는지를 나타내는 분류다. 두 분류는 서로 독립이며, 테스트마다 레벨을 하나 정하고 테스트 유형은 하나 이상 적용할 수 있다.</span></a><a class="wiki-rel" href="/qa-wiki/automation/test-automation-basics/"><span class="wiki-rel-cat">자동화</span><span class="wiki-rel-title">테스트 자동화 기본</span><span class="wiki-rel-desc">테스트 자동화는 도구로 테스트를 실행하고 결과를 판정하는 활동이다. 이점과 한계, 테스트 피라미드, 테스트 용이성, 자동화 아키텍처(gTAA)와 프레임워크 계층, 케이스 자동화 방식 7가지, 도입 절차와 파이프라인 배치, 작성 원칙을 ISTQB CTAL-TAE 기준으로 설명한다.</span></a></div></section><script type="module">var e=e=>{let t=e.scrollWidth-e.clientWidth;e.classList.toggle(`is-scrollable`,t>1),e.classList.toggle(`at-start`,e.scrollLeft<=1),e.classList.toggle(`at-end`,e.scrollLeft>=t-1)},t=new ResizeObserver(t=>t.forEach(t=>e(t.target)));document.querySelectorAll(`.wiki-fig-scroll`).forEach(n=>{e(n),t.observe(n),n.addEventListener(`scroll`,()=>e(n),{passive:!0})});var n=e=>{let t=e.scrollWidth>e.clientWidth+1,n=!!e.querySelector(`a[href], button, input`);t&&!n?e.setAttribute(`tabindex`,`0`):e.removeAttribute(`tabindex`)},r=[...document.querySelectorAll(`.sl-markdown-content table`)],i=new ResizeObserver(e=>e.forEach(e=>{let t=e.target.closest(`table`);t&&n(t)}));r.forEach(e=>{i.observe(e),e.querySelectorAll(`:scope > thead, :scope > tbody`).forEach(e=>i.observe(e))}),document.fonts?.ready.then(()=>r.forEach(n));</script><footer class="sl-flex" data-astro-cid-ddtxxk7k><div class="meta sl-flex" data-astro-cid-ddtxxk7k></div><div class="pagination-links print:hidden" dir="ltr" data-astro-cid-b5raizh3><a href="/qa-wiki/basics/testing-principles/" rel="next" data-astro-cid-b5raizh3><svg data-astro-cid-b5raizh3="true" aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.5rem;" data-astro-cid-hkc32dio><path d="M17.92 11.62a1.001 1.001 0 0 0-.21-.33l-5-5a1.003 1.003 0 1 0-1.42 1.42l3.3 3.29H7a1 1 0 0 0 0 2h7.59l-3.3 3.29a1.002 1.002 0 0 0 .325 1.639 1 1 0 0 0 1.095-.219l5-5a1 1 0 0 0 .21-.33 1 1 0 0 0 0-.76Z"/></svg><span data-astro-cid-b5raizh3>다음 페이지<br data-astro-cid-b5raizh3><span class="link-title" data-astro-cid-b5raizh3>테스팅의 7원칙</span></span></a></div></footer></div></div></main></div></div></div></div></body></html>

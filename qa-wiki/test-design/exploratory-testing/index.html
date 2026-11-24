@@ -1,0 +1,421 @@
+<!DOCTYPE html><html lang="ko" dir="ltr" data-theme="dark" data-has-toc data-has-sidebar data-astro-cid-g5ptsecz><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><title>탐색적 테스트와 세션 기반 테스트 관리 | QA 지식 창고</title><link rel="canonical" href="https://sym804.github.io/qa-wiki/test-design/exploratory-testing/"/><link rel="sitemap" href="/qa-wiki/sitemap-index.xml"/><link rel="shortcut icon" href="/qa-wiki/favicon.svg" type="image/svg+xml"/><meta name="generator" content="Astro v7.4.13"/><meta name="generator" content="Starlight v0.43.1"/><meta property="og:title" content="탐색적 테스트와 세션 기반 테스트 관리"/><meta property="og:type" content="article"/><meta property="og:url" content="https://sym804.github.io/qa-wiki/test-design/exploratory-testing/"/><meta property="og:locale" content="ko"/><meta property="og:description" content="테스트 대상을 학습하면서 테스트 설계, 실행, 결과 평가를 동시에 진행하는 경험 기반 기법이다(Exploratory Testing). ISTQB, Kaner, Bach·Bolton의 정의 차이, 테스트 아이디어(HTSM)와 판정 기준(FEW HICCUPPS) 휴리스틱, 세션 기반 테스트 관리의 차터, 세션 기록, TBS 지표를 다룬다."/><meta property="og:site_name" content="QA 지식 창고"/><meta name="twitter:card" content="summary_large_image"/><meta name="description" content="테스트 대상을 학습하면서 테스트 설계, 실행, 결과 평가를 동시에 진행하는 경험 기반 기법이다(Exploratory Testing). ISTQB, Kaner, Bach·Bolton의 정의 차이, 테스트 아이디어(HTSM)와 판정 기준(FEW HICCUPPS) 휴리스틱, 세션 기반 테스트 관리의 차터, 세션 기록, TBS 지표를 다룬다."/><script>
+	(() => {
+		const storedTheme =
+			typeof localStorage !== 'undefined' && localStorage.getItem('starlight-theme');
+		const theme =
+			storedTheme ||
+			(window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+		document.documentElement.dataset.theme = theme === 'light' ? 'light' : 'dark';
+	})();
+</script><script>
+  (() => {
+    const el = document.documentElement;
+    const sync = () => {
+      el.classList.add('base-spec');
+      el.classList.toggle('dark', el.dataset.theme !== 'light');
+    };
+    sync();
+    new MutationObserver(sync).observe(el, { attributes: true, attributeFilter: ['data-theme'] });
+  })();
+</script><noscript><style>:root { --background: 230 18% 15%; --foreground: 230 10% 92%; --surface: 230 16% 19%; --surface-elevated: 230 16% 22%; --surface-subtle: 230 16% 17%; --surface-raised: 230 16% 24%; --muted: 230 16% 22%; --muted-foreground: 230 8% 70%; --border: 230 14% 27%; --input: 230 14% 27%; --accent: 230 16% 22%; --accent-foreground: 230 10% 92%; --popover: 230 16% 19%; --popover-foreground: 230 10% 92%; --interactive-hover: 230 16% 26%; --interactive-active: 230 16% 32%; --radius-sm: 4px; --radius-md: 12px; --radius-lg: 16px; --radius-xl: 24px; --surface-inverse: 230 18% 15%; --surface-inverse-raised: 230 16% 18%; --surface-inverse-border: 230 14% 28%; --surface-inverse-foreground: 230 10% 94%; --surface-inverse-muted: 230 8% 70%; --callout-note-bg: 152 40% 17%; --callout-note-fg: 152 60% 88%; --callout-note-border: 152 40% 30%; --callout-note-title: 152 60% 84%; --callout-tip-bg: 230 16% 19%; --callout-tip-fg: 230 10% 92%; --callout-tip-border: 230 14% 36%; --callout-tip-title: 152 60% 58%; --masthead-bg: 230 16% 17%; --masthead-fg: 230 10% 92%; --masthead-rule: 230 14% 27%; --masthead-rule-width: 1px; --spec-grid: 230 14% 19%; --primary-50: 152 81% 96%; --primary-100: 149 80% 90%; --primary-200: 152 76% 80%; --primary-300: 156 72% 67%; --primary-400: 152 60% 58%; --primary-500: 160 84% 39%; --primary-600: 161 94% 30%; --primary-700: 163 94% 24%; --primary-800: 163 88% 20%; --primary-900: 164 86% 16%; --primary-950: 166 91% 9%; --ring: var(--primary-400); --primary: var(--primary-400); --primary-foreground: 240 25% 12%; --focus-ring: var(--primary-400); --accent-brand: 172 66% 65%; } body { background-image: linear-gradient(hsl(var(--spec-grid)) 1px, transparent 1px), linear-gradient(90deg, hsl(var(--spec-grid)) 1px, transparent 1px); background-size: 28px 28px; }</style></noscript><link rel="stylesheet" href="/qa-wiki/qa-assets/print.C9eyqPGL.css" media="print"><link rel="stylesheet" href="/qa-wiki/qa-assets/middleware.kl0vZ4Xr.css"><script type="module" src="/qa-wiki/qa-assets/page.cNngjUgL.js"></script></head><body data-astro-cid-g5ptsecz><a class="sl-skip-link" href="#_top" data-astro-cid-qb7clj6f>콘텐츠로 이동</a><div class="page sl-flex" data-astro-cid-yntsjkba><header class="header" data-astro-cid-yntsjkba><div class="header" data-astro-cid-by6fddyj><div class="title-wrapper sl-flex" data-astro-cid-by6fddyj><a href="/qa-wiki/" class="site-title sl-flex" data-astro-cid-6rvad3va><span translate="no" data-astro-cid-6rvad3va>QA 지식 창고</span></a></div><div class="sl-flex print:hidden" data-astro-cid-by6fddyj><site-search data-translations="{&quot;placeholder&quot;:&quot;검색&quot;}" data-astro-cid-b5kgnn7o="true"><button data-open-modal disabled aria-label="검색" aria-keyshortcuts="Control+K" data-astro-cid-b5kgnn7o><svg data-astro-cid-b5kgnn7o="true" aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;" data-astro-cid-hkc32dio><path d="M21.71 20.29 18 16.61A9 9 0 1 0 16.61 18l3.68 3.68a.999.999 0 0 0 1.42 0 1 1 0 0 0 0-1.39ZM11 18a7 7 0 1 1 0-14 7 7 0 0 1 0 14Z"/></svg><span class="sl-hidden md:sl-block" aria-hidden="true" data-astro-cid-b5kgnn7o>검색</span><kbd class="sl-hidden md:sl-flex" style="display: none" data-astro-cid-b5kgnn7o><kbd data-astro-cid-b5kgnn7o>Ctrl</kbd><kbd data-astro-cid-b5kgnn7o>K</kbd></kbd></button><dialog style="padding: 0" aria-label="검색" data-astro-cid-b5kgnn7o><div class="dialog-frame sl-flex" data-astro-cid-b5kgnn7o><button data-close-modal class="sl-flex md:sl-hidden" data-astro-cid-b5kgnn7o>취소</button><div class="search-container" data-astro-cid-b5kgnn7o><div id="starlight__search" data-astro-cid-b5kgnn7o></div></div></div></dialog></site-search><script>
+	(() => {
+		const openBtn = document.querySelector('button[data-open-modal]');
+		const shortcut = openBtn?.querySelector('kbd');
+		if (!openBtn || !(shortcut instanceof HTMLElement)) return;
+		const platformKey = shortcut.querySelector('kbd');
+		if (platformKey && /(Mac|iPhone|iPod|iPad)/i.test(navigator.platform)) {
+			platformKey.textContent = '⌘';
+			openBtn.setAttribute('aria-keyshortcuts', 'Meta+K');
+		}
+		shortcut.style.display = '';
+	})();
+</script><script type="module" src="/qa-wiki/qa-assets/Search.astro_astro_type_script_index_0_lang.DuNn5Etx.js"></script></div><div class="sl-hidden md:sl-flex print:hidden right-group" data-astro-cid-by6fddyj><div class="sl-flex social-icons" data-astro-cid-by6fddyj></div><starlight-theme-select data-astro-cid-smhvfpqh="true"><label style="--sl-select-width: 6.25em" data-astro-cid-2z5xp7gb><span class="sr-only" data-astro-cid-2z5xp7gb>테마 선택</span><span class="icon label-icon" data-astro-cid-2z5xp7gb><svg class="sl-theme-icon-dark" data-astro-cid-smhvfpqh="true" aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;" data-astro-cid-hkc32dio><path d="M21.64 13a1 1 0 0 0-1.05-.14 8.049 8.049 0 0 1-3.37.73 8.15 8.15 0 0 1-8.14-8.1 8.59 8.59 0 0 1 .25-2A1 1 0 0 0 8 2.36a10.14 10.14 0 1 0 14 11.69 1 1 0 0 0-.36-1.05Zm-9.5 6.69A8.14 8.14 0 0 1 7.08 5.22v.27a10.15 10.15 0 0 0 10.14 10.14 9.784 9.784 0 0 0 2.1-.22 8.11 8.11 0 0 1-7.18 4.32v-.04Z"/></svg><svg class="sl-theme-icon-light" data-astro-cid-smhvfpqh="true" aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;" data-astro-cid-hkc32dio><path d="M5 12a1 1 0 0 0-1-1H3a1 1 0 0 0 0 2h1a1 1 0 0 0 1-1Zm.64 5-.71.71a1 1 0 0 0 0 1.41 1 1 0 0 0 1.41 0l.71-.71A1 1 0 0 0 5.64 17ZM12 5a1 1 0 0 0 1-1V3a1 1 0 0 0-2 0v1a1 1 0 0 0 1 1Zm5.66 2.34a1 1 0 0 0 .7-.29l.71-.71a1 1 0 1 0-1.41-1.41l-.66.71a1 1 0 0 0 0 1.41 1 1 0 0 0 .66.29Zm-12-.29a1 1 0 0 0 1.41 0 1 1 0 0 0 0-1.41l-.71-.71a1.004 1.004 0 1 0-1.43 1.41l.73.71ZM21 11h-1a1 1 0 0 0 0 2h1a1 1 0 0 0 0-2Zm-2.64 6A1 1 0 0 0 17 18.36l.71.71a1 1 0 0 0 1.41 0 1 1 0 0 0 0-1.41l-.76-.66ZM12 6.5a5.5 5.5 0 1 0 5.5 5.5A5.51 5.51 0 0 0 12 6.5Zm0 9a3.5 3.5 0 1 1 0-7 3.5 3.5 0 0 1 0 7Zm0 3.5a1 1 0 0 0-1 1v1a1 1 0 0 0 2 0v-1a1 1 0 0 0-1-1Z"/></svg><svg class="sl-theme-icon-auto" data-astro-cid-smhvfpqh="true" aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;" data-astro-cid-hkc32dio><path d="M21 14h-1V7a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v7H3a1 1 0 0 0-1 1v2a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-2a1 1 0 0 0-1-1ZM6 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7H6V7Zm14 10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1h16v1Z"/></svg></span><select autocomplete="off" data-astro-cid-2z5xp7gb><option value="dark" data-astro-cid-2z5xp7gb>어두운 테마</option><option value="light" data-astro-cid-2z5xp7gb>밝은 테마</option><option value="auto" selected data-astro-cid-2z5xp7gb>자동</option></select><svg class="icon caret" data-astro-cid-2z5xp7gb="true" aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;" data-astro-cid-hkc32dio><path d="M17 9.17a1 1 0 0 0-1.41 0L12 12.71 8.46 9.17a1 1 0 1 0-1.41 1.42l4.24 4.24a1.002 1.002 0 0 0 1.42 0L17 10.59a1.002 1.002 0 0 0 0-1.42Z"/></svg></label></starlight-theme-select><script>(() => {
+		const theme = (typeof localStorage !== 'undefined' && localStorage.getItem('starlight-theme'));
+		if (theme) document.querySelectorAll('starlight-theme-select select').forEach((s) => { s.value = theme; });
+	})();</script><script type="module">var e=`starlight-theme`,t=e=>e===`auto`||e===`dark`||e===`light`?e:`auto`,n=()=>t(typeof localStorage<`u`&&localStorage.getItem(e));function r(t){typeof localStorage<`u`&&localStorage.setItem(e,t===`light`||t===`dark`?t:``)}var i=()=>matchMedia(`(prefers-color-scheme: light)`).matches?`light`:`dark`;function a(e){document.querySelectorAll(`starlight-theme-select select`).forEach(t=>{t.value=e}),document.documentElement.dataset.theme=e===`auto`?i():e,r(e)}matchMedia(`(prefers-color-scheme: light)`).addEventListener(`change`,()=>{n()===`auto`&&a(`auto`)});var o=class extends HTMLElement{constructor(){super(),a(n()),this.querySelector(`select`)?.addEventListener(`change`,e=>{e.currentTarget instanceof HTMLSelectElement&&a(t(e.currentTarget.value))})}};customElements.define(`starlight-theme-select`,o);</script><script type="module">var e=class extends HTMLElement{constructor(){super();let e=this.querySelector(`select`);e&&(e.addEventListener(`change`,e=>{e.currentTarget instanceof HTMLSelectElement&&(window.location.pathname=e.currentTarget.value)}),window.addEventListener(`pageshow`,t=>{if(!t.persisted)return;let n=e.querySelector(`option[selected]`)?.index;n!==e.selectedIndex&&(e.selectedIndex=n??0)}))}};customElements.define(`starlight-lang-select`,e);</script></div></div></header><nav class="sidebar print:hidden" aria-label="메인" data-astro-cid-yntsjkba><button popovertarget="starlight__sidebar" class="sl-menu-button sl-flex md:sl-hidden print:hidden" data-astro-cid-r2osgdlg><svg class="open-menu" data-astro-cid-r2osgdlg="true" aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;" data-astro-cid-hkc32dio><path d="M3 8h18a1 1 0 1 0 0-2H3a1 1 0 0 0 0 2Zm18 8H3a1 1 0 0 0 0 2h18a1 1 0 0 0 0-2Zm0-5H3a1 1 0 0 0 0 2h18a1 1 0 0 0 0-2Z"/></svg><svg class="close-menu" data-astro-cid-r2osgdlg="true" aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;" data-astro-cid-hkc32dio><path d="m13.41 12 6.3-6.29a1.004 1.004 0 1 0-1.42-1.42L12 10.59l-6.29-6.3a1.004 1.004 0 0 0-1.42 1.42l6.3 6.29-6.3 6.29a1 1 0 0 0 0 1.42.998.998 0 0 0 1.42 0l6.29-6.3 6.29 6.3a.999.999 0 0 0 1.42 0 1 1 0 0 0 0-1.42L13.41 12Z"/></svg><span class="sr-only" data-astro-cid-r2osgdlg>메뉴</span></button><script type="module">var e=class extends HTMLElement{constructor(){super();let e=matchMedia(`(min-width: 50em)`),t=()=>{this.popover=e.matches?null:`auto`};t(),e.addEventListener(`change`,()=>t()),this.addEventListener(`toggle`,({newState:e})=>this.trapFocus(e===`open`))}trapFocus(e){document.querySelectorAll(`.main-frame, .sl-skip-link`).forEach(t=>{t.toggleAttribute(`inert`,e)})}};customElements.define(`sl-sidebar-pane`,e);</script><sl-sidebar-pane popover id="starlight__sidebar" class="sidebar-pane" data-astro-cid-yntsjkba="true"><div class="sidebar-content sl-flex" data-astro-cid-yntsjkba><sl-sidebar-state-persist data-hash="1pcu6hq" data-astro-cid-ipdry5cl="true"><script aria-hidden="true">
+		(() => {
+			try {
+				if (!matchMedia('(min-width: 50em)').matches) return;
+				/** @type {HTMLElement | null} */
+				const target = document.querySelector('sl-sidebar-state-persist');
+				const state = JSON.parse(sessionStorage.getItem('sl-sidebar-state') || '0');
+				if (!target || !state || target.dataset.hash !== state.hash) return;
+				window._starlightScrollRestore = state.scroll;
+				customElements.define(
+					'sl-sidebar-restore',
+					class SidebarRestore extends HTMLElement {
+						connectedCallback() {
+							try {
+								const idx = parseInt(this.dataset.index || '');
+								const details = this.closest('details');
+								if (details && typeof state.open[idx] === 'boolean') details.open = state.open[idx];
+							} catch {}
+						}
+					}
+				);
+			} catch {}
+		})();
+	</script><ul class="top-level" data-astro-cid-rmhv4bp6><li data-astro-cid-rmhv4bp6><details open data-astro-cid-rmhv4bp6><summary data-astro-cid-rmhv4bp6><span class="group-label" data-astro-cid-rmhv4bp6><span class="large" data-astro-cid-rmhv4bp6>기초와 용어</span></span><svg class="caret" data-astro-cid-rmhv4bp6="true" aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;" data-astro-cid-hkc32dio><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></summary><sl-sidebar-restore data-index="0"></sl-sidebar-restore><ul data-astro-cid-rmhv4bp6><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/basics/istqb-ctfl-overview/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>ISTQB CTFL 실라버스 핵심 정리</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/basics/testing-principles/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>테스팅의 7원칙</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/basics/qa-qc-qm/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>QA, QC, QM의 차이</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/basics/verification-and-validation/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>검증과 확인(V&amp;V)</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/basics/sdlc-and-v-model/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>개발 수명주기와 V-모델</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/basics/test-levels-and-types/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>테스트 레벨과 테스트 유형</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/basics/api-testing/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>API 테스트 기본</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/basics/accessibility-testing/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>접근성 테스트 기본</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/basics/quality-standards-map/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>품질 표준 지도</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/basics/iso-25010-quality-model/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>ISO/IEC 25010 품질 모델</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/basics/iso-29119-test-standards/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>ISO/IEC/IEEE 29119 테스트 표준</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/basics/cost-of-quality/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>품질비용</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/basics/configuration-management/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>형상관리 기본</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/basics/glossary/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>용어 사전</span></a></li></ul></details></li><li data-astro-cid-rmhv4bp6><details open data-astro-cid-rmhv4bp6><summary data-astro-cid-rmhv4bp6><span class="group-label" data-astro-cid-rmhv4bp6><span class="large" data-astro-cid-rmhv4bp6>테스트 설계</span></span><svg class="caret" data-astro-cid-rmhv4bp6="true" aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;" data-astro-cid-hkc32dio><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></summary><sl-sidebar-restore data-index="1"></sl-sidebar-restore><ul data-astro-cid-rmhv4bp6><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/test-design/test-techniques-overview/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>테스트 기법 분류</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/test-design/equivalence-partitioning/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>동등 분할</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/test-design/boundary-value-analysis/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>경계값 분석</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/test-design/decision-table/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>결정 테이블 테스트</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/test-design/state-transition/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>상태 전이 테스트</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/test-design/pairwise-testing/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>조합 테스트(페어와이즈)</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/test-design/exploratory-testing/" aria-current="page" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>탐색적 테스트와 세션 기반 테스트 관리</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/test-design/risk-based-testing/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>리스크 기반 테스트</span></a></li></ul></details></li><li data-astro-cid-rmhv4bp6><details open data-astro-cid-rmhv4bp6><summary data-astro-cid-rmhv4bp6><span class="group-label" data-astro-cid-rmhv4bp6><span class="large" data-astro-cid-rmhv4bp6>프로세스</span></span><svg class="caret" data-astro-cid-rmhv4bp6="true" aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;" data-astro-cid-hkc32dio><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></summary><sl-sidebar-restore data-index="2"></sl-sidebar-restore><ul data-astro-cid-rmhv4bp6><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/process/tc-writing-principles/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>TC 작성 원칙</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/process/defect-lifecycle/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>결함 생명주기</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/process/severity/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>심각도 기준</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/process/issue-template/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>이슈 양식</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/process/regression-test-selection/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>회귀 테스트 범위 선정</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/process/release-notes-versioning/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>릴리즈 노트와 버전 번호</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/process/issue-log-join-key/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>이슈 로그와 트래커의 조인 키</span></a></li></ul></details></li><li data-astro-cid-rmhv4bp6><details open data-astro-cid-rmhv4bp6><summary data-astro-cid-rmhv4bp6><span class="group-label" data-astro-cid-rmhv4bp6><span class="large" data-astro-cid-rmhv4bp6>자동화</span></span><svg class="caret" data-astro-cid-rmhv4bp6="true" aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;" data-astro-cid-hkc32dio><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></summary><sl-sidebar-restore data-index="3"></sl-sidebar-restore><ul data-astro-cid-rmhv4bp6><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/automation/test-automation-basics/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>테스트 자동화 기본</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/automation/e2e-after-build/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>E2E 테스트 전 빌드</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/automation/test-what-you-commit/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>작업 트리와 커밋 상태 구분</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/automation/visual-regression/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>시각 회귀 테스트</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/automation/flaky-tests/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>Flaky 테스트 관리</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/automation/e2e-failure-triage/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>E2E 실패 분류</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/automation/mutation-check/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>변이 주입으로 테스트 검출력 확인</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/automation/zero-findings-check/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>검사 결과 0건 검증</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/automation/verify-after-write/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>쓰기 작업 결과 대조</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/automation/book-implementing-automated-software-testing/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>책 정리: 소프트웨어 테스트 자동화 구축</span></a></li></ul></details></li><li data-astro-cid-rmhv4bp6><details open data-astro-cid-rmhv4bp6><summary data-astro-cid-rmhv4bp6><span class="group-label" data-astro-cid-rmhv4bp6><span class="large" data-astro-cid-rmhv4bp6>도메인별</span></span><svg class="caret" data-astro-cid-rmhv4bp6="true" aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;" data-astro-cid-hkc32dio><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></summary><sl-sidebar-restore data-index="4"></sl-sidebar-restore><ul data-astro-cid-rmhv4bp6><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/domains/security-testing/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>보안 테스트의 기본 관점</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/domains/ecommerce/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>이커머스 테스트 관점</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/domains/embedded-device/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>임베디드·디바이스 테스트 관점</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/domains/financial-data/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>금융 데이터 검증의 함정</span></a></li></ul></details></li><li data-astro-cid-rmhv4bp6><details open data-astro-cid-rmhv4bp6><summary data-astro-cid-rmhv4bp6><span class="group-label" data-astro-cid-rmhv4bp6><span class="large" data-astro-cid-rmhv4bp6>AI와 QA</span></span><svg class="caret" data-astro-cid-rmhv4bp6="true" aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;" data-astro-cid-hkc32dio><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></summary><sl-sidebar-restore data-index="5"></sl-sidebar-restore><ul data-astro-cid-rmhv4bp6><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/ai-qa/qa-in-the-ai-era/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>AI 시대의 QA</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/ai-qa/llm-feature-testing/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>LLM 기능 테스트</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/ai-qa/llm-evaluation/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>LLM 평가셋과 LLM 심판</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/ai-qa/rag-testing/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>RAG 테스트</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/ai-qa/llm-security-testing/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>LLM 보안 테스트</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/ai-qa/ai-quality-model/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>AI 시스템 품질 모델(ISO/IEC 25059)</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/ai-qa/ai-generated-tests/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>AI가 생성한 TC와 테스트 코드 검토</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/ai-qa/verify-ai-reports/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>AI 보고 확인</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/ai-qa/ai-memory-and-long-sessions/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>AI 장기 메모리와 긴 세션의 함정</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/ai-qa/ai-written-docs/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>AI가 작성한 문서 검사</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/ai-qa/ai-data-exposure/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>AI에 제공한 정보와 외부 전송</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/ai-qa/ai-agent-guardrails/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>AI 에이전트 권한 통제</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/ai-qa/ai-cross-review/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>AI 교차 검증</span></a></li></ul></details></li><li data-astro-cid-rmhv4bp6><details open data-astro-cid-rmhv4bp6><summary data-astro-cid-rmhv4bp6><span class="group-label" data-astro-cid-rmhv4bp6><span class="large" data-astro-cid-rmhv4bp6>도구</span></span><svg class="caret" data-astro-cid-rmhv4bp6="true" aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;" data-astro-cid-hkc32dio><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></summary><sl-sidebar-restore data-index="6"></sl-sidebar-restore><ul data-astro-cid-rmhv4bp6><li data-astro-cid-rmhv4bp6><details open data-astro-cid-rmhv4bp6><summary data-astro-cid-rmhv4bp6><span class="group-label" data-astro-cid-rmhv4bp6><span class="large" data-astro-cid-rmhv4bp6>이슈 관리</span></span><svg class="caret" data-astro-cid-rmhv4bp6="true" aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;" data-astro-cid-hkc32dio><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></summary><sl-sidebar-restore data-index="7"></sl-sidebar-restore><ul data-astro-cid-rmhv4bp6><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/tools-career/jira/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>Jira</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/tools-career/linear/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>Linear</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/tools-career/github-issues/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>GitHub Issues</span></a></li></ul></details></li><li data-astro-cid-rmhv4bp6><details open data-astro-cid-rmhv4bp6><summary data-astro-cid-rmhv4bp6><span class="group-label" data-astro-cid-rmhv4bp6><span class="large" data-astro-cid-rmhv4bp6>TC 관리</span></span><svg class="caret" data-astro-cid-rmhv4bp6="true" aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;" data-astro-cid-hkc32dio><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></summary><sl-sidebar-restore data-index="8"></sl-sidebar-restore><ul data-astro-cid-rmhv4bp6><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/tools-career/tc-management-tool-operations/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>TC 관리 도구 운영 기준</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/tools-career/testrail/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>TestRail</span></a></li></ul></details></li><li data-astro-cid-rmhv4bp6><details open data-astro-cid-rmhv4bp6><summary data-astro-cid-rmhv4bp6><span class="group-label" data-astro-cid-rmhv4bp6><span class="large" data-astro-cid-rmhv4bp6>웹 UI 자동화</span></span><svg class="caret" data-astro-cid-rmhv4bp6="true" aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;" data-astro-cid-hkc32dio><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></summary><sl-sidebar-restore data-index="9"></sl-sidebar-restore><ul data-astro-cid-rmhv4bp6><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/tools-career/playwright/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>Playwright</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/tools-career/selenium/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>Selenium</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/tools-career/cypress/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>Cypress</span></a></li></ul></details></li><li data-astro-cid-rmhv4bp6><details open data-astro-cid-rmhv4bp6><summary data-astro-cid-rmhv4bp6><span class="group-label" data-astro-cid-rmhv4bp6><span class="large" data-astro-cid-rmhv4bp6>모바일 자동화</span></span><svg class="caret" data-astro-cid-rmhv4bp6="true" aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;" data-astro-cid-hkc32dio><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></summary><sl-sidebar-restore data-index="10"></sl-sidebar-restore><ul data-astro-cid-rmhv4bp6><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/tools-career/appium/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>Appium</span></a></li></ul></details></li><li data-astro-cid-rmhv4bp6><details open data-astro-cid-rmhv4bp6><summary data-astro-cid-rmhv4bp6><span class="group-label" data-astro-cid-rmhv4bp6><span class="large" data-astro-cid-rmhv4bp6>API 테스트</span></span><svg class="caret" data-astro-cid-rmhv4bp6="true" aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;" data-astro-cid-hkc32dio><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></summary><sl-sidebar-restore data-index="11"></sl-sidebar-restore><ul data-astro-cid-rmhv4bp6><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/tools-career/postman/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>Postman</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/tools-career/swagger/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>Swagger와 OpenAPI</span></a></li></ul></details></li><li data-astro-cid-rmhv4bp6><details open data-astro-cid-rmhv4bp6><summary data-astro-cid-rmhv4bp6><span class="group-label" data-astro-cid-rmhv4bp6><span class="large" data-astro-cid-rmhv4bp6>성능 테스트</span></span><svg class="caret" data-astro-cid-rmhv4bp6="true" aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;" data-astro-cid-hkc32dio><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></summary><sl-sidebar-restore data-index="12"></sl-sidebar-restore><ul data-astro-cid-rmhv4bp6><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/tools-career/k6/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>Grafana k6</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/tools-career/jmeter/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>Apache JMeter</span></a></li></ul></details></li><li data-astro-cid-rmhv4bp6><details open data-astro-cid-rmhv4bp6><summary data-astro-cid-rmhv4bp6><span class="group-label" data-astro-cid-rmhv4bp6><span class="large" data-astro-cid-rmhv4bp6>네트워크 분석</span></span><svg class="caret" data-astro-cid-rmhv4bp6="true" aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;" data-astro-cid-hkc32dio><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></summary><sl-sidebar-restore data-index="13"></sl-sidebar-restore><ul data-astro-cid-rmhv4bp6><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/tools-career/browser-devtools/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>브라우저 개발자 도구</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/tools-career/fiddler/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>Fiddler</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/tools-career/charles/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>Charles</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/tools-career/wireshark/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>Wireshark</span></a></li></ul></details></li><li data-astro-cid-rmhv4bp6><details open data-astro-cid-rmhv4bp6><summary data-astro-cid-rmhv4bp6><span class="group-label" data-astro-cid-rmhv4bp6><span class="large" data-astro-cid-rmhv4bp6>CI/CD</span></span><svg class="caret" data-astro-cid-rmhv4bp6="true" aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;" data-astro-cid-hkc32dio><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></summary><sl-sidebar-restore data-index="14"></sl-sidebar-restore><ul data-astro-cid-rmhv4bp6><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/tools-career/jenkins/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>Jenkins</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/tools-career/github-actions/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>GitHub Actions</span></a></li></ul></details></li><li data-astro-cid-rmhv4bp6><details open data-astro-cid-rmhv4bp6><summary data-astro-cid-rmhv4bp6><span class="group-label" data-astro-cid-rmhv4bp6><span class="large" data-astro-cid-rmhv4bp6>형상관리</span></span><svg class="caret" data-astro-cid-rmhv4bp6="true" aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;" data-astro-cid-hkc32dio><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></summary><sl-sidebar-restore data-index="15"></sl-sidebar-restore><ul data-astro-cid-rmhv4bp6><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/tools-career/git-basics/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>Git 기본</span></a></li></ul></details></li></ul></details></li></ul><script aria-hidden="true">
+		(() => {
+			const scroller = document.getElementById('starlight__sidebar');
+			if (!window._starlightScrollRestore || !scroller) return;
+			scroller.scrollTop = window._starlightScrollRestore;
+			delete window._starlightScrollRestore;
+		})();
+	</script></sl-sidebar-state-persist><div class="md:sl-hidden"><div class="mobile-preferences sl-flex" data-astro-cid-p4azlveh><div class="social-icons" data-astro-cid-p4azlveh></div><starlight-theme-select data-astro-cid-smhvfpqh="true"><label style="--sl-select-width: 6.25em" data-astro-cid-2z5xp7gb><span class="sr-only" data-astro-cid-2z5xp7gb>테마 선택</span><span class="icon label-icon" data-astro-cid-2z5xp7gb><svg class="sl-theme-icon-dark" data-astro-cid-smhvfpqh="true" aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;" data-astro-cid-hkc32dio><path d="M21.64 13a1 1 0 0 0-1.05-.14 8.049 8.049 0 0 1-3.37.73 8.15 8.15 0 0 1-8.14-8.1 8.59 8.59 0 0 1 .25-2A1 1 0 0 0 8 2.36a10.14 10.14 0 1 0 14 11.69 1 1 0 0 0-.36-1.05Zm-9.5 6.69A8.14 8.14 0 0 1 7.08 5.22v.27a10.15 10.15 0 0 0 10.14 10.14 9.784 9.784 0 0 0 2.1-.22 8.11 8.11 0 0 1-7.18 4.32v-.04Z"/></svg><svg class="sl-theme-icon-light" data-astro-cid-smhvfpqh="true" aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;" data-astro-cid-hkc32dio><path d="M5 12a1 1 0 0 0-1-1H3a1 1 0 0 0 0 2h1a1 1 0 0 0 1-1Zm.64 5-.71.71a1 1 0 0 0 0 1.41 1 1 0 0 0 1.41 0l.71-.71A1 1 0 0 0 5.64 17ZM12 5a1 1 0 0 0 1-1V3a1 1 0 0 0-2 0v1a1 1 0 0 0 1 1Zm5.66 2.34a1 1 0 0 0 .7-.29l.71-.71a1 1 0 1 0-1.41-1.41l-.66.71a1 1 0 0 0 0 1.41 1 1 0 0 0 .66.29Zm-12-.29a1 1 0 0 0 1.41 0 1 1 0 0 0 0-1.41l-.71-.71a1.004 1.004 0 1 0-1.43 1.41l.73.71ZM21 11h-1a1 1 0 0 0 0 2h1a1 1 0 0 0 0-2Zm-2.64 6A1 1 0 0 0 17 18.36l.71.71a1 1 0 0 0 1.41 0 1 1 0 0 0 0-1.41l-.76-.66ZM12 6.5a5.5 5.5 0 1 0 5.5 5.5A5.51 5.51 0 0 0 12 6.5Zm0 9a3.5 3.5 0 1 1 0-7 3.5 3.5 0 0 1 0 7Zm0 3.5a1 1 0 0 0-1 1v1a1 1 0 0 0 2 0v-1a1 1 0 0 0-1-1Z"/></svg><svg class="sl-theme-icon-auto" data-astro-cid-smhvfpqh="true" aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;" data-astro-cid-hkc32dio><path d="M21 14h-1V7a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v7H3a1 1 0 0 0-1 1v2a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-2a1 1 0 0 0-1-1ZM6 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7H6V7Zm14 10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1h16v1Z"/></svg></span><select autocomplete="off" data-astro-cid-2z5xp7gb><option value="dark" data-astro-cid-2z5xp7gb>어두운 테마</option><option value="light" data-astro-cid-2z5xp7gb>밝은 테마</option><option value="auto" selected data-astro-cid-2z5xp7gb>자동</option></select><svg class="icon caret" data-astro-cid-2z5xp7gb="true" aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;" data-astro-cid-hkc32dio><path d="M17 9.17a1 1 0 0 0-1.41 0L12 12.71 8.46 9.17a1 1 0 1 0-1.41 1.42l4.24 4.24a1.002 1.002 0 0 0 1.42 0L17 10.59a1.002 1.002 0 0 0 0-1.42Z"/></svg></label></starlight-theme-select><script>(() => {
+		const theme = (typeof localStorage !== 'undefined' && localStorage.getItem('starlight-theme'));
+		if (theme) document.querySelectorAll('starlight-theme-select select').forEach((s) => { s.value = theme; });
+	})();</script></div></div></div></sl-sidebar-pane></nav><div class="main-frame" data-astro-cid-yntsjkba><script type="module">var e=document.getElementById(`starlight__sidebar`),t=e?.querySelector(`sl-sidebar-state-persist`),n=`sl-sidebar-state`,r=()=>{let r=[],i=t?.dataset.hash||``;try{let e=sessionStorage.getItem(n),t=JSON.parse(e||`{}`);Array.isArray(t.open)&&t.hash===i&&(r=t.open)}catch{}return{hash:i,open:r,scroll:e?.scrollTop||0}},i=e=>{try{sessionStorage.setItem(n,JSON.stringify(e))}catch{}},a=()=>i(r()),o=(e,t)=>{let n=r();n.open[t]=e,i(n)};t?.addEventListener(`click`,e=>{if(!(e.target instanceof Element))return;let t=e.target.closest(`summary`)?.closest(`details`);if(!t)return;let n=t.querySelector(`sl-sidebar-restore`),r=parseInt(n?.dataset.index||``);isNaN(r)||o(!t.open,r)}),addEventListener(`visibilitychange`,()=>{document.visibilityState===`hidden`&&a()});</script><div class="lg:sl-flex" data-astro-cid-lrzkfocr><aside class="right-sidebar-container print:hidden" data-astro-cid-lrzkfocr><div class="right-sidebar" data-astro-cid-lrzkfocr><div class="lg:sl-hidden" data-astro-cid-qok35upx><mobile-starlight-toc data-min-h="2" data-max-h="3" data-astro-cid-66cqc7ze="true"><nav aria-labelledby="starlight__on-this-page--mobile" data-astro-cid-66cqc7ze><details id="starlight__mobile-toc" data-astro-cid-66cqc7ze><summary id="starlight__on-this-page--mobile" class="sl-flex" data-astro-cid-66cqc7ze><span class="toggle sl-flex" data-astro-cid-66cqc7ze>목차<svg class="caret" data-astro-cid-66cqc7ze="true" aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1rem;" data-astro-cid-hkc32dio><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></span><span class="display-current" data-astro-cid-66cqc7ze></span></summary><div class="dropdown" data-astro-cid-66cqc7ze><ul class="isMobile" style="--depth: 0;" data-astro-cid-jugkfwgx><li style="--depth: 0;" data-astro-cid-jugkfwgx><a href="#_top" style="--depth: 0;" data-astro-cid-jugkfwgx><span style="--depth: 0;" data-astro-cid-jugkfwgx>개요</span></a></li><li style="--depth: 0;" data-astro-cid-jugkfwgx><a href="#정의" style="--depth: 0;" data-astro-cid-jugkfwgx><span style="--depth: 0;" data-astro-cid-jugkfwgx>정의</span></a></li><li style="--depth: 0;" data-astro-cid-jugkfwgx><a href="#적용하는-경우" style="--depth: 0;" data-astro-cid-jugkfwgx><span style="--depth: 0;" data-astro-cid-jugkfwgx>적용하는 경우</span></a></li><li style="--depth: 0;" data-astro-cid-jugkfwgx><a href="#세션-구성" style="--depth: 0;" data-astro-cid-jugkfwgx><span style="--depth: 0;" data-astro-cid-jugkfwgx>세션 구성</span></a></li><li style="--depth: 0;" data-astro-cid-jugkfwgx><a href="#테스트-아이디어-heuristic-test-strategy-model" style="--depth: 0;" data-astro-cid-jugkfwgx><span style="--depth: 0;" data-astro-cid-jugkfwgx>테스트 아이디어: Heuristic Test Strategy Model</span></a></li><li style="--depth: 0;" data-astro-cid-jugkfwgx><a href="#판정-기준-오라클-휴리스틱" style="--depth: 0;" data-astro-cid-jugkfwgx><span style="--depth: 0;" data-astro-cid-jugkfwgx>판정 기준: 오라클 휴리스틱</span></a></li><li style="--depth: 0;" data-astro-cid-jugkfwgx><a href="#디브리핑과-tc-편입" style="--depth: 0;" data-astro-cid-jugkfwgx><span style="--depth: 0;" data-astro-cid-jugkfwgx>디브리핑과 TC 편입</span></a></li><li style="--depth: 0;" data-astro-cid-jugkfwgx><a href="#세션-지표" style="--depth: 0;" data-astro-cid-jugkfwgx><span style="--depth: 0;" data-astro-cid-jugkfwgx>세션 지표</span></a></li><li style="--depth: 0;" data-astro-cid-jugkfwgx><a href="#적용-예-회원-가입" style="--depth: 0;" data-astro-cid-jugkfwgx><span style="--depth: 0;" data-astro-cid-jugkfwgx>적용 예: 회원 가입</span></a></li><li style="--depth: 0;" data-astro-cid-jugkfwgx><a href="#tc-예시" style="--depth: 0;" data-astro-cid-jugkfwgx><span style="--depth: 0;" data-astro-cid-jugkfwgx>TC 예시</span></a></li><li style="--depth: 0;" data-astro-cid-jugkfwgx><a href="#테스트-계획-결함-분류-보고에-적용" style="--depth: 0;" data-astro-cid-jugkfwgx><span style="--depth: 0;" data-astro-cid-jugkfwgx>테스트 계획, 결함 분류, 보고에 적용</span></a></li><li style="--depth: 0;" data-astro-cid-jugkfwgx><a href="#애드혹-테스트와의-차이" style="--depth: 0;" data-astro-cid-jugkfwgx><span style="--depth: 0;" data-astro-cid-jugkfwgx>애드혹 테스트와의 차이</span></a></li><li style="--depth: 0;" data-astro-cid-jugkfwgx><a href="#흔한-실수" style="--depth: 0;" data-astro-cid-jugkfwgx><span style="--depth: 0;" data-astro-cid-jugkfwgx>흔한 실수</span></a></li><li style="--depth: 0;" data-astro-cid-jugkfwgx><a href="#출처" style="--depth: 0;" data-astro-cid-jugkfwgx><span style="--depth: 0;" data-astro-cid-jugkfwgx>출처</span></a></li></ul></div></details></nav></mobile-starlight-toc><script type="module" src="/qa-wiki/qa-assets/MobileTableOfContents.astro_astro_type_script_index_0_lang.C3fM4Kra.js"></script></div><div class="right-sidebar-panel sl-hidden lg:sl-block" data-astro-cid-qok35upx><div class="sl-container" data-astro-cid-qok35upx><starlight-toc data-min-h="2" data-max-h="3"><nav aria-labelledby="starlight__on-this-page"><h2 id="starlight__on-this-page">목차</h2><ul style="--depth: 0;" data-astro-cid-jugkfwgx><li style="--depth: 0;" data-astro-cid-jugkfwgx><a href="#_top" style="--depth: 0;" data-astro-cid-jugkfwgx><span style="--depth: 0;" data-astro-cid-jugkfwgx>개요</span></a></li><li style="--depth: 0;" data-astro-cid-jugkfwgx><a href="#정의" style="--depth: 0;" data-astro-cid-jugkfwgx><span style="--depth: 0;" data-astro-cid-jugkfwgx>정의</span></a></li><li style="--depth: 0;" data-astro-cid-jugkfwgx><a href="#적용하는-경우" style="--depth: 0;" data-astro-cid-jugkfwgx><span style="--depth: 0;" data-astro-cid-jugkfwgx>적용하는 경우</span></a></li><li style="--depth: 0;" data-astro-cid-jugkfwgx><a href="#세션-구성" style="--depth: 0;" data-astro-cid-jugkfwgx><span style="--depth: 0;" data-astro-cid-jugkfwgx>세션 구성</span></a></li><li style="--depth: 0;" data-astro-cid-jugkfwgx><a href="#테스트-아이디어-heuristic-test-strategy-model" style="--depth: 0;" data-astro-cid-jugkfwgx><span style="--depth: 0;" data-astro-cid-jugkfwgx>테스트 아이디어: Heuristic Test Strategy Model</span></a></li><li style="--depth: 0;" data-astro-cid-jugkfwgx><a href="#판정-기준-오라클-휴리스틱" style="--depth: 0;" data-astro-cid-jugkfwgx><span style="--depth: 0;" data-astro-cid-jugkfwgx>판정 기준: 오라클 휴리스틱</span></a></li><li style="--depth: 0;" data-astro-cid-jugkfwgx><a href="#디브리핑과-tc-편입" style="--depth: 0;" data-astro-cid-jugkfwgx><span style="--depth: 0;" data-astro-cid-jugkfwgx>디브리핑과 TC 편입</span></a></li><li style="--depth: 0;" data-astro-cid-jugkfwgx><a href="#세션-지표" style="--depth: 0;" data-astro-cid-jugkfwgx><span style="--depth: 0;" data-astro-cid-jugkfwgx>세션 지표</span></a></li><li style="--depth: 0;" data-astro-cid-jugkfwgx><a href="#적용-예-회원-가입" style="--depth: 0;" data-astro-cid-jugkfwgx><span style="--depth: 0;" data-astro-cid-jugkfwgx>적용 예: 회원 가입</span></a></li><li style="--depth: 0;" data-astro-cid-jugkfwgx><a href="#tc-예시" style="--depth: 0;" data-astro-cid-jugkfwgx><span style="--depth: 0;" data-astro-cid-jugkfwgx>TC 예시</span></a></li><li style="--depth: 0;" data-astro-cid-jugkfwgx><a href="#테스트-계획-결함-분류-보고에-적용" style="--depth: 0;" data-astro-cid-jugkfwgx><span style="--depth: 0;" data-astro-cid-jugkfwgx>테스트 계획, 결함 분류, 보고에 적용</span></a></li><li style="--depth: 0;" data-astro-cid-jugkfwgx><a href="#애드혹-테스트와의-차이" style="--depth: 0;" data-astro-cid-jugkfwgx><span style="--depth: 0;" data-astro-cid-jugkfwgx>애드혹 테스트와의 차이</span></a></li><li style="--depth: 0;" data-astro-cid-jugkfwgx><a href="#흔한-실수" style="--depth: 0;" data-astro-cid-jugkfwgx><span style="--depth: 0;" data-astro-cid-jugkfwgx>흔한 실수</span></a></li><li style="--depth: 0;" data-astro-cid-jugkfwgx><a href="#출처" style="--depth: 0;" data-astro-cid-jugkfwgx><span style="--depth: 0;" data-astro-cid-jugkfwgx>출처</span></a></li></ul></nav></starlight-toc><script type="module" src="/qa-wiki/qa-assets/TableOfContents.astro_astro_type_script_index_0_lang.BpJaGz7G.js"></script></div></div></div></aside><div class="main-pane" data-astro-cid-lrzkfocr><main data-pagefind-body lang="ko" dir="ltr" data-astro-cid-g5ptsecz><div class="content-panel" data-astro-cid-a7po4psb><div class="sl-container" data-astro-cid-a7po4psb><h1 id="_top">탐색적 테스트와 세션 기반 테스트 관리</h1><p class="wiki-lede">테스트 대상을 학습하면서 테스트 설계, 실행, 결과 평가를 동시에 진행하는 경험 기반 기법이다(Exploratory Testing). ISTQB, Kaner, Bach·Bolton의 정의 차이, 테스트 아이디어(HTSM)와 판정 기준(FEW HICCUPPS) 휴리스틱, 세션 기반 테스트 관리의 차터, 세션 기록, TBS 지표를 다룬다.</p><div class="wiki-chips"><a class="wiki-chip wiki-chip-link" href="/qa-wiki/kinds/fundamentals/">기본기</a><span class="wiki-chip">난이도 중급</span><span class="wiki-chip">최종 업데이트 2026-11-24</span></div></div></div><div class="content-panel" data-astro-cid-a7po4psb><div class="sl-container" data-astro-cid-a7po4psb><div class="sl-markdown-content"><p>스크립트 테스트는 미리 작성한 절차를 따르고, 탐색적 테스트는 직전 결과를 보고 다음 조작을 정한다. 세션 기반 테스트 관리(Session-Based Test Management)는 이 탐색에 목표, 시간 한도, 기록을 추가해 무엇을 확인했고 무엇이 남았는지 보고할 수 있게 한다. 탐색에서 발견한 주요 경로는 스크립트 TC로 옮겨 반복 확인한다.</p>
+<div class="sl-heading-wrapper level-h2"><h2 id="정의">정의</h2><a class="sl-anchor-link" href="#정의"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>섹션 제목: “정의”</span></a></div>
+<p>출처마다 탐색적 테스트를 기법, 접근법, 스타일, 테스팅 자체로 다르게 분류한다.</p>
+<table>
+<thead>
+<tr>
+<th>출처</th>
+<th>정의</th>
+<th>강조점</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ISTQB CTFL v4.0.1 4.4.2</td>
+<td>테스터가 테스트 대상을 학습하면서 테스트를 동시에 설계, 실행, 평가함</td>
+<td>경험 기반 테스트 기법(4.4)의 하나로 분류함. 명세가 부족하거나 시간 압박이 클 때, 다른 형식적 기법을 보완할 때 유용함. 세션 기반 테스트는 구조화 방법의 하나로 소개함</td>
+</tr>
+<tr>
+<td>ISTQB 용어집(ISO/IEC/IEEE 29119-1 기반)</td>
+<td>테스터의 지식, 테스트 항목 탐색, 이전 테스트 결과를 바탕으로 테스트를 동적으로 설계하고 실행하는 테스트 접근법</td>
+<td>접근법(test approach)으로 분류함. 관련 용어로 테스트 차터(test charter)를 연결함</td>
+</tr>
+<tr>
+<td>Cem Kaner, 2008 튜토리얼</td>
+<td>개별 테스터의 자유와 책임을 강조하는 테스트 스타일. 테스트 관련 학습, 설계, 실행, 결과 해석을 프로젝트 전체에서 병행하는 상호 보완 활동으로 다루어 테스터가 자기 작업의 가치를 계속 최적화하게 함</td>
+<td>테스터 개인의 판단과 책임, 프로젝트 전 기간에 걸친 학습</td>
+</tr>
+<tr>
+<td>James Bach·Michael Bolton, Exploratory Testing 3.0</td>
+<td>2006년 무렵 “학습, 테스트 설계, 테스트 실행의 동시 수행”으로 정리함. 현재 Rapid Software Testing 방법론에서는 모든 테스팅을 탐색적이라고 보고, 테스팅을 “탐색과 실험으로 제품을 학습하며 평가하는 과정”으로 정의함</td>
+<td>탐색과 스크립트를 가르는 기준은 주체성(agency). 스크립트는 문서에 한정하지 않고 테스터의 선택 밖에서 테스트를 통제하는 모든 요소를 가리킴</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>공통점: 학습, 설계, 실행, 결과 해석을 차례로 나눈 단계로 보지 않고 함께 진행하는 활동으로 봄</li>
+<li>용어의 기원: Cem Kaner가 만든 용어임. Kaner는 2008년 4월 튜토리얼 초록에서 실리콘밸리에서 흔했던 숙련된 작업 방식을 가리키려고 24년 전에 이 말을 만들었다고 밝힘. Bach·Bolton은 Kaner의 첫 글이 용어를 정의하지는 않았지만 테스트를 수행하면서 설계한다는 점을 처음 직접 다뤘다고 적음</li>
+<li>실무 문서에서는 어느 정의를 따르는지 밝혀 둠. 이 문서의 세션 구성과 보고 방식은 ISTQB 정의와 세션 기반 테스트 관리를 기준으로 함</li>
+</ul>
+<div class="sl-heading-wrapper level-h2"><h2 id="적용하는-경우">적용하는 경우</h2><a class="sl-anchor-link" href="#적용하는-경우"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>섹션 제목: “적용하는 경우”</span></a></div>
+<ul>
+<li>명세가 불완전하거나 일정이 짧아 스크립트 TC를 충분히 작성하기 어려운 경우</li>
+<li>스크립트 TC로 표현하기 어려운 복합 흐름, 사용성, 예외 흐름을 확인하는 경우</li>
+<li>스크립트 TC가 통과한 뒤 결함이 몰린 영역이나 새 기능을 추가로 확인하는 경우</li>
+</ul>
+<div class="sl-heading-wrapper level-h2"><h2 id="세션-구성">세션 구성</h2><a class="sl-anchor-link" href="#세션-구성"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>섹션 제목: “세션 구성”</span></a></div>
+<ul>
+<li>차터(Charter): 세션의 목표. 대상 영역, 사용할 자원과 데이터, 탐색할 리스크나 질문을 한두 문장으로 작성함
+<ul>
+<li>예: “주문 취소 화면을 대상으로, 결제 수단별 테스트 계정을 사용해, 부분 취소 뒤 금액 표시 오류를 탐색”</li>
+</ul>
+</li>
+<li>타임박스(Time-box): 팀이 정한 고정 시간. 표준이 정한 길이는 없으며 중단 없이 집중할 수 있는 시간으로 설정함</li>
+<li>세션 기록(Session Sheet): 세션 중에 바로 작성함
+<ul>
+<li>수행한 경로와 사용한 데이터</li>
+<li>발견한 결함과 그 시점의 재현 절차, 증거</li>
+<li>명세 확인이 필요한 질문</li>
+<li>차터 밖에서 발견한 다음 세션 후보</li>
+<li>시간 배분: 테스트 설계와 실행, 결함 조사, 환경 준비에 사용한 시간</li>
+</ul>
+</li>
+</ul>
+<p>결함 원인 추적이 길어지면 확인한 내용까지 기록하고 차터로 복귀한다. 원인 분석은 이슈로 등록하고, 차터 밖에서 발견한 영역은 새 차터로 등록한다.</p>
+<p>차터의 탐색 대상을 정할 때 사용하는 관점은 다음과 같다.</p>
+<ul>
+<li>진입 경로: 링크 이동, 주소 직접 입력(북마크, 공유 링크), 뒤로 가기, 새로 고침, 새 탭</li>
+<li>중단과 반복: 저장 중 네트워크 끊김, 탭 닫기, 버튼 연속 클릭, 같은 요청 재전송</li>
+<li>데이터 변형: 빈값, 앞뒤 공백, 대소문자, 최대 길이, 이미 존재하는 값</li>
+<li>맥락 변경: 역할, 표시 언어, 테마, 화면 폭, 두 탭에서 동시 수정</li>
+<li>스크립트 TC가 통과한 영역의 바로 옆 기능과 화면 사이 이동</li>
+</ul>
+<div class="sl-heading-wrapper level-h2"><h2 id="테스트-아이디어-heuristic-test-strategy-model">테스트 아이디어: Heuristic Test Strategy Model</h2><a class="sl-anchor-link" href="#테스트-아이디어-heuristic-test-strategy-model"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>섹션 제목: “테스트 아이디어: Heuristic Test Strategy Model”</span></a></div>
+<p>James Bach의 Heuristic Test Strategy Model(HTSM, v6.3, 2024-11-05)은 테스트를 설계하고 고를 때 확인할 항목을 안내어(guideword) 목록으로 정리한 모델이다. 프로젝트 환경(Project Environment), 제품 요소(Product Factors), 품질 기준 범주(Quality Criteria Categories), 일반 테스트 기법(General Test Techniques, 9개 계열)으로 구성되고, 조직과 맥락에 맞게 수정해 사용하도록 권한다. 차터의 대상 영역은 제품 요소에서, 탐색할 리스크는 품질 기준 범주에서 정할 수 있다.</p>
+<p>제품 요소는 7개 범주이며 앞 글자를 따면 SFDIPOT이다.</p>
+<table>
+<thead>
+<tr>
+<th>범주</th>
+<th>HTSM의 설명</th>
+<th>QA 질문 예(회원 가입)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Structure</td>
+<td>제품을 구성하는 물리적 요소 전부. 코드, 하드웨어, 서비스, 실행 파일 외 파일, 약관이나 웹 페이지 같은 부속물</td>
+<td>가입 확인 메일 템플릿과 약관 페이지가 이번 배포에 포함됐는가</td>
+</tr>
+<tr>
+<td>Function</td>
+<td>제품이 하는 모든 것. 비즈니스 규칙, 계산, 보안 관련 기능, 상태 전이, 오류 처리, 기능 간 상호작용</td>
+<td>가입 요청이 실패하면 어떤 메시지를 표시하고 어느 화면으로 복구되는가</td>
+</tr>
+<tr>
+<td>Data</td>
+<td>제품이 처리하고 만드는 모든 데이터. 입출력, 기본값, 영속 데이터, 개수, 크기, 잘못된 값, 생성부터 삭제까지의 생명주기</td>
+<td>탈퇴한 계정의 이메일로 다시 가입하면 어떻게 처리되는가</td>
+</tr>
+<tr>
+<td>Interfaces</td>
+<td>제품에 접근하거나 제품이 표현되는 모든 통로. UI, 시스템 인터페이스, API/SDK, 가져오기와 내보내기</td>
+<td>화면을 거치지 않고 API로 가입 요청을 보내도 같은 입력 검증이 적용되는가</td>
+</tr>
+<tr>
+<td>Platform</td>
+<td>제품이 의존하는, 프로젝트 밖의 모든 것. 외부 하드웨어와 소프트웨어, 내장 컴포넌트, 자원 사용량</td>
+<td>지원 대상 브라우저와 OS 조합에서 같은 결과가 나오는가</td>
+</tr>
+<tr>
+<td>Operations</td>
+<td>사람들이 제품으로 겪을 수 있는 모든 경험. 사용자 유형, 사용 환경, 일반·드문·극단·부적절한 사용</td>
+<td>같은 이메일로 짧은 간격의 가입 시도를 반복하면 어떻게 처리되는가</td>
+</tr>
+<tr>
+<td>Time</td>
+<td>제품과 시간의 모든 관계. 시간 데이터, 입출력 시점, 빠르거나 느린 입력, 동시성</td>
+<td>인증 메일 링크를 만료 시간 뒤에 열면 어떻게 처리되는가</td>
+</tr>
+</tbody>
+</table>
+<p>품질 기준 범주는 사람들이 제품의 가치를 판단하는 차원이며 제품 리스크의 범주로도 볼 수 있다. Capability, Reliability, Usability, Charisma, Security, Scalability, Compatibility, Performance, Installability, Development 10개이고, HTSM은 범주마다 이 프로젝트에서 중요한지 정한 뒤 제품이 그 면에서 잘 동작하는지 어떻게 알아볼지 생각하도록 안내한다.</p>
+<div class="sl-heading-wrapper level-h2"><h2 id="판정-기준-오라클-휴리스틱">판정 기준: 오라클 휴리스틱</h2><a class="sl-anchor-link" href="#판정-기준-오라클-휴리스틱"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>섹션 제목: “판정 기준: 오라클 휴리스틱”</span></a></div>
+<p>ISTQB 용어집은 테스트 오라클(test oracle)을 기대 결과를 정하는 근거로 정의한다. 명세가 없거나 불완전한 영역에서는 Michael Bolton이 정리한 일관성 휴리스틱을 판정 근거로 사용할 수 있다. 원래 목록은 James Bach가 만들었고 Bolton이 Better Software 잡지 기고 “Testing Without a Map”에서 HICCUPPS로 소개했다. 2012년 글 “FEW HICCUPPS”는 그 뒤에 추가한 Standards, Familiarity, Explainability, World를 포함한 목록을 공개했다.</p>
+<table>
+<thead>
+<tr>
+<th>기준</th>
+<th>기대하는 일관성</th>
+<th>회원 가입 예</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Familiarity</td>
+<td>알려진 문제 패턴과 일치하지 않음. 목록에서 유일한 불일치 휴리스틱</td>
+<td>연속 클릭 중복 생성처럼 자주 보던 결함이 나타나지 않음</td>
+</tr>
+<tr>
+<td>Explainability</td>
+<td>동작을 자신과 다른 사람에게 설명할 수 있음</td>
+<td>같은 입력이 통과할 때와 거부될 때의 차이를 설명할 수 있음</td>
+</tr>
+<tr>
+<td>World</td>
+<td>세상에 대해 알거나 관찰할 수 있는 사실과 일치</td>
+<td>존재하지 않는 날짜를 생년월일로 받지 않음</td>
+</tr>
+<tr>
+<td>History</td>
+<td>이전 버전과 일치</td>
+<td>지난 릴리즈에서 허용하던 이메일 형식을 그대로 허용함</td>
+</tr>
+<tr>
+<td>Image</td>
+<td>조직이 내세우려는 이미지, 브랜드, 평판과 일치</td>
+<td>오류 메시지에 내부 예외 문구를 표시하지 않음</td>
+</tr>
+<tr>
+<td>Claims</td>
+<td>중요한 사람이 문서나 대화로 말한 내용과 일치</td>
+<td>요구사항의 “가입 직후 로그인 상태가 된다”</td>
+</tr>
+<tr>
+<td>Comparable Products</td>
+<td>같은 제품군, 경쟁 제품, 같은 데이터를 처리하는 제품, 대체 알고리즘과 일치</td>
+<td>같은 회사의 다른 서비스와 비밀번호 규칙 안내가 같음</td>
+</tr>
+<tr>
+<td>User Desires</td>
+<td>합리적인 사용자가 원할 만한 것과 일치. 2014-12-05에 User Expectations에서 이름을 바꿈</td>
+<td>입력 오류 뒤에도 이미 입력한 값이 유지됨</td>
+</tr>
+<tr>
+<td>Product</td>
+<td>같은 제품 안의 비슷한 요소와 일치</td>
+<td>가입 화면의 이메일 검증이 로그인 화면과 같음</td>
+</tr>
+<tr>
+<td>Purpose</td>
+<td>사람들이 제품을 사용하는 명시적, 암묵적 용도와 일치</td>
+<td>가입을 마친 사용자가 바로 서비스를 이용할 수 있음</td>
+</tr>
+<tr>
+<td>Statutes and Standards</td>
+<td>관련 법령, 규정, 표준과 일치</td>
+<td>개인정보 수집 동의 절차, 접근성 표준</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>명세에 없는 동작을 결함으로 보고할 때 근거로 삼은 기준을 이슈의 기대 결과에 적음. 예: “로그인 화면처럼 이메일 앞뒤 공백을 제거함(Product)”. Bolton은 관찰이 왜 문제를 가리키는지 의사결정자가 이해할 수 있을 때 보고의 신뢰도가 높아진다고 설명함</li>
+<li>Claims는 프로젝트 안에서, Statutes and Standards는 프로젝트 밖에서 나옴. 프로젝트가 따르기로 정하지 않은 표준과 어긋나는 동작은 책임자가 표준을 따를지 정하기 전까지 이슈(issue)로 다룸. 이 문서의 흐름에서는 확인 항목으로 기록함</li>
+<li>한계: Bolton은 오라클 원칙이 모든 휴리스틱처럼 틀릴 수 있고 맥락에 따라 달라진다고 적음. 기준과 어긋난다고 문제가 확정되지 않으며, 없는 문제를 보거나 있는 문제를 놓칠 수도 있음. Kaner도 오라클을 불완전하고 틀릴 수 있는 휴리스틱으로 설명함</li>
+<li>목록은 완전하지 않음. Bolton은 문제인지 아닌지를 여러 오라클 원칙과 가치 판단을 함께 적용해 사람이 결정한다고 적음. 이 문서의 흐름에서는 기획 확인으로 결함을 확정함</li>
+</ul>
+<div class="sl-heading-wrapper level-h2"><h2 id="디브리핑과-tc-편입">디브리핑과 TC 편입</h2><a class="sl-anchor-link" href="#디브리핑과-tc-편입"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>섹션 제목: “디브리핑과 TC 편입”</span></a></div>
+<p>세션 직후 수행자와 검토자가 세션 기록을 함께 검토한다(Debriefing).</p>
+<ul>
+<li>차터 달성 여부, 확인하지 못한 영역과 남은 리스크</li>
+<li>발견한 결함은 <a href="/qa-wiki/process/issue-template/">이슈 양식</a>으로 등록함. 발견 블록은 세션 기록의 재현 절차와 증거로 작성함</li>
+<li>명세 질문은 확인 항목으로 기록함</li>
+<li>반복 확인이 필요한 경로는 <a href="/qa-wiki/process/tc-writing-principles/">TC 작성 원칙</a>에 맞춰 스크립트 TC로 작성하고 회귀 스위트에 편입함</li>
+<li>다음 세션의 차터를 결정함</li>
+</ul>
+<aside aria-label="규칙" class="starlight-aside starlight-aside--note"><p class="starlight-aside__title" aria-hidden="true"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" class="starlight-aside__icon"><path d="M12 11a1 1 0 0 0-1 1v4a1 1 0 0 0 2 0v-4a1 1 0 0 0-1-1Zm.38-3.92a1 1 0 0 0-.76 0 1 1 0 0 0-.33.21 1.15 1.15 0 0 0-.21.33 1 1 0 0 0 .21 1.09c.097.088.209.16.33.21A1 1 0 0 0 13 8a1.05 1.05 0 0 0-.29-.71 1 1 0 0 0-.33-.21ZM12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20Zm0 18a8 8 0 1 1 0-16.001A8 8 0 0 1 12 20Z"/></svg>규칙</p><div class="starlight-aside__content"><ul>
+<li>세션마다 차터와 세션 기록을 남김. 기록이 없는 수행은 탐색적 테스트 결과로 보고하지 않음</li>
+<li>결함을 발견하면 그 시점의 데이터와 조작 순서를 바로 기록함. 세션이 끝난 뒤에 기억으로 작성하지 않음</li>
+</ul></div></aside>
+<div class="sl-heading-wrapper level-h2"><h2 id="세션-지표">세션 지표</h2><a class="sl-anchor-link" href="#세션-지표"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>섹션 제목: “세션 지표”</span></a></div>
+<p>Jonathan Bach의 “Session-Based Test Management”(STQE 잡지 2000년 11/12월호)는 James Bach와 함께 만든 세션 기반 테스트 관리를 설명한다. 원문은 세션을 중단 없이 진행하고, 제3자가 검토할 수 있고, 차터가 있는 테스트 작업 단위(uninterrupted block of reviewable, chartered test effort)로 정의한다. 원문 팀의 세션은 90분 안팎이었고 45분에 가까우면 short, 2시간에 가까우면 long으로 기록했다.</p>
+<ul>
+<li>TBS 지표: 세션 시간을 세 작업으로 나눈 비율. 테스터가 추정해 세션 기록에 적음
+<ul>
+<li>Test design and execution: 제품을 훑어보며 문제를 찾는 시간</li>
+<li>Bug investigation and reporting: 문제로 보이는 동작을 만난 뒤 조사하고 보고하는 시간</li>
+<li>Session setup: 앞의 두 작업을 가능하게 하는 나머지 시간. 장비 설정, 자료 찾기, 매뉴얼 읽기, 세션 기록 작성을 포함함</li>
+</ul>
+</li>
+<li>동시에 진행한 작업: 테스트를 중단시킨 시간만 셈. 테스트 50%, 결함 조사 50%는 결함이 없었다면 두 배를 테스트할 수 있었다는 뜻으로 읽음</li>
+<li>차터 대비 기회(on charter / on opportunity): 차터에 맞지 않는 테스트를 opportunity testing이라 하고 그 비율을 함께 적음. 중요해 보이는 차터 밖 문제를 만나면 차터에서 벗어나도 됨. 세션 대부분이 opportunity였다면 테스트 관리자가 차터를 실제 수행 내용에 맞게 고치고 원래 차터는 새 세션에서 다시 사용함</li>
+<li>Bugs와 Issues: Bugs는 제품 품질에 관한 우려, Issues는 테스트 프로세스나 프로젝트에 관한 질문과 문제로 구분함</li>
+<li>비세션 작업: 세션만 수행하면 하루 5.333 세션이 가능하다고 가정하고, 근무 인원 기준 최대 세션 수에서 실제 세션 수를 빼서 추정함</li>
+<li>디브리핑 안건 PROOF: Past(세션 중 일어난 일), Results(달성한 것), Obstacles(테스트를 방해한 것), Outlook(남은 일), Feelings(테스터의 느낌)</li>
+</ul>
+<p>이 문서의 세션 기록 항목 중 시간 배분이 TBS에 해당하고, 명세 질문이 Issues에 해당한다. 원문의 Session setup에는 세션 기록 작성 시간도 포함된다. 원문은 테스트 관리자의 혼동이나 편향, 보고 규칙에 대한 오해로 지표가 왜곡될 수 있다고 적고, 디브리핑을 생략해 본 결과 세션 기록의 질이 떨어지고 지표가 의미를 잃었다고 보고한다.</p>
+<div class="sl-heading-wrapper level-h2"><h2 id="적용-예-회원-가입">적용 예: 회원 가입</h2><a class="sl-anchor-link" href="#적용-예-회원-가입"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>섹션 제목: “적용 예: 회원 가입”</span></a></div>
+<p>요구사항이 “이메일과 비밀번호로 가입하고, 가입 직후 로그인 상태가 된다.“인 경우 세션을 다음과 같이 진행한다. 세션 시간과 기록 내용은 예시다.</p>
+<p>차터</p>
+<ul>
+<li>차터 1: 회원 가입 화면을 대상으로, 주소 직접 입력·뒤로 가기·새로 고침으로 진입 경로를 변경해 가며, 화면 접근과 입력값 유지 오류를 탐색</li>
+<li>차터 2: 가입 요청을 대상으로, 브라우저 개발자 도구의 네트워크 속도 제한과 [가입] 연속 클릭을 사용해, 중복 계정 생성과 오류 뒤 화면 상태를 탐색</li>
+<li>차터 3: 이메일 입력을 대상으로, 대소문자·앞뒤 공백·이미 가입한 주소를 사용해, 같은 사람이 계정 두 개를 만드는 경로를 탐색</li>
+<li>차터 4: 가입 직후 로그인 상태를 대상으로, 새 탭과 새로 고침을 사용해, 세션 유지 오류를 탐색</li>
+</ul>
+<p>차터 2의 세션 기록(타임박스 예: 60분)</p>
+<ul>
+<li>수행 경로: 속도 제한 없음, 느린 3G 조건에서 각각 가입. 느린 조건에서 [가입]을 두 번 연속 클릭</li>
+<li>결함: 느린 조건에서 [가입]을 연속 클릭하면 같은 이메일로 계정이 2건 생성됨. 회원 목록 캡처와 요청 2건의 시각을 증거로 남김</li>
+<li>질문: 이메일의 대소문자를 구분하는지 명세에 없음(차터 3의 사전 확인 항목)</li>
+<li>다음 세션 후보: 비밀번호 재설정 요청의 연속 클릭</li>
+<li>시간 배분: 테스트 설계와 실행 40분, 결함 조사 15분, 환경 준비 5분</li>
+</ul>
+<p>디브리핑 결과</p>
+<ul>
+<li>중복 계정 결함을 이슈로 등록함. 재현 절차는 세션 기록의 조작 순서를 그대로 사용함</li>
+<li>대소문자 구분은 기획 확인 전까지 TC로 작성하지 않고 확인 항목으로 기록함</li>
+<li>연속 클릭 중복 생성 경로를 스크립트 TC로 작성해 회귀 스위트에 편입함</li>
+<li>차터 3은 명세 확인 뒤 수행하기로 하고, 비밀번호 재설정 차터를 추가함</li>
+</ul>
+<div class="sl-heading-wrapper level-h2"><h2 id="tc-예시">TC 예시</h2><a class="sl-anchor-link" href="#tc-예시"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>섹션 제목: “TC 예시”</span></a></div>
+<table>
+<thead>
+<tr>
+<th>항목</th>
+<th>TC 예시</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>차터</td>
+<td>“회원 가입 화면을 대상으로, 주소 직접 입력·뒤로 가기·새로 고침으로 진입 경로를 변경해 가며, 화면 접근과 입력값 유지 오류를 탐색”(타임박스 예: 60분)</td>
+</tr>
+<tr>
+<td>세션 기록의 결함 항목</td>
+<td>1. 네트워크 속도를 느린 3G로 제한함 2. 회원 가입 화면에서 새 이메일과 비밀번호를 입력함 3. [가입]을 두 번 연속 클릭함. 실제 결과: 같은 이메일의 계정 2건이 회원 목록에 표시됨</td>
+</tr>
+<tr>
+<td>편입한 스크립트 TC: 중복 요청</td>
+<td>네트워크를 느린 3G로 제한한 상태에서 [가입]을 두 번 연속 클릭해, 가입 요청이 1건만 전송되고 DB에 해당 이메일 계정이 1건만 생성되는지 확인함. 서버의 중복 요청 차단은 API 동시 전송 TC로 따로 확인함</td>
+</tr>
+<tr>
+<td>편입한 스크립트 TC: 진입 경로</td>
+<td>비로그인 상태에서 새 탭 주소창에 회원 가입 화면 주소를 입력해, 로그인 화면으로 이동되지 않고 회원 가입 화면이 표시되는지 확인함</td>
+</tr>
+<tr>
+<td>편입한 스크립트 TC: 세션 유지</td>
+<td>가입을 완료한 직후 새로 고침해 로그인 화면으로 이동되지 않고 로그인한 사용자의 계정 메뉴가 표시되는지 확인함</td>
+</tr>
+</tbody>
+</table>
+<div class="sl-heading-wrapper level-h2"><h2 id="테스트-계획-결함-분류-보고에-적용">테스트 계획, 결함 분류, 보고에 적용</h2><a class="sl-anchor-link" href="#테스트-계획-결함-분류-보고에-적용"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>섹션 제목: “테스트 계획, 결함 분류, 보고에 적용”</span></a></div>
+<p>테스트 계획</p>
+<ul>
+<li>차터 목록, 차터별 타임박스, 세션 수, 수행자를 계획서에 기록함. 차터는 <a href="/qa-wiki/test-design/risk-based-testing/">리스크 기반 테스트</a>의 우선순위가 높은 영역부터 배정함</li>
+<li>스크립트 TC와 탐색적 테스트에 배분한 시간을 함께 기록함. 예: 회귀 스위트 1일, 신규 기능 탐색 세션 6회</li>
+<li>완료 기준에 “계획한 차터 전부 수행, 세션마다 디브리핑 완료”를 포함함</li>
+</ul>
+<p>결함 분류</p>
+<ul>
+<li>이슈의 발견 경로에 탐색적 테스트와 차터 식별자를 기록함. 나중에 어떤 차터가 결함을 많이 발견했는지 집계할 수 있음</li>
+<li>세션에서 한 번만 관측한 결함은 재현 빈도를 “1회만 관측”으로 기록하고, 세션 중에 남긴 로그와 캡처를 증거로 첨부함(<a href="/qa-wiki/process/issue-template/">이슈 양식</a>)</li>
+<li>명세 질문에서 나온 항목은 결함과 구분해 확인 항목으로 관리함. 기획 답변으로 결함이 확정되면 그때 이슈로 등록함</li>
+</ul>
+<p>보고</p>
+<ul>
+<li>세션 수, 차터별 달성 여부, 발견한 결함 수, 질문 수, 편입한 스크립트 TC 수, 확인하지 못한 영역을 함께 보고함. “탐색적 테스트 3시간 수행”만 적지 않음</li>
+<li>시간 배분에서 환경 준비나 결함 조사 비율이 높으면 그 사유(환경 장애, 결함 밀집)를 함께 기록함. 차터를 달성하지 못한 원인을 구분하는 근거가 됨</li>
+</ul>
+<aside aria-label="현장 노트" class="starlight-aside starlight-aside--tip"><p class="starlight-aside__title" aria-hidden="true"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" class="starlight-aside__icon"><path fill-rule="evenodd" d="M1.44 8.855v-.001l3.527-3.516c.34-.344.802-.541 1.285-.548h6.649l.947-.947c3.07-3.07 6.207-3.072 7.62-2.868a1.821 1.821 0 0 1 1.557 1.557c.204 1.413.203 4.55-2.868 7.62l-.946.946v6.649a1.845 1.845 0 0 1-.549 1.286l-3.516 3.528a1.844 1.844 0 0 1-3.11-.944l-.858-4.275-4.52-4.52-2.31-.463-1.964-.394A1.847 1.847 0 0 1 .98 10.693a1.843 1.843 0 0 1 .46-1.838Zm5.379 2.017-3.873-.776L6.32 6.733h4.638l-4.14 4.14Zm8.403-5.655c2.459-2.46 4.856-2.463 5.89-2.33.134 1.035.13 3.432-2.329 5.891l-6.71 6.71-3.561-3.56 6.71-6.711Zm-1.318 15.837-.776-3.873 4.14-4.14v4.639l-3.364 3.374Z" clip-rule="evenodd"/><path d="M9.318 18.345a.972.972 0 0 0-1.86-.561c-.482 1.435-1.687 2.204-2.934 2.619a8.22 8.22 0 0 1-1.23.302c.062-.365.157-.79.303-1.229.415-1.247 1.184-2.452 2.62-2.935a.971.971 0 1 0-.62-1.842c-.12.04-.236.084-.35.13-2.02.828-3.012 2.588-3.493 4.033a10.383 10.383 0 0 0-.51 2.845l-.001.016v.063c0 .536.434.972.97.972H2.24a7.21 7.21 0 0 0 .878-.065c.527-.063 1.248-.19 2.02-.447 1.445-.48 3.205-1.472 4.033-3.494a5.828 5.828 0 0 0 .147-.407Z"/></svg>현장 노트</p><div class="starlight-aside__content"><ul>
+<li>TC 관리 도구에서 비로그인으로 열 수 있는 공개 페이지(회원 가입 등)를 주소로 직접 열면 로그인 화면으로 이동됨. 로그인 화면의 링크로 이동하면 화면 내부 라우팅이라 문제가 나타나지 않음. 원인은 401 응답을 받으면 로그인 화면 외의 모든 경로를 로그인 화면으로 이동시키는 처리였고, 공개 경로 목록에 있는 주소는 이동 대상에서 제외하도록 수정함. 타입 검사, 단위 테스트, 빌드가 모두 통과한 상태였고 브라우저에서 주소를 직접 열었을 때만 확인됨</li>
+<li>화면 요소 이름을 확인하지 않고 확인용 자동화 스크립트를 작성해 두 번 실패함. <code dir="auto">Export</code> 이름으로 찾은 버튼은 30초 시간 초과로 실패했고(실제 이름 “다운로드”), 첫 번째 <code dir="auto">select</code>로 잡은 요소는 헤더의 프로젝트 선택 상자였음. 브라우저 자동화 CLI의 접근성 트리 스냅샷으로 요소의 역할과 이름을 확인한 뒤 조작하도록 변경함. 반복 실행할 회귀 TC는 Playwright 테스트로 작성함</li>
+</ul></div></aside>
+<div class="sl-heading-wrapper level-h2"><h2 id="애드혹-테스트와의-차이">애드혹 테스트와의 차이</h2><a class="sl-anchor-link" href="#애드혹-테스트와의-차이"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>섹션 제목: “애드혹 테스트와의 차이”</span></a></div>
+<p>SBTM 원문은 탐색적 테스트를 애드혹 프로세스라고 적고, Bach·Bolton은 Exploratory Testing 3.0에서 애드혹을 사전적 의미(“이 목적을 위해”)로 보아 탐색적 테스트와 애드혹 테스트를 더 이상 구분하지 않는다. 아래 표는 차터와 기록의 유무로 세션 기반 탐색과 기록 없는 수행을 구분한 것이다.</p>
+<table>
+<thead>
+<tr>
+<th>항목</th>
+<th>탐색적 테스트(세션 기반)</th>
+<th>애드혹 테스트(Ad hoc Testing)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>목표</td>
+<td>차터로 사전에 정함</td>
+<td>정하지 않음</td>
+</tr>
+<tr>
+<td>시간</td>
+<td>타임박스로 고정</td>
+<td>정하지 않음</td>
+</tr>
+<tr>
+<td>기록</td>
+<td>수행 경로, 데이터, 결함, 질문</td>
+<td>대개 결함만 등록</td>
+</tr>
+<tr>
+<td>결과 활용</td>
+<td>디브리핑, 남은 리스크 보고, TC 편입</td>
+<td>결함 등록</td>
+</tr>
+</tbody>
+</table>
+<div class="sl-heading-wrapper level-h2"><h2 id="흔한-실수">흔한 실수</h2><a class="sl-anchor-link" href="#흔한-실수"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>섹션 제목: “흔한 실수”</span></a></div>
+<ul>
+<li>차터 없이 화면을 임의로 조작하고 탐색적 테스트로 보고함. 확인한 범위와 남은 리스크를 설명할 수 없음</li>
+<li>결함 하나의 원인 추적에 세션 시간을 모두 사용해 차터의 나머지 영역을 확인하지 못함</li>
+<li>차터 범위를 “앱 전체”처럼 넓게 설정하거나 TC 하나 수준으로 좁게 설정함</li>
+<li>세션에서 발견한 결함의 조작 순서를 남기지 않아 나중에 재현하지 못함</li>
+</ul>
+<div class="sl-heading-wrapper level-h2"><h2 id="출처">출처</h2><a class="sl-anchor-link" href="#출처"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>섹션 제목: “출처”</span></a></div>
+<ul>
+<li><a href="https://istqb.org/certifications/certified-tester-foundation-level-ctfl-v4-0/">ISTQB Certified Tester Foundation Level(CTFL) 실라버스 v4.0.1</a>, 2024-09-15, 4.4 Experience-based Test Techniques, 4.4.2 Exploratory Testing</li>
+<li>ISTQB 용어집(2026-11-23 조회): <a href="https://glossary.istqb.org/en_US/term/exploratory-testing">exploratory testing</a>, <a href="https://glossary.istqb.org/en_US/term/test-charter">test charter</a>, <a href="https://glossary.istqb.org/en_US/term/test-oracle">test oracle</a></li>
+<li>Cem Kaner, <a href="https://kaner.com/pdfs/QAIExploring.pdf">A Tutorial in Exploratory Testing</a>, QUEST 2008, 2008-04, Conference Abstract(2쪽), Exploratory software testing(36쪽), Interpretation activities(137쪽)</li>
+<li>James Bach·Michael Bolton, <a href="https://www.satisfice.com/blog/archives/1509">Exploratory Testing 3.0</a>, satisfice.com(현재 게시일 2025-04-15), 도입부(Kaner의 용어 창안), ET 1.5: Explication(애드혹 구분), ET 2.0: Integration(2006년 정의), About That Last Bullet Point(현재 테스팅 정의)</li>
+<li>James Bach, <a href="https://www.satisfice.com/download/heuristic-test-strategy-model">Heuristic Test Strategy Model v6.3</a>, 2024-11-05, 1쪽 개요, Product Factors, Quality Criteria Categories</li>
+<li>Michael Bolton, <a href="https://developsense.com/blog/2012/07/few-hiccupps">FEW HICCUPPS</a>, developsense.com, 2012-07-23(2017-01-26 수정)</li>
+<li>Jonathan Bach, <a href="https://www.satisfice.com/download/session-based-test-management">Session-Based Test Management</a>, Software Testing &amp; Quality Engineering 2000년 11/12월호, Testing in Sessions, Anatomy of a Test Session, Metrics, Notes From the Field, Too Much Bureaucracy?</li>
+</ul>
+</div><section class="wiki-related"><h2>관련 문서</h2><div class="wiki-rel-grid"><a class="wiki-rel" href="/qa-wiki/process/tc-writing-principles/"><span class="wiki-rel-cat">프로세스</span><span class="wiki-rel-title">TC 작성 원칙</span><span class="wiki-rel-desc">처음 보는 사람이 따라 할 수 있고 수행 직후 통과와 실패를 판정할 수 있는 테스트 케이스의 작성 기준. TC 형식(단계형, BDD 시나리오, 체크리스트, 탐색적 테스트 차터)의 선택 기준, 구성 요소별 작성법, 리뷰 점검 항목을 다룬다.</span></a><a class="wiki-rel" href="/qa-wiki/process/issue-template/"><span class="wiki-rel-cat">프로세스</span><span class="wiki-rel-title">이슈 양식</span><span class="wiki-rel-desc">버그 이슈의 대표 양식(ISTQB 결함 보고서 항목, Bugzilla 요약·설명, GitHub 이슈 폼)과 선택 기준. 운영 예로 발견 블록과 종결 블록을 나눈 버그 양식과 작업(개선) 양식을 둔다.</span></a><a class="wiki-rel" href="/qa-wiki/process/regression-test-selection/"><span class="wiki-rel-cat">프로세스</span><span class="wiki-rel-title">회귀 테스트 범위 선정</span><span class="wiki-rel-desc">변경 뒤 기존 기능이 의도하지 않게 실패하는지 확인하기 위해, 회귀 스위트에서 이번 회차에 수행할 TC를 선택하는 절차다(Regression Test Selection).</span></a></div></section><script type="module">var e=e=>{let t=e.scrollWidth-e.clientWidth;e.classList.toggle(`is-scrollable`,t>1),e.classList.toggle(`at-start`,e.scrollLeft<=1),e.classList.toggle(`at-end`,e.scrollLeft>=t-1)},t=new ResizeObserver(t=>t.forEach(t=>e(t.target)));document.querySelectorAll(`.wiki-fig-scroll`).forEach(n=>{e(n),t.observe(n),n.addEventListener(`scroll`,()=>e(n),{passive:!0})});var n=e=>{let t=e.scrollWidth>e.clientWidth+1,n=!!e.querySelector(`a[href], button, input`);t&&!n?e.setAttribute(`tabindex`,`0`):e.removeAttribute(`tabindex`)},r=[...document.querySelectorAll(`.sl-markdown-content table`)],i=new ResizeObserver(e=>e.forEach(e=>{let t=e.target.closest(`table`);t&&n(t)}));r.forEach(e=>{i.observe(e),e.querySelectorAll(`:scope > thead, :scope > tbody`).forEach(e=>i.observe(e))}),document.fonts?.ready.then(()=>r.forEach(n));</script><footer class="sl-flex" data-astro-cid-ddtxxk7k><div class="meta sl-flex" data-astro-cid-ddtxxk7k></div><div class="pagination-links print:hidden" dir="ltr" data-astro-cid-b5raizh3><a href="/qa-wiki/test-design/pairwise-testing/" rel="prev" data-astro-cid-b5raizh3><svg data-astro-cid-b5raizh3="true" aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.5rem;" data-astro-cid-hkc32dio><path d="M17 11H9.41l3.3-3.29a1.004 1.004 0 1 0-1.42-1.42l-5 5a1 1 0 0 0-.21.33 1 1 0 0 0 0 .76 1 1 0 0 0 .21.33l5 5a1.002 1.002 0 0 0 1.639-.325 1 1 0 0 0-.219-1.095L9.41 13H17a1 1 0 0 0 0-2Z"/></svg><span data-astro-cid-b5raizh3>이전 페이지<br data-astro-cid-b5raizh3><span class="link-title" data-astro-cid-b5raizh3>조합 테스트(페어와이즈)</span></span></a><a href="/qa-wiki/test-design/risk-based-testing/" rel="next" data-astro-cid-b5raizh3><svg data-astro-cid-b5raizh3="true" aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.5rem;" data-astro-cid-hkc32dio><path d="M17.92 11.62a1.001 1.001 0 0 0-.21-.33l-5-5a1.003 1.003 0 1 0-1.42 1.42l3.3 3.29H7a1 1 0 0 0 0 2h7.59l-3.3 3.29a1.002 1.002 0 0 0 .325 1.639 1 1 0 0 0 1.095-.219l5-5a1 1 0 0 0 .21-.33 1 1 0 0 0 0-.76Z"/></svg><span data-astro-cid-b5raizh3>다음 페이지<br data-astro-cid-b5raizh3><span class="link-title" data-astro-cid-b5raizh3>리스크 기반 테스트</span></span></a></div></footer></div></div></main></div></div></div></div></body></html>

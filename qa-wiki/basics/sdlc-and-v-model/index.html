@@ -1,0 +1,592 @@
+<!DOCTYPE html><html lang="ko" dir="ltr" data-theme="dark" data-has-toc data-has-sidebar data-astro-cid-g5ptsecz><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><title>개발 수명주기와 V-모델 | QA 지식 창고</title><link rel="canonical" href="https://sym804.github.io/qa-wiki/basics/sdlc-and-v-model/"/><link rel="sitemap" href="/qa-wiki/sitemap-index.xml"/><link rel="shortcut icon" href="/qa-wiki/favicon.svg" type="image/svg+xml"/><meta name="generator" content="Astro v7.4.13"/><meta name="generator" content="Starlight v0.43.1"/><meta property="og:title" content="개발 수명주기와 V-모델"/><meta property="og:type" content="article"/><meta property="og:url" content="https://sym804.github.io/qa-wiki/basics/sdlc-and-v-model/"/><meta property="og:locale" content="ko"/><meta property="og:description" content="소프트웨어 개발 수명주기(SDLC) 모델의 분류와 모델 선택이 테스트에 주는 영향, V-모델의 개발 단계와 테스트 레벨 대응, 독일 연방 정부의 V-Modell XT, 의료기기·자동차 분야 공개 문서에서 확인되는 범위를 정리한다."/><meta property="og:site_name" content="QA 지식 창고"/><meta name="twitter:card" content="summary_large_image"/><meta name="description" content="소프트웨어 개발 수명주기(SDLC) 모델의 분류와 모델 선택이 테스트에 주는 영향, V-모델의 개발 단계와 테스트 레벨 대응, 독일 연방 정부의 V-Modell XT, 의료기기·자동차 분야 공개 문서에서 확인되는 범위를 정리한다."/><script>
+	(() => {
+		const storedTheme =
+			typeof localStorage !== 'undefined' && localStorage.getItem('starlight-theme');
+		const theme =
+			storedTheme ||
+			(window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+		document.documentElement.dataset.theme = theme === 'light' ? 'light' : 'dark';
+	})();
+</script><script>
+  (() => {
+    const el = document.documentElement;
+    const sync = () => {
+      el.classList.add('base-spec');
+      el.classList.toggle('dark', el.dataset.theme !== 'light');
+    };
+    sync();
+    new MutationObserver(sync).observe(el, { attributes: true, attributeFilter: ['data-theme'] });
+  })();
+</script><noscript><style>:root { --background: 230 18% 15%; --foreground: 230 10% 92%; --surface: 230 16% 19%; --surface-elevated: 230 16% 22%; --surface-subtle: 230 16% 17%; --surface-raised: 230 16% 24%; --muted: 230 16% 22%; --muted-foreground: 230 8% 70%; --border: 230 14% 27%; --input: 230 14% 27%; --accent: 230 16% 22%; --accent-foreground: 230 10% 92%; --popover: 230 16% 19%; --popover-foreground: 230 10% 92%; --interactive-hover: 230 16% 26%; --interactive-active: 230 16% 32%; --radius-sm: 4px; --radius-md: 12px; --radius-lg: 16px; --radius-xl: 24px; --surface-inverse: 230 18% 15%; --surface-inverse-raised: 230 16% 18%; --surface-inverse-border: 230 14% 28%; --surface-inverse-foreground: 230 10% 94%; --surface-inverse-muted: 230 8% 70%; --callout-note-bg: 152 40% 17%; --callout-note-fg: 152 60% 88%; --callout-note-border: 152 40% 30%; --callout-note-title: 152 60% 84%; --callout-tip-bg: 230 16% 19%; --callout-tip-fg: 230 10% 92%; --callout-tip-border: 230 14% 36%; --callout-tip-title: 152 60% 58%; --masthead-bg: 230 16% 17%; --masthead-fg: 230 10% 92%; --masthead-rule: 230 14% 27%; --masthead-rule-width: 1px; --spec-grid: 230 14% 19%; --primary-50: 152 81% 96%; --primary-100: 149 80% 90%; --primary-200: 152 76% 80%; --primary-300: 156 72% 67%; --primary-400: 152 60% 58%; --primary-500: 160 84% 39%; --primary-600: 161 94% 30%; --primary-700: 163 94% 24%; --primary-800: 163 88% 20%; --primary-900: 164 86% 16%; --primary-950: 166 91% 9%; --ring: var(--primary-400); --primary: var(--primary-400); --primary-foreground: 240 25% 12%; --focus-ring: var(--primary-400); --accent-brand: 172 66% 65%; } body { background-image: linear-gradient(hsl(var(--spec-grid)) 1px, transparent 1px), linear-gradient(90deg, hsl(var(--spec-grid)) 1px, transparent 1px); background-size: 28px 28px; }</style></noscript><link rel="stylesheet" href="/qa-wiki/qa-assets/print.C9eyqPGL.css" media="print"><link rel="stylesheet" href="/qa-wiki/qa-assets/middleware.kl0vZ4Xr.css"><script type="module" src="/qa-wiki/qa-assets/page.cNngjUgL.js"></script></head><body data-astro-cid-g5ptsecz><a class="sl-skip-link" href="#_top" data-astro-cid-qb7clj6f>콘텐츠로 이동</a><div class="page sl-flex" data-astro-cid-yntsjkba><header class="header" data-astro-cid-yntsjkba><div class="header" data-astro-cid-by6fddyj><div class="title-wrapper sl-flex" data-astro-cid-by6fddyj><a href="/qa-wiki/" class="site-title sl-flex" data-astro-cid-6rvad3va><span translate="no" data-astro-cid-6rvad3va>QA 지식 창고</span></a></div><div class="sl-flex print:hidden" data-astro-cid-by6fddyj><site-search data-translations="{&quot;placeholder&quot;:&quot;검색&quot;}" data-astro-cid-b5kgnn7o="true"><button data-open-modal disabled aria-label="검색" aria-keyshortcuts="Control+K" data-astro-cid-b5kgnn7o><svg data-astro-cid-b5kgnn7o="true" aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;" data-astro-cid-hkc32dio><path d="M21.71 20.29 18 16.61A9 9 0 1 0 16.61 18l3.68 3.68a.999.999 0 0 0 1.42 0 1 1 0 0 0 0-1.39ZM11 18a7 7 0 1 1 0-14 7 7 0 0 1 0 14Z"/></svg><span class="sl-hidden md:sl-block" aria-hidden="true" data-astro-cid-b5kgnn7o>검색</span><kbd class="sl-hidden md:sl-flex" style="display: none" data-astro-cid-b5kgnn7o><kbd data-astro-cid-b5kgnn7o>Ctrl</kbd><kbd data-astro-cid-b5kgnn7o>K</kbd></kbd></button><dialog style="padding: 0" aria-label="검색" data-astro-cid-b5kgnn7o><div class="dialog-frame sl-flex" data-astro-cid-b5kgnn7o><button data-close-modal class="sl-flex md:sl-hidden" data-astro-cid-b5kgnn7o>취소</button><div class="search-container" data-astro-cid-b5kgnn7o><div id="starlight__search" data-astro-cid-b5kgnn7o></div></div></div></dialog></site-search><script>
+	(() => {
+		const openBtn = document.querySelector('button[data-open-modal]');
+		const shortcut = openBtn?.querySelector('kbd');
+		if (!openBtn || !(shortcut instanceof HTMLElement)) return;
+		const platformKey = shortcut.querySelector('kbd');
+		if (platformKey && /(Mac|iPhone|iPod|iPad)/i.test(navigator.platform)) {
+			platformKey.textContent = '⌘';
+			openBtn.setAttribute('aria-keyshortcuts', 'Meta+K');
+		}
+		shortcut.style.display = '';
+	})();
+</script><script type="module" src="/qa-wiki/qa-assets/Search.astro_astro_type_script_index_0_lang.DuNn5Etx.js"></script></div><div class="sl-hidden md:sl-flex print:hidden right-group" data-astro-cid-by6fddyj><div class="sl-flex social-icons" data-astro-cid-by6fddyj></div><starlight-theme-select data-astro-cid-smhvfpqh="true"><label style="--sl-select-width: 6.25em" data-astro-cid-2z5xp7gb><span class="sr-only" data-astro-cid-2z5xp7gb>테마 선택</span><span class="icon label-icon" data-astro-cid-2z5xp7gb><svg class="sl-theme-icon-dark" data-astro-cid-smhvfpqh="true" aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;" data-astro-cid-hkc32dio><path d="M21.64 13a1 1 0 0 0-1.05-.14 8.049 8.049 0 0 1-3.37.73 8.15 8.15 0 0 1-8.14-8.1 8.59 8.59 0 0 1 .25-2A1 1 0 0 0 8 2.36a10.14 10.14 0 1 0 14 11.69 1 1 0 0 0-.36-1.05Zm-9.5 6.69A8.14 8.14 0 0 1 7.08 5.22v.27a10.15 10.15 0 0 0 10.14 10.14 9.784 9.784 0 0 0 2.1-.22 8.11 8.11 0 0 1-7.18 4.32v-.04Z"/></svg><svg class="sl-theme-icon-light" data-astro-cid-smhvfpqh="true" aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;" data-astro-cid-hkc32dio><path d="M5 12a1 1 0 0 0-1-1H3a1 1 0 0 0 0 2h1a1 1 0 0 0 1-1Zm.64 5-.71.71a1 1 0 0 0 0 1.41 1 1 0 0 0 1.41 0l.71-.71A1 1 0 0 0 5.64 17ZM12 5a1 1 0 0 0 1-1V3a1 1 0 0 0-2 0v1a1 1 0 0 0 1 1Zm5.66 2.34a1 1 0 0 0 .7-.29l.71-.71a1 1 0 1 0-1.41-1.41l-.66.71a1 1 0 0 0 0 1.41 1 1 0 0 0 .66.29Zm-12-.29a1 1 0 0 0 1.41 0 1 1 0 0 0 0-1.41l-.71-.71a1.004 1.004 0 1 0-1.43 1.41l.73.71ZM21 11h-1a1 1 0 0 0 0 2h1a1 1 0 0 0 0-2Zm-2.64 6A1 1 0 0 0 17 18.36l.71.71a1 1 0 0 0 1.41 0 1 1 0 0 0 0-1.41l-.76-.66ZM12 6.5a5.5 5.5 0 1 0 5.5 5.5A5.51 5.51 0 0 0 12 6.5Zm0 9a3.5 3.5 0 1 1 0-7 3.5 3.5 0 0 1 0 7Zm0 3.5a1 1 0 0 0-1 1v1a1 1 0 0 0 2 0v-1a1 1 0 0 0-1-1Z"/></svg><svg class="sl-theme-icon-auto" data-astro-cid-smhvfpqh="true" aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;" data-astro-cid-hkc32dio><path d="M21 14h-1V7a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v7H3a1 1 0 0 0-1 1v2a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-2a1 1 0 0 0-1-1ZM6 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7H6V7Zm14 10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1h16v1Z"/></svg></span><select autocomplete="off" data-astro-cid-2z5xp7gb><option value="dark" data-astro-cid-2z5xp7gb>어두운 테마</option><option value="light" data-astro-cid-2z5xp7gb>밝은 테마</option><option value="auto" selected data-astro-cid-2z5xp7gb>자동</option></select><svg class="icon caret" data-astro-cid-2z5xp7gb="true" aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;" data-astro-cid-hkc32dio><path d="M17 9.17a1 1 0 0 0-1.41 0L12 12.71 8.46 9.17a1 1 0 1 0-1.41 1.42l4.24 4.24a1.002 1.002 0 0 0 1.42 0L17 10.59a1.002 1.002 0 0 0 0-1.42Z"/></svg></label></starlight-theme-select><script>(() => {
+		const theme = (typeof localStorage !== 'undefined' && localStorage.getItem('starlight-theme'));
+		if (theme) document.querySelectorAll('starlight-theme-select select').forEach((s) => { s.value = theme; });
+	})();</script><script type="module">var e=`starlight-theme`,t=e=>e===`auto`||e===`dark`||e===`light`?e:`auto`,n=()=>t(typeof localStorage<`u`&&localStorage.getItem(e));function r(t){typeof localStorage<`u`&&localStorage.setItem(e,t===`light`||t===`dark`?t:``)}var i=()=>matchMedia(`(prefers-color-scheme: light)`).matches?`light`:`dark`;function a(e){document.querySelectorAll(`starlight-theme-select select`).forEach(t=>{t.value=e}),document.documentElement.dataset.theme=e===`auto`?i():e,r(e)}matchMedia(`(prefers-color-scheme: light)`).addEventListener(`change`,()=>{n()===`auto`&&a(`auto`)});var o=class extends HTMLElement{constructor(){super(),a(n()),this.querySelector(`select`)?.addEventListener(`change`,e=>{e.currentTarget instanceof HTMLSelectElement&&a(t(e.currentTarget.value))})}};customElements.define(`starlight-theme-select`,o);</script><script type="module">var e=class extends HTMLElement{constructor(){super();let e=this.querySelector(`select`);e&&(e.addEventListener(`change`,e=>{e.currentTarget instanceof HTMLSelectElement&&(window.location.pathname=e.currentTarget.value)}),window.addEventListener(`pageshow`,t=>{if(!t.persisted)return;let n=e.querySelector(`option[selected]`)?.index;n!==e.selectedIndex&&(e.selectedIndex=n??0)}))}};customElements.define(`starlight-lang-select`,e);</script></div></div></header><nav class="sidebar print:hidden" aria-label="메인" data-astro-cid-yntsjkba><button popovertarget="starlight__sidebar" class="sl-menu-button sl-flex md:sl-hidden print:hidden" data-astro-cid-r2osgdlg><svg class="open-menu" data-astro-cid-r2osgdlg="true" aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;" data-astro-cid-hkc32dio><path d="M3 8h18a1 1 0 1 0 0-2H3a1 1 0 0 0 0 2Zm18 8H3a1 1 0 0 0 0 2h18a1 1 0 0 0 0-2Zm0-5H3a1 1 0 0 0 0 2h18a1 1 0 0 0 0-2Z"/></svg><svg class="close-menu" data-astro-cid-r2osgdlg="true" aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;" data-astro-cid-hkc32dio><path d="m13.41 12 6.3-6.29a1.004 1.004 0 1 0-1.42-1.42L12 10.59l-6.29-6.3a1.004 1.004 0 0 0-1.42 1.42l6.3 6.29-6.3 6.29a1 1 0 0 0 0 1.42.998.998 0 0 0 1.42 0l6.29-6.3 6.29 6.3a.999.999 0 0 0 1.42 0 1 1 0 0 0 0-1.42L13.41 12Z"/></svg><span class="sr-only" data-astro-cid-r2osgdlg>메뉴</span></button><script type="module">var e=class extends HTMLElement{constructor(){super();let e=matchMedia(`(min-width: 50em)`),t=()=>{this.popover=e.matches?null:`auto`};t(),e.addEventListener(`change`,()=>t()),this.addEventListener(`toggle`,({newState:e})=>this.trapFocus(e===`open`))}trapFocus(e){document.querySelectorAll(`.main-frame, .sl-skip-link`).forEach(t=>{t.toggleAttribute(`inert`,e)})}};customElements.define(`sl-sidebar-pane`,e);</script><sl-sidebar-pane popover id="starlight__sidebar" class="sidebar-pane" data-astro-cid-yntsjkba="true"><div class="sidebar-content sl-flex" data-astro-cid-yntsjkba><sl-sidebar-state-persist data-hash="1pcu6hq" data-astro-cid-ipdry5cl="true"><script aria-hidden="true">
+		(() => {
+			try {
+				if (!matchMedia('(min-width: 50em)').matches) return;
+				/** @type {HTMLElement | null} */
+				const target = document.querySelector('sl-sidebar-state-persist');
+				const state = JSON.parse(sessionStorage.getItem('sl-sidebar-state') || '0');
+				if (!target || !state || target.dataset.hash !== state.hash) return;
+				window._starlightScrollRestore = state.scroll;
+				customElements.define(
+					'sl-sidebar-restore',
+					class SidebarRestore extends HTMLElement {
+						connectedCallback() {
+							try {
+								const idx = parseInt(this.dataset.index || '');
+								const details = this.closest('details');
+								if (details && typeof state.open[idx] === 'boolean') details.open = state.open[idx];
+							} catch {}
+						}
+					}
+				);
+			} catch {}
+		})();
+	</script><ul class="top-level" data-astro-cid-rmhv4bp6><li data-astro-cid-rmhv4bp6><details open data-astro-cid-rmhv4bp6><summary data-astro-cid-rmhv4bp6><span class="group-label" data-astro-cid-rmhv4bp6><span class="large" data-astro-cid-rmhv4bp6>기초와 용어</span></span><svg class="caret" data-astro-cid-rmhv4bp6="true" aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;" data-astro-cid-hkc32dio><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></summary><sl-sidebar-restore data-index="0"></sl-sidebar-restore><ul data-astro-cid-rmhv4bp6><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/basics/istqb-ctfl-overview/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>ISTQB CTFL 실라버스 핵심 정리</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/basics/testing-principles/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>테스팅의 7원칙</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/basics/qa-qc-qm/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>QA, QC, QM의 차이</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/basics/verification-and-validation/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>검증과 확인(V&amp;V)</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/basics/sdlc-and-v-model/" aria-current="page" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>개발 수명주기와 V-모델</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/basics/test-levels-and-types/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>테스트 레벨과 테스트 유형</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/basics/api-testing/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>API 테스트 기본</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/basics/accessibility-testing/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>접근성 테스트 기본</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/basics/quality-standards-map/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>품질 표준 지도</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/basics/iso-25010-quality-model/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>ISO/IEC 25010 품질 모델</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/basics/iso-29119-test-standards/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>ISO/IEC/IEEE 29119 테스트 표준</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/basics/cost-of-quality/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>품질비용</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/basics/configuration-management/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>형상관리 기본</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/basics/glossary/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>용어 사전</span></a></li></ul></details></li><li data-astro-cid-rmhv4bp6><details open data-astro-cid-rmhv4bp6><summary data-astro-cid-rmhv4bp6><span class="group-label" data-astro-cid-rmhv4bp6><span class="large" data-astro-cid-rmhv4bp6>테스트 설계</span></span><svg class="caret" data-astro-cid-rmhv4bp6="true" aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;" data-astro-cid-hkc32dio><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></summary><sl-sidebar-restore data-index="1"></sl-sidebar-restore><ul data-astro-cid-rmhv4bp6><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/test-design/test-techniques-overview/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>테스트 기법 분류</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/test-design/equivalence-partitioning/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>동등 분할</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/test-design/boundary-value-analysis/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>경계값 분석</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/test-design/decision-table/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>결정 테이블 테스트</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/test-design/state-transition/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>상태 전이 테스트</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/test-design/pairwise-testing/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>조합 테스트(페어와이즈)</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/test-design/exploratory-testing/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>탐색적 테스트와 세션 기반 테스트 관리</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/test-design/risk-based-testing/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>리스크 기반 테스트</span></a></li></ul></details></li><li data-astro-cid-rmhv4bp6><details open data-astro-cid-rmhv4bp6><summary data-astro-cid-rmhv4bp6><span class="group-label" data-astro-cid-rmhv4bp6><span class="large" data-astro-cid-rmhv4bp6>프로세스</span></span><svg class="caret" data-astro-cid-rmhv4bp6="true" aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;" data-astro-cid-hkc32dio><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></summary><sl-sidebar-restore data-index="2"></sl-sidebar-restore><ul data-astro-cid-rmhv4bp6><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/process/tc-writing-principles/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>TC 작성 원칙</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/process/defect-lifecycle/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>결함 생명주기</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/process/severity/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>심각도 기준</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/process/issue-template/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>이슈 양식</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/process/regression-test-selection/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>회귀 테스트 범위 선정</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/process/release-notes-versioning/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>릴리즈 노트와 버전 번호</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/process/issue-log-join-key/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>이슈 로그와 트래커의 조인 키</span></a></li></ul></details></li><li data-astro-cid-rmhv4bp6><details open data-astro-cid-rmhv4bp6><summary data-astro-cid-rmhv4bp6><span class="group-label" data-astro-cid-rmhv4bp6><span class="large" data-astro-cid-rmhv4bp6>자동화</span></span><svg class="caret" data-astro-cid-rmhv4bp6="true" aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;" data-astro-cid-hkc32dio><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></summary><sl-sidebar-restore data-index="3"></sl-sidebar-restore><ul data-astro-cid-rmhv4bp6><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/automation/test-automation-basics/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>테스트 자동화 기본</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/automation/e2e-after-build/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>E2E 테스트 전 빌드</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/automation/test-what-you-commit/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>작업 트리와 커밋 상태 구분</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/automation/visual-regression/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>시각 회귀 테스트</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/automation/flaky-tests/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>Flaky 테스트 관리</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/automation/e2e-failure-triage/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>E2E 실패 분류</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/automation/mutation-check/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>변이 주입으로 테스트 검출력 확인</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/automation/zero-findings-check/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>검사 결과 0건 검증</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/automation/verify-after-write/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>쓰기 작업 결과 대조</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/automation/book-implementing-automated-software-testing/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>책 정리: 소프트웨어 테스트 자동화 구축</span></a></li></ul></details></li><li data-astro-cid-rmhv4bp6><details open data-astro-cid-rmhv4bp6><summary data-astro-cid-rmhv4bp6><span class="group-label" data-astro-cid-rmhv4bp6><span class="large" data-astro-cid-rmhv4bp6>도메인별</span></span><svg class="caret" data-astro-cid-rmhv4bp6="true" aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;" data-astro-cid-hkc32dio><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></summary><sl-sidebar-restore data-index="4"></sl-sidebar-restore><ul data-astro-cid-rmhv4bp6><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/domains/security-testing/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>보안 테스트의 기본 관점</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/domains/ecommerce/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>이커머스 테스트 관점</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/domains/embedded-device/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>임베디드·디바이스 테스트 관점</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/domains/financial-data/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>금융 데이터 검증의 함정</span></a></li></ul></details></li><li data-astro-cid-rmhv4bp6><details open data-astro-cid-rmhv4bp6><summary data-astro-cid-rmhv4bp6><span class="group-label" data-astro-cid-rmhv4bp6><span class="large" data-astro-cid-rmhv4bp6>AI와 QA</span></span><svg class="caret" data-astro-cid-rmhv4bp6="true" aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;" data-astro-cid-hkc32dio><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></summary><sl-sidebar-restore data-index="5"></sl-sidebar-restore><ul data-astro-cid-rmhv4bp6><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/ai-qa/qa-in-the-ai-era/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>AI 시대의 QA</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/ai-qa/llm-feature-testing/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>LLM 기능 테스트</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/ai-qa/llm-evaluation/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>LLM 평가셋과 LLM 심판</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/ai-qa/rag-testing/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>RAG 테스트</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/ai-qa/llm-security-testing/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>LLM 보안 테스트</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/ai-qa/ai-quality-model/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>AI 시스템 품질 모델(ISO/IEC 25059)</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/ai-qa/ai-generated-tests/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>AI가 생성한 TC와 테스트 코드 검토</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/ai-qa/verify-ai-reports/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>AI 보고 확인</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/ai-qa/ai-memory-and-long-sessions/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>AI 장기 메모리와 긴 세션의 함정</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/ai-qa/ai-written-docs/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>AI가 작성한 문서 검사</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/ai-qa/ai-data-exposure/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>AI에 제공한 정보와 외부 전송</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/ai-qa/ai-agent-guardrails/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>AI 에이전트 권한 통제</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/ai-qa/ai-cross-review/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>AI 교차 검증</span></a></li></ul></details></li><li data-astro-cid-rmhv4bp6><details open data-astro-cid-rmhv4bp6><summary data-astro-cid-rmhv4bp6><span class="group-label" data-astro-cid-rmhv4bp6><span class="large" data-astro-cid-rmhv4bp6>도구</span></span><svg class="caret" data-astro-cid-rmhv4bp6="true" aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;" data-astro-cid-hkc32dio><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></summary><sl-sidebar-restore data-index="6"></sl-sidebar-restore><ul data-astro-cid-rmhv4bp6><li data-astro-cid-rmhv4bp6><details open data-astro-cid-rmhv4bp6><summary data-astro-cid-rmhv4bp6><span class="group-label" data-astro-cid-rmhv4bp6><span class="large" data-astro-cid-rmhv4bp6>이슈 관리</span></span><svg class="caret" data-astro-cid-rmhv4bp6="true" aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;" data-astro-cid-hkc32dio><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></summary><sl-sidebar-restore data-index="7"></sl-sidebar-restore><ul data-astro-cid-rmhv4bp6><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/tools-career/jira/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>Jira</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/tools-career/linear/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>Linear</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/tools-career/github-issues/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>GitHub Issues</span></a></li></ul></details></li><li data-astro-cid-rmhv4bp6><details open data-astro-cid-rmhv4bp6><summary data-astro-cid-rmhv4bp6><span class="group-label" data-astro-cid-rmhv4bp6><span class="large" data-astro-cid-rmhv4bp6>TC 관리</span></span><svg class="caret" data-astro-cid-rmhv4bp6="true" aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;" data-astro-cid-hkc32dio><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></summary><sl-sidebar-restore data-index="8"></sl-sidebar-restore><ul data-astro-cid-rmhv4bp6><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/tools-career/tc-management-tool-operations/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>TC 관리 도구 운영 기준</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/tools-career/testrail/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>TestRail</span></a></li></ul></details></li><li data-astro-cid-rmhv4bp6><details open data-astro-cid-rmhv4bp6><summary data-astro-cid-rmhv4bp6><span class="group-label" data-astro-cid-rmhv4bp6><span class="large" data-astro-cid-rmhv4bp6>웹 UI 자동화</span></span><svg class="caret" data-astro-cid-rmhv4bp6="true" aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;" data-astro-cid-hkc32dio><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></summary><sl-sidebar-restore data-index="9"></sl-sidebar-restore><ul data-astro-cid-rmhv4bp6><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/tools-career/playwright/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>Playwright</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/tools-career/selenium/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>Selenium</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/tools-career/cypress/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>Cypress</span></a></li></ul></details></li><li data-astro-cid-rmhv4bp6><details open data-astro-cid-rmhv4bp6><summary data-astro-cid-rmhv4bp6><span class="group-label" data-astro-cid-rmhv4bp6><span class="large" data-astro-cid-rmhv4bp6>모바일 자동화</span></span><svg class="caret" data-astro-cid-rmhv4bp6="true" aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;" data-astro-cid-hkc32dio><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></summary><sl-sidebar-restore data-index="10"></sl-sidebar-restore><ul data-astro-cid-rmhv4bp6><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/tools-career/appium/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>Appium</span></a></li></ul></details></li><li data-astro-cid-rmhv4bp6><details open data-astro-cid-rmhv4bp6><summary data-astro-cid-rmhv4bp6><span class="group-label" data-astro-cid-rmhv4bp6><span class="large" data-astro-cid-rmhv4bp6>API 테스트</span></span><svg class="caret" data-astro-cid-rmhv4bp6="true" aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;" data-astro-cid-hkc32dio><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></summary><sl-sidebar-restore data-index="11"></sl-sidebar-restore><ul data-astro-cid-rmhv4bp6><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/tools-career/postman/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>Postman</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/tools-career/swagger/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>Swagger와 OpenAPI</span></a></li></ul></details></li><li data-astro-cid-rmhv4bp6><details open data-astro-cid-rmhv4bp6><summary data-astro-cid-rmhv4bp6><span class="group-label" data-astro-cid-rmhv4bp6><span class="large" data-astro-cid-rmhv4bp6>성능 테스트</span></span><svg class="caret" data-astro-cid-rmhv4bp6="true" aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;" data-astro-cid-hkc32dio><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></summary><sl-sidebar-restore data-index="12"></sl-sidebar-restore><ul data-astro-cid-rmhv4bp6><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/tools-career/k6/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>Grafana k6</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/tools-career/jmeter/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>Apache JMeter</span></a></li></ul></details></li><li data-astro-cid-rmhv4bp6><details open data-astro-cid-rmhv4bp6><summary data-astro-cid-rmhv4bp6><span class="group-label" data-astro-cid-rmhv4bp6><span class="large" data-astro-cid-rmhv4bp6>네트워크 분석</span></span><svg class="caret" data-astro-cid-rmhv4bp6="true" aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;" data-astro-cid-hkc32dio><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></summary><sl-sidebar-restore data-index="13"></sl-sidebar-restore><ul data-astro-cid-rmhv4bp6><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/tools-career/browser-devtools/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>브라우저 개발자 도구</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/tools-career/fiddler/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>Fiddler</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/tools-career/charles/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>Charles</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/tools-career/wireshark/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>Wireshark</span></a></li></ul></details></li><li data-astro-cid-rmhv4bp6><details open data-astro-cid-rmhv4bp6><summary data-astro-cid-rmhv4bp6><span class="group-label" data-astro-cid-rmhv4bp6><span class="large" data-astro-cid-rmhv4bp6>CI/CD</span></span><svg class="caret" data-astro-cid-rmhv4bp6="true" aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;" data-astro-cid-hkc32dio><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></summary><sl-sidebar-restore data-index="14"></sl-sidebar-restore><ul data-astro-cid-rmhv4bp6><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/tools-career/jenkins/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>Jenkins</span></a></li><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/tools-career/github-actions/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>GitHub Actions</span></a></li></ul></details></li><li data-astro-cid-rmhv4bp6><details open data-astro-cid-rmhv4bp6><summary data-astro-cid-rmhv4bp6><span class="group-label" data-astro-cid-rmhv4bp6><span class="large" data-astro-cid-rmhv4bp6>형상관리</span></span><svg class="caret" data-astro-cid-rmhv4bp6="true" aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.25rem;" data-astro-cid-hkc32dio><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></summary><sl-sidebar-restore data-index="15"></sl-sidebar-restore><ul data-astro-cid-rmhv4bp6><li data-astro-cid-rmhv4bp6><a href="/qa-wiki/tools-career/git-basics/" data-astro-cid-rmhv4bp6><span data-astro-cid-rmhv4bp6>Git 기본</span></a></li></ul></details></li></ul></details></li></ul><script aria-hidden="true">
+		(() => {
+			const scroller = document.getElementById('starlight__sidebar');
+			if (!window._starlightScrollRestore || !scroller) return;
+			scroller.scrollTop = window._starlightScrollRestore;
+			delete window._starlightScrollRestore;
+		})();
+	</script></sl-sidebar-state-persist><div class="md:sl-hidden"><div class="mobile-preferences sl-flex" data-astro-cid-p4azlveh><div class="social-icons" data-astro-cid-p4azlveh></div><starlight-theme-select data-astro-cid-smhvfpqh="true"><label style="--sl-select-width: 6.25em" data-astro-cid-2z5xp7gb><span class="sr-only" data-astro-cid-2z5xp7gb>테마 선택</span><span class="icon label-icon" data-astro-cid-2z5xp7gb><svg class="sl-theme-icon-dark" data-astro-cid-smhvfpqh="true" aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;" data-astro-cid-hkc32dio><path d="M21.64 13a1 1 0 0 0-1.05-.14 8.049 8.049 0 0 1-3.37.73 8.15 8.15 0 0 1-8.14-8.1 8.59 8.59 0 0 1 .25-2A1 1 0 0 0 8 2.36a10.14 10.14 0 1 0 14 11.69 1 1 0 0 0-.36-1.05Zm-9.5 6.69A8.14 8.14 0 0 1 7.08 5.22v.27a10.15 10.15 0 0 0 10.14 10.14 9.784 9.784 0 0 0 2.1-.22 8.11 8.11 0 0 1-7.18 4.32v-.04Z"/></svg><svg class="sl-theme-icon-light" data-astro-cid-smhvfpqh="true" aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;" data-astro-cid-hkc32dio><path d="M5 12a1 1 0 0 0-1-1H3a1 1 0 0 0 0 2h1a1 1 0 0 0 1-1Zm.64 5-.71.71a1 1 0 0 0 0 1.41 1 1 0 0 0 1.41 0l.71-.71A1 1 0 0 0 5.64 17ZM12 5a1 1 0 0 0 1-1V3a1 1 0 0 0-2 0v1a1 1 0 0 0 1 1Zm5.66 2.34a1 1 0 0 0 .7-.29l.71-.71a1 1 0 1 0-1.41-1.41l-.66.71a1 1 0 0 0 0 1.41 1 1 0 0 0 .66.29Zm-12-.29a1 1 0 0 0 1.41 0 1 1 0 0 0 0-1.41l-.71-.71a1.004 1.004 0 1 0-1.43 1.41l.73.71ZM21 11h-1a1 1 0 0 0 0 2h1a1 1 0 0 0 0-2Zm-2.64 6A1 1 0 0 0 17 18.36l.71.71a1 1 0 0 0 1.41 0 1 1 0 0 0 0-1.41l-.76-.66ZM12 6.5a5.5 5.5 0 1 0 5.5 5.5A5.51 5.51 0 0 0 12 6.5Zm0 9a3.5 3.5 0 1 1 0-7 3.5 3.5 0 0 1 0 7Zm0 3.5a1 1 0 0 0-1 1v1a1 1 0 0 0 2 0v-1a1 1 0 0 0-1-1Z"/></svg><svg class="sl-theme-icon-auto" data-astro-cid-smhvfpqh="true" aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;" data-astro-cid-hkc32dio><path d="M21 14h-1V7a3 3 0 0 0-3-3H7a3 3 0 0 0-3 3v7H3a1 1 0 0 0-1 1v2a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3v-2a1 1 0 0 0-1-1ZM6 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v7H6V7Zm14 10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-1h16v1Z"/></svg></span><select autocomplete="off" data-astro-cid-2z5xp7gb><option value="dark" data-astro-cid-2z5xp7gb>어두운 테마</option><option value="light" data-astro-cid-2z5xp7gb>밝은 테마</option><option value="auto" selected data-astro-cid-2z5xp7gb>자동</option></select><svg class="icon caret" data-astro-cid-2z5xp7gb="true" aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1em;" data-astro-cid-hkc32dio><path d="M17 9.17a1 1 0 0 0-1.41 0L12 12.71 8.46 9.17a1 1 0 1 0-1.41 1.42l4.24 4.24a1.002 1.002 0 0 0 1.42 0L17 10.59a1.002 1.002 0 0 0 0-1.42Z"/></svg></label></starlight-theme-select><script>(() => {
+		const theme = (typeof localStorage !== 'undefined' && localStorage.getItem('starlight-theme'));
+		if (theme) document.querySelectorAll('starlight-theme-select select').forEach((s) => { s.value = theme; });
+	})();</script></div></div></div></sl-sidebar-pane></nav><div class="main-frame" data-astro-cid-yntsjkba><script type="module">var e=document.getElementById(`starlight__sidebar`),t=e?.querySelector(`sl-sidebar-state-persist`),n=`sl-sidebar-state`,r=()=>{let r=[],i=t?.dataset.hash||``;try{let e=sessionStorage.getItem(n),t=JSON.parse(e||`{}`);Array.isArray(t.open)&&t.hash===i&&(r=t.open)}catch{}return{hash:i,open:r,scroll:e?.scrollTop||0}},i=e=>{try{sessionStorage.setItem(n,JSON.stringify(e))}catch{}},a=()=>i(r()),o=(e,t)=>{let n=r();n.open[t]=e,i(n)};t?.addEventListener(`click`,e=>{if(!(e.target instanceof Element))return;let t=e.target.closest(`summary`)?.closest(`details`);if(!t)return;let n=t.querySelector(`sl-sidebar-restore`),r=parseInt(n?.dataset.index||``);isNaN(r)||o(!t.open,r)}),addEventListener(`visibilitychange`,()=>{document.visibilityState===`hidden`&&a()});</script><div class="lg:sl-flex" data-astro-cid-lrzkfocr><aside class="right-sidebar-container print:hidden" data-astro-cid-lrzkfocr><div class="right-sidebar" data-astro-cid-lrzkfocr><div class="lg:sl-hidden" data-astro-cid-qok35upx><mobile-starlight-toc data-min-h="2" data-max-h="3" data-astro-cid-66cqc7ze="true"><nav aria-labelledby="starlight__on-this-page--mobile" data-astro-cid-66cqc7ze><details id="starlight__mobile-toc" data-astro-cid-66cqc7ze><summary id="starlight__on-this-page--mobile" class="sl-flex" data-astro-cid-66cqc7ze><span class="toggle sl-flex" data-astro-cid-66cqc7ze>목차<svg class="caret" data-astro-cid-66cqc7ze="true" aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1rem;" data-astro-cid-hkc32dio><path d="m14.83 11.29-4.24-4.24a1 1 0 1 0-1.42 1.41L12.71 12l-3.54 3.54a1 1 0 0 0 0 1.41 1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.24-4.24a1.002 1.002 0 0 0 0-1.42Z"/></svg></span><span class="display-current" data-astro-cid-66cqc7ze></span></summary><div class="dropdown" data-astro-cid-66cqc7ze><ul class="isMobile" style="--depth: 0;" data-astro-cid-jugkfwgx><li style="--depth: 0;" data-astro-cid-jugkfwgx><a href="#_top" style="--depth: 0;" data-astro-cid-jugkfwgx><span style="--depth: 0;" data-astro-cid-jugkfwgx>개요</span></a></li><li style="--depth: 0;" data-astro-cid-jugkfwgx><a href="#정의" style="--depth: 0;" data-astro-cid-jugkfwgx><span style="--depth: 0;" data-astro-cid-jugkfwgx>정의</span></a></li><li style="--depth: 0;" data-astro-cid-jugkfwgx><a href="#sdlc-모델-분류" style="--depth: 0;" data-astro-cid-jugkfwgx><span style="--depth: 0;" data-astro-cid-jugkfwgx>SDLC 모델 분류</span></a><ul class="isMobile" style="--depth: 1;" data-astro-cid-jugkfwgx><li style="--depth: 1;" data-astro-cid-jugkfwgx><a href="#모델-선택이-테스트에-주는-영향" style="--depth: 1;" data-astro-cid-jugkfwgx><span style="--depth: 1;" data-astro-cid-jugkfwgx>모델 선택이 테스트에 주는 영향</span></a></li><li style="--depth: 1;" data-astro-cid-jugkfwgx><a href="#모델과-무관한-좋은-테스트-관행" style="--depth: 1;" data-astro-cid-jugkfwgx><span style="--depth: 1;" data-astro-cid-jugkfwgx>모델과 무관한 좋은 테스트 관행</span></a></li><li style="--depth: 1;" data-astro-cid-jugkfwgx><a href="#테스트-주도-방식" style="--depth: 1;" data-astro-cid-jugkfwgx><span style="--depth: 1;" data-astro-cid-jugkfwgx>테스트 주도 방식</span></a></li><li style="--depth: 1;" data-astro-cid-jugkfwgx><a href="#devops와-테스트" style="--depth: 1;" data-astro-cid-jugkfwgx><span style="--depth: 1;" data-astro-cid-jugkfwgx>DevOps와 테스트</span></a></li><li style="--depth: 1;" data-astro-cid-jugkfwgx><a href="#시프트-레프트" style="--depth: 1;" data-astro-cid-jugkfwgx><span style="--depth: 1;" data-astro-cid-jugkfwgx>시프트 레프트</span></a></li><li style="--depth: 1;" data-astro-cid-jugkfwgx><a href="#회고" style="--depth: 1;" data-astro-cid-jugkfwgx><span style="--depth: 1;" data-astro-cid-jugkfwgx>회고</span></a></li></ul></li><li style="--depth: 0;" data-astro-cid-jugkfwgx><a href="#v-모델의-구조" style="--depth: 0;" data-astro-cid-jugkfwgx><span style="--depth: 0;" data-astro-cid-jugkfwgx>V-모델의 구조</span></a><ul class="isMobile" style="--depth: 1;" data-astro-cid-jugkfwgx><li style="--depth: 1;" data-astro-cid-jugkfwgx><a href="#산출물이-테스트-베이시스가-됨" style="--depth: 1;" data-astro-cid-jugkfwgx><span style="--depth: 1;" data-astro-cid-jugkfwgx>산출물이 테스트 베이시스가 됨</span></a></li><li style="--depth: 1;" data-astro-cid-jugkfwgx><a href="#테스트-설계는-왼쪽에서-시작함" style="--depth: 1;" data-astro-cid-jugkfwgx><span style="--depth: 1;" data-astro-cid-jugkfwgx>테스트 설계는 왼쪽에서 시작함</span></a></li></ul></li><li style="--depth: 0;" data-astro-cid-jugkfwgx><a href="#v-modell-xt" style="--depth: 0;" data-astro-cid-jugkfwgx><span style="--depth: 0;" data-astro-cid-jugkfwgx>V-Modell XT</span></a></li><li style="--depth: 0;" data-astro-cid-jugkfwgx><a href="#한계와-선택-기준" style="--depth: 0;" data-astro-cid-jugkfwgx><span style="--depth: 0;" data-astro-cid-jugkfwgx>한계와 선택 기준</span></a><ul class="isMobile" style="--depth: 1;" data-astro-cid-jugkfwgx><li style="--depth: 1;" data-astro-cid-jugkfwgx><a href="#규제-분야-문서에서-확인되는-범위" style="--depth: 1;" data-astro-cid-jugkfwgx><span style="--depth: 1;" data-astro-cid-jugkfwgx>규제 분야 문서에서 확인되는 범위</span></a></li></ul></li><li style="--depth: 0;" data-astro-cid-jugkfwgx><a href="#자주-혼동하는-점" style="--depth: 0;" data-astro-cid-jugkfwgx><span style="--depth: 0;" data-astro-cid-jugkfwgx>자주 혼동하는 점</span></a></li><li style="--depth: 0;" data-astro-cid-jugkfwgx><a href="#qa에서-적용" style="--depth: 0;" data-astro-cid-jugkfwgx><span style="--depth: 0;" data-astro-cid-jugkfwgx>QA에서 적용</span></a></li><li style="--depth: 0;" data-astro-cid-jugkfwgx><a href="#출처" style="--depth: 0;" data-astro-cid-jugkfwgx><span style="--depth: 0;" data-astro-cid-jugkfwgx>출처</span></a></li></ul></div></details></nav></mobile-starlight-toc><script type="module" src="/qa-wiki/qa-assets/MobileTableOfContents.astro_astro_type_script_index_0_lang.C3fM4Kra.js"></script></div><div class="right-sidebar-panel sl-hidden lg:sl-block" data-astro-cid-qok35upx><div class="sl-container" data-astro-cid-qok35upx><starlight-toc data-min-h="2" data-max-h="3"><nav aria-labelledby="starlight__on-this-page"><h2 id="starlight__on-this-page">목차</h2><ul style="--depth: 0;" data-astro-cid-jugkfwgx><li style="--depth: 0;" data-astro-cid-jugkfwgx><a href="#_top" style="--depth: 0;" data-astro-cid-jugkfwgx><span style="--depth: 0;" data-astro-cid-jugkfwgx>개요</span></a></li><li style="--depth: 0;" data-astro-cid-jugkfwgx><a href="#정의" style="--depth: 0;" data-astro-cid-jugkfwgx><span style="--depth: 0;" data-astro-cid-jugkfwgx>정의</span></a></li><li style="--depth: 0;" data-astro-cid-jugkfwgx><a href="#sdlc-모델-분류" style="--depth: 0;" data-astro-cid-jugkfwgx><span style="--depth: 0;" data-astro-cid-jugkfwgx>SDLC 모델 분류</span></a><ul style="--depth: 1;" data-astro-cid-jugkfwgx><li style="--depth: 1;" data-astro-cid-jugkfwgx><a href="#모델-선택이-테스트에-주는-영향" style="--depth: 1;" data-astro-cid-jugkfwgx><span style="--depth: 1;" data-astro-cid-jugkfwgx>모델 선택이 테스트에 주는 영향</span></a></li><li style="--depth: 1;" data-astro-cid-jugkfwgx><a href="#모델과-무관한-좋은-테스트-관행" style="--depth: 1;" data-astro-cid-jugkfwgx><span style="--depth: 1;" data-astro-cid-jugkfwgx>모델과 무관한 좋은 테스트 관행</span></a></li><li style="--depth: 1;" data-astro-cid-jugkfwgx><a href="#테스트-주도-방식" style="--depth: 1;" data-astro-cid-jugkfwgx><span style="--depth: 1;" data-astro-cid-jugkfwgx>테스트 주도 방식</span></a></li><li style="--depth: 1;" data-astro-cid-jugkfwgx><a href="#devops와-테스트" style="--depth: 1;" data-astro-cid-jugkfwgx><span style="--depth: 1;" data-astro-cid-jugkfwgx>DevOps와 테스트</span></a></li><li style="--depth: 1;" data-astro-cid-jugkfwgx><a href="#시프트-레프트" style="--depth: 1;" data-astro-cid-jugkfwgx><span style="--depth: 1;" data-astro-cid-jugkfwgx>시프트 레프트</span></a></li><li style="--depth: 1;" data-astro-cid-jugkfwgx><a href="#회고" style="--depth: 1;" data-astro-cid-jugkfwgx><span style="--depth: 1;" data-astro-cid-jugkfwgx>회고</span></a></li></ul></li><li style="--depth: 0;" data-astro-cid-jugkfwgx><a href="#v-모델의-구조" style="--depth: 0;" data-astro-cid-jugkfwgx><span style="--depth: 0;" data-astro-cid-jugkfwgx>V-모델의 구조</span></a><ul style="--depth: 1;" data-astro-cid-jugkfwgx><li style="--depth: 1;" data-astro-cid-jugkfwgx><a href="#산출물이-테스트-베이시스가-됨" style="--depth: 1;" data-astro-cid-jugkfwgx><span style="--depth: 1;" data-astro-cid-jugkfwgx>산출물이 테스트 베이시스가 됨</span></a></li><li style="--depth: 1;" data-astro-cid-jugkfwgx><a href="#테스트-설계는-왼쪽에서-시작함" style="--depth: 1;" data-astro-cid-jugkfwgx><span style="--depth: 1;" data-astro-cid-jugkfwgx>테스트 설계는 왼쪽에서 시작함</span></a></li></ul></li><li style="--depth: 0;" data-astro-cid-jugkfwgx><a href="#v-modell-xt" style="--depth: 0;" data-astro-cid-jugkfwgx><span style="--depth: 0;" data-astro-cid-jugkfwgx>V-Modell XT</span></a></li><li style="--depth: 0;" data-astro-cid-jugkfwgx><a href="#한계와-선택-기준" style="--depth: 0;" data-astro-cid-jugkfwgx><span style="--depth: 0;" data-astro-cid-jugkfwgx>한계와 선택 기준</span></a><ul style="--depth: 1;" data-astro-cid-jugkfwgx><li style="--depth: 1;" data-astro-cid-jugkfwgx><a href="#규제-분야-문서에서-확인되는-범위" style="--depth: 1;" data-astro-cid-jugkfwgx><span style="--depth: 1;" data-astro-cid-jugkfwgx>규제 분야 문서에서 확인되는 범위</span></a></li></ul></li><li style="--depth: 0;" data-astro-cid-jugkfwgx><a href="#자주-혼동하는-점" style="--depth: 0;" data-astro-cid-jugkfwgx><span style="--depth: 0;" data-astro-cid-jugkfwgx>자주 혼동하는 점</span></a></li><li style="--depth: 0;" data-astro-cid-jugkfwgx><a href="#qa에서-적용" style="--depth: 0;" data-astro-cid-jugkfwgx><span style="--depth: 0;" data-astro-cid-jugkfwgx>QA에서 적용</span></a></li><li style="--depth: 0;" data-astro-cid-jugkfwgx><a href="#출처" style="--depth: 0;" data-astro-cid-jugkfwgx><span style="--depth: 0;" data-astro-cid-jugkfwgx>출처</span></a></li></ul></nav></starlight-toc><script type="module" src="/qa-wiki/qa-assets/TableOfContents.astro_astro_type_script_index_0_lang.BpJaGz7G.js"></script></div></div></div></aside><div class="main-pane" data-astro-cid-lrzkfocr><main data-pagefind-body lang="ko" dir="ltr" data-astro-cid-g5ptsecz><div class="content-panel" data-astro-cid-a7po4psb><div class="sl-container" data-astro-cid-a7po4psb><h1 id="_top">개발 수명주기와 V-모델</h1><p class="wiki-lede">소프트웨어 개발 수명주기(SDLC) 모델의 분류와 모델 선택이 테스트에 주는 영향, V-모델의 개발 단계와 테스트 레벨 대응, 독일 연방 정부의 V-Modell XT, 의료기기·자동차 분야 공개 문서에서 확인되는 범위를 정리한다.</p><div class="wiki-chips"><a class="wiki-chip wiki-chip-link" href="/qa-wiki/kinds/fundamentals/">기본기</a><span class="wiki-chip">난이도 기초</span><span class="wiki-chip">최종 업데이트 2026-11-24</span></div></div></div><div class="content-panel" data-astro-cid-a7po4psb><div class="sl-container" data-astro-cid-a7po4psb><div class="sl-markdown-content"><p>소프트웨어 개발 수명주기(SDLC, Software Development Lifecycle)는 소프트웨어 개발의 각 단계에서 수행하는 활동과, 그 활동들이 논리적·시간적으로 맺는 관계를 말한다(ISTQB 용어집). SDLC 모델은 이 과정을 추상화한 상위 수준의 표현이며, 개발 단계와 활동 유형의 관계를 정의한다(ISTQB CTFL v4.0.1 2.1). 선택한 모델에 따라 테스트를 언제, 얼마나 문서화해, 어떤 기법으로 수행할지가 달라진다. 테스트 레벨 각각의 정의와 TC 예시는 <a href="/qa-wiki/basics/test-levels-and-types/">테스트 레벨과 테스트 유형</a>에 있고, 이 문서는 수명주기 모델과 테스트 활동의 관계를 다룬다.</p>
+<div class="sl-heading-wrapper level-h2"><h2 id="정의">정의</h2><a class="sl-anchor-link" href="#정의"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>섹션 제목: “정의”</span></a></div>
+<table>
+<thead>
+<tr>
+<th>용어</th>
+<th>ISTQB 용어집</th>
+<th>다른 출처</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SDLC</td>
+<td>개발의 각 단계에서 수행하는 활동과, 활동 사이의 논리적·시간적 관계. 동의어 lifecycle model</td>
+<td>SWEBOK v4.0a 10장: 표준이 정한 활동을 선택한 수명주기 모델(SLCM)에 대응시켜 만든 프로젝트별 활동 순서(ISO/IEC/IEEE 24765 인용)</td>
+</tr>
+<tr>
+<td>순차형 개발 모델</td>
+<td>시스템 전체를 서로 겹치지 않고 이어지는 여러 단계로 선형 개발하는 모델</td>
+<td>SWEBOK이 인용한 24765의 폭포수 모델: 개념, 요구사항, 설계, 구현, 테스트, 설치·점검 단계를 차례로 수행하고, 단계가 겹칠 수는 있지만 반복은 거의 없음</td>
+</tr>
+<tr>
+<td>반복형 개발 모델</td>
+<td>반복되는 주기를 거듭하며 개발하는 모델</td>
+<td>SWEBOK(PMBOK 인용): 범위는 초기에 정하고 시간·비용 추정은 이해가 깊어질 때마다 수정함</td>
+</tr>
+<tr>
+<td>점진형 개발 모델</td>
+<td>일련의 증분(Increment)으로 개발하는 모델</td>
+<td>SWEBOK(PMBOK 인용): 정해진 기간 안에 반복마다 기능을 추가하고, 마지막 반복 뒤에 완성으로 간주함. 예측형일 수도 있음</td>
+</tr>
+<tr>
+<td>V-모델</td>
+<td>비즈니스 요구사항 명세부터 인도까지의 주요 개발 단계와, 인수 테스트부터 컴포넌트 테스트까지의 테스트 레벨을 일대일로 대응시킨 순차형 SDLC 모델</td>
+<td>SWEBOK: 폭포수 모델의 변형·확장 중 하나이며, 이름과 세부가 다른 변형이 많음</td>
+</tr>
+</tbody>
+</table>
+<p>출처마다 다른 점</p>
+<ul>
+<li>순차형의 단계 겹침: 용어집은 “겹침 없음”, 24765의 폭포수 정의는 “겹칠 수 있음”으로 씀. 반복이 거의 없다는 점은 같음</li>
+<li>애자일의 위치: CTFL 2.1은 모델 분류를 순차형, 반복형, 점진형 셋으로 두고, 애자일은 ATDD, BDD, DDD, XP, FDD, Kanban, Lean IT, Scrum, TDD와 함께 “더 상세한 개발 방법과 애자일 실천”으로 분류함. SWEBOK 10장은 애자일 모델을 잘 알려진 수명주기 모델의 예로 들면서도, 애자일 자체를 하나의 방법으로 보는 것은 오해라고 씀</li>
+<li>예측형(Predictive) 분류: SWEBOK은 폭포수 모델을 예측형 수명주기의 예로 들고, 예측형을 범위·시간·비용을 초기에 정하며 요구사항 집합이 크게 바뀌지 않는다고 가정하는 수명주기로 정의함</li>
+</ul>
+<div class="sl-heading-wrapper level-h2"><h2 id="sdlc-모델-분류">SDLC 모델 분류</h2><a class="sl-anchor-link" href="#sdlc-모델-분류"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>섹션 제목: “SDLC 모델 분류”</span></a></div>
+<table>
+<thead>
+<tr>
+<th>분류</th>
+<th>예(CTFL 2.1)</th>
+<th>특징</th>
+<th>동적 테스트 시점</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>순차형</td>
+<td>폭포수, V-모델</td>
+<td>앞 단계가 끝나야 다음 단계를 시작함. 폭포수는 문서 중심(SWEBOK)</td>
+<td>실행 가능한 코드가 후반에 나오므로 늦게 시작함</td>
+</tr>
+<tr>
+<td>반복형</td>
+<td>나선형, 프로토타이핑</td>
+<td>주기를 반복함. 나선형은 리스크 주도(SWEBOK)</td>
+<td>반복마다</td>
+</tr>
+<tr>
+<td>점진형</td>
+<td>통합 프로세스(UP)</td>
+<td>증분마다 기능을 추가함. UP는 반복형이면서 점진형인 프레임워크(SWEBOK)</td>
+<td>증분마다</td>
+</tr>
+<tr>
+<td>애자일 방법·실천</td>
+<td>Scrum, XP, Kanban</td>
+<td>프로젝트 전체에서 변경이 일어난다고 가정함</td>
+<td>반복마다. 회귀 테스트를 쉽게 하도록 광범위한 테스트 자동화를 선호함</td>
+</tr>
+</tbody>
+</table>
+<div class="sl-heading-wrapper level-h3"><h3 id="모델-선택이-테스트에-주는-영향">모델 선택이 테스트에 주는 영향</h3><a class="sl-anchor-link" href="#모델-선택이-테스트에-주는-영향"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>섹션 제목: “모델 선택이 테스트에 주는 영향”</span></a></div>
+<p>CTFL 2.1.1은 테스트를 SDLC에 맞춰야 성공한다고 보고, 모델 선택이 다음 다섯 가지를 바꾼다고 정리한다.</p>
+<ul>
+<li>테스트 활동의 범위와 시점(테스트 레벨, 테스트 유형)</li>
+<li>테스트 문서의 상세 수준</li>
+<li>테스트 기법과 테스트 접근법</li>
+<li>테스트 자동화의 범위</li>
+<li>테스터의 역할과 책임</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>관점</th>
+<th>순차형</th>
+<th>반복형·점진형</th>
+<th>애자일</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>테스터의 초기 참여</td>
+<td>요구사항 리뷰, 테스트 분석, 테스트 설계</td>
+<td>반복마다 정적 테스트와 동적 테스트</td>
+<td>반복마다 정적 테스트와 동적 테스트</td>
+</tr>
+<tr>
+<td>동적 테스트</td>
+<td>후반에 시작</td>
+<td>반복마다 모든 테스트 레벨에서 수행 가능</td>
+<td>반복마다 수행</td>
+</tr>
+<tr>
+<td>회귀 테스트</td>
+<td>2.1.1에 언급 없음</td>
+<td>잦은 인도로 빠른 피드백과 광범위한 회귀 테스트가 필요함</td>
+<td>회귀를 쉽게 하려고 자동화를 넓게 적용함</td>
+</tr>
+<tr>
+<td>문서</td>
+<td>2.1.1에 언급 없음. 폭포수는 문서 중심(SWEBOK)</td>
+<td>2.1.1에 언급 없음</td>
+<td>가벼운 작업 산출물 문서</td>
+</tr>
+<tr>
+<td>수동 테스트</td>
+<td>2.1.1에 언급 없음</td>
+<td>2.1.1에 언급 없음</td>
+<td>사전 분석·설계가 적게 드는 경험 기반 기법 위주</td>
+</tr>
+</tbody>
+</table>
+<div class="sl-heading-wrapper level-h3"><h3 id="모델과-무관한-좋은-테스트-관행">모델과 무관한 좋은 테스트 관행</h3><a class="sl-anchor-link" href="#모델과-무관한-좋은-테스트-관행"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>섹션 제목: “모델과 무관한 좋은 테스트 관행”</span></a></div>
+<p>CTFL 2.1.2는 어떤 모델에도 적용되는 관행 네 가지를 각각의 목적과 함께 제시한다.</p>
+<table>
+<thead>
+<tr>
+<th>관행</th>
+<th>목적</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>모든 개발 활동에 대응하는 테스트 활동을 둠</td>
+<td>모든 개발 활동을 품질 관리 대상으로 둠</td>
+</tr>
+<tr>
+<td>테스트 레벨마다 목적을 다르게 정함</td>
+<td>중복 없이 충분한 범위를 테스트함</td>
+</tr>
+<tr>
+<td>각 테스트 레벨의 분석과 설계를 대응하는 개발 단계에서 시작함</td>
+<td>조기 테스팅 원칙을 따름</td>
+</tr>
+<tr>
+<td>작업 산출물 초안이 나오는 즉시 리뷰에 참여함</td>
+<td>결함을 일찍 발견해 시프트 레프트를 지원함</td>
+</tr>
+</tbody>
+</table>
+<div class="sl-heading-wrapper level-h3"><h3 id="테스트-주도-방식">테스트 주도 방식</h3><a class="sl-anchor-link" href="#테스트-주도-방식"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>섹션 제목: “테스트 주도 방식”</span></a></div>
+<p>CTFL 2.1.3은 TDD, ATDD, BDD를 테스트로 개발을 이끄는 비슷한 방식으로 묶는다. 세 방식 모두 코드 작성 전에 테스트를 정의하므로 조기 테스팅과 시프트 레프트를 따르고, 반복형 개발 모델을 지원하며, 작성한 테스트는 자동화 테스트로 남아 이후 변경과 리팩터링에서 코드 품질을 확인하는 데 사용된다.</p>
+<table>
+<thead>
+<tr>
+<th>방식</th>
+<th>핵심</th>
+<th>실라버스 인용 문헌</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>TDD(테스트 주도 개발)</td>
+<td>상세한 설계 대신 TC로 코딩을 이끎. 테스트 작성, 테스트를 통과하는 코드 작성, 테스트와 코드 리팩터링 순서</td>
+<td>Beck 2003</td>
+</tr>
+<tr>
+<td>ATDD(인수 테스트 주도 개발)</td>
+<td>시스템 설계 과정에서 인수 기준으로부터 테스트를 도출하고, 해당 부분을 개발하기 전에 작성함</td>
+<td>Gärtner 2011</td>
+</tr>
+<tr>
+<td>BDD(행위 주도 개발)</td>
+<td>원하는 동작을 이해관계자가 읽을 수 있는 자연어(주로 Given/When/Then)로 TC에 표현하고, 실행 가능한 테스트로 변환함</td>
+<td>Chelimsky 2010</td>
+</tr>
+</tbody>
+</table>
+<div class="sl-heading-wrapper level-h3"><h3 id="devops와-테스트">DevOps와 테스트</h3><a class="sl-anchor-link" href="#devops와-테스트"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>섹션 제목: “DevOps와 테스트”</span></a></div>
+<p>DevOps는 개발(테스트 포함)과 운영이 공동 목표를 위해 함께 일하도록 하는 조직 접근법이다. 팀 자율성, 빠른 피드백, 통합된 도구 체인, CI(지속적 통합)와 CD(지속적 인도) 같은 기술 실천을 장려하고, 조직 문화의 변화를 요구한다(CTFL 2.1.4).</p>
+<p>테스트 관점의 이점</p>
+<ul>
+<li>코드 품질과 기존 코드 영향에 대한 빠른 피드백</li>
+<li>CI가 컴포넌트 테스트와 정적 분석을 함께 제출하도록 유도해 시프트 레프트를 촉진함</li>
+<li>자동화된 프로세스로 안정적인 테스트 환경 확보</li>
+<li>성능 효율성, 신뢰성 같은 비기능 특성의 가시성 향상</li>
+<li>파이프라인 자동화로 반복 수동 테스트 감소</li>
+<li>자동화 회귀 테스트의 규모로 회귀 리스크 최소화</li>
+</ul>
+<p>리스크와 과제</p>
+<ul>
+<li>인도 파이프라인을 정의하고 구축해야 함</li>
+<li>CI/CD 도구를 도입하고 유지해야 함</li>
+<li>테스트 자동화에 추가 자원이 들고 구축과 유지가 어려울 수 있음</li>
+</ul>
+<p>자동화 비중이 높아도 사용자 관점의 수동 테스트는 여전히 필요하다.</p>
+<div class="sl-heading-wrapper level-h3"><h3 id="시프트-레프트">시프트 레프트</h3><a class="sl-anchor-link" href="#시프트-레프트"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>섹션 제목: “시프트 레프트”</span></a></div>
+<p>용어집은 시프트 레프트(Shift Left)를 “SDLC에서 테스트와 품질 보증 활동을 가능한 한 일찍 수행하는 테스트 접근법”으로 정의한다. CTFL 2.1.5는 이를 조기 테스팅 원칙의 다른 이름으로 설명하며, 뒤 단계의 테스트를 소홀히 해도 된다는 뜻은 아니라고 덧붙인다. 실천 방법은 다음과 같다.</p>
+<ul>
+<li>테스터 관점에서 명세를 리뷰함. 모호함, 불완전함, 불일치 같은 잠재 결함을 찾음</li>
+<li>코드 작성 전에 TC를 작성하고, 구현 중 테스트 하네스에서 코드를 실행함</li>
+<li>CI와 CD로 빠른 피드백을 받고, 코드 저장소에 제출할 때 자동화 컴포넌트 테스트를 함께 실행함</li>
+<li>동적 테스트 전이나 자동화 프로세스 안에서 소스 코드 정적 분석을 수행함</li>
+<li>가능하면 컴포넌트 테스트 레벨부터 비기능 테스트를 수행함</li>
+</ul>
+<p>시프트 레프트는 초기에 교육, 노력, 비용을 더 들이고 뒤 단계의 노력과 비용을 줄이는 방식이라 이해관계자의 동의가 필요하다. SWEBOK 5장(6.1.2)은 애자일, DevOps, TDD를 시프트 레프트 흐름에 속하는 수명주기로 들고, 2000년대 초의 통합 프로세스(UP)를 그 선행 모델로 본다.</p>
+<div class="sl-heading-wrapper level-h3"><h3 id="회고">회고</h3><a class="sl-anchor-link" href="#회고"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>섹션 제목: “회고”</span></a></div>
+<p>회고는 프로젝트나 반복의 끝, 릴리즈 마일스톤, 또는 필요할 때 연다. 시점과 진행 방식은 따르는 SDLC 모델에 따라 정한다. 테스터뿐 아니라 개발자, 아키텍트, 제품 책임자, 비즈니스 분석가가 참여해 잘된 점과 유지할 점, 개선할 점, 개선을 반영하고 성공을 유지하는 방법을 논의한다. 결과는 기록해 보통 테스트 완료 보고서에 포함하고, 권고한 개선 항목은 후속 조치를 확인한다(CTFL 2.1.6).</p>
+<p>테스트 측면의 이점</p>
+<ul>
+<li>프로세스 개선 제안 반영으로 테스트 효과성과 효율성 향상</li>
+<li>테스트 프로세스 공동 리뷰로 테스트웨어 품질 향상</li>
+<li>문제 제기와 개선 제안 기회로 팀 결속과 학습</li>
+<li>요구사항의 범위와 품질 문제 해결로 테스트 베이시스 품질 향상</li>
+<li>협업 방식의 정기 점검으로 개발과 테스트의 협력 향상</li>
+</ul>
+<div class="sl-heading-wrapper level-h2"><h2 id="v-모델의-구조">V-모델의 구조</h2><a class="sl-anchor-link" href="#v-모델의-구조"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>섹션 제목: “V-모델의 구조”</span></a></div>
+<p>V-모델은 왼쪽 가지에서 요구사항을 점점 상세한 설계로 분해하고, 오른쪽 가지에서 구현한 부분을 통합하며 테스트한다. V-Modell XT 2.4 문서는 이 구조를 “왼쪽 가지의 분해 단계마다 오른쪽 가지에 대응하는 통합·테스트 단계가 하나씩 있다”고 설명한다. 아래 표는 단계를 다섯으로 나눈 대응이다.</p>
+<table>
+<thead>
+<tr>
+<th>왼쪽 개발 단계</th>
+<th>산출물(대응 테스트의 테스트 베이시스)</th>
+<th>오른쪽 테스트 레벨</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>요구사항 정의</td>
+<td>비즈니스·사용자 요구사항, 인수 기준</td>
+<td>인수 테스트</td>
+</tr>
+<tr>
+<td>시스템 설계</td>
+<td>시스템 요구사항 명세, 기능·비기능 명세</td>
+<td>시스템 테스트</td>
+</tr>
+<tr>
+<td>아키텍처 설계</td>
+<td>아키텍처, 컴포넌트 사이와 외부 시스템과의 인터페이스 명세</td>
+<td>통합 테스트(컴포넌트 통합, 시스템 통합)</td>
+</tr>
+<tr>
+<td>상세 설계(모듈 설계)</td>
+<td>모듈 명세, 상세 설계</td>
+<td>컴포넌트 테스트</td>
+</tr>
+<tr>
+<td>구현</td>
+<td>소스 코드</td>
+<td>V의 꼭짓점. 코드 리뷰와 정적 분석 대상</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>단계 이름과 개수는 출처마다 다름. 용어집은 양 끝(비즈니스 요구사항 명세와 인수 테스트, 그리고 컴포넌트 테스트)만 정하고, SWEBOK은 이름과 세부가 다른 변형이 많다고 씀</li>
+<li>가운데 단계의 대응도 출처마다 다름. FDA 지침은 시스템 테스트 계획과 인수 테스트 계획을 요구사항 단계에, 모듈 테스트 계획과 통합 테스트 계획을 설계 단계에 둠(아래 표). V-Modell XT는 수준을 넷으로 나눔(V-Modell XT 절)</li>
+<li>CTFL v4.0.1의 테스트 레벨은 다섯임. 위 표는 컴포넌트 통합과 시스템 통합을 아키텍처 설계 단계에 함께 대응시킴</li>
+</ul>
+<div class="sl-heading-wrapper level-h3"><h3 id="산출물이-테스트-베이시스가-됨">산출물이 테스트 베이시스가 됨</h3><a class="sl-anchor-link" href="#산출물이-테스트-베이시스가-됨"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>섹션 제목: “산출물이 테스트 베이시스가 됨”</span></a></div>
+<p>테스트 베이시스(Test Basis)는 테스트 분석과 테스트 설계의 근거가 되는 지식이다(용어집). V-모델에서는 왼쪽 단계의 산출물이 같은 높이에 있는 테스트 레벨의 테스트 베이시스가 된다. V-Modell XT 2.4는 테스트 명세(Prüfspezifikation)를 왼쪽 가지에서 요구사항, 명세, 아키텍처로부터 도출하고, 테스트 기록(Prüfprotokoll)을 오른쪽 가지에서 실제 테스트 대상별로 남긴다고 정한다. FDA 지침(5.2.3, 5.2.4)도 설계 명세와 요구사항 사이, TC와 설계 명세·소스 코드 사이의 추적성 분석을 전형적인 작업으로 든다.</p>
+<div class="sl-heading-wrapper level-h3"><h3 id="테스트-설계는-왼쪽에서-시작함">테스트 설계는 왼쪽에서 시작함</h3><a class="sl-anchor-link" href="#테스트-설계는-왼쪽에서-시작함"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>섹션 제목: “테스트 설계는 왼쪽에서 시작함”</span></a></div>
+<p>동적 테스트 실행은 오른쪽 가지에서 일어나지만, 각 레벨의 테스트 분석과 설계는 대응하는 왼쪽 단계에서 시작한다(CTFL 2.1.2). FDA 지침은 같은 순서를 작업 목록으로 적는다.</p>
+<table>
+<thead>
+<tr>
+<th>수명주기 활동(FDA 5.2)</th>
+<th>테스트 관련 전형적 작업</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>요구사항(5.2.2)</td>
+<td>시스템 테스트 계획 작성, 인수 테스트 계획 작성, 모호성 리뷰</td>
+</tr>
+<tr>
+<td>설계(5.2.3)</td>
+<td>모듈 테스트 계획 작성, 통합 테스트 계획 작성, 모듈·통합·시스템·인수 테스트 설계</td>
+</tr>
+<tr>
+<td>구현(5.2.4)</td>
+<td>모듈·통합·시스템·인수 테스트 절차와 TC 작성</td>
+</tr>
+<tr>
+<td>개발자 테스트(5.2.5)</td>
+<td>테스트 계획과 TC는 개발 과정에서 가능한 한 일찍 작성함</td>
+</tr>
+</tbody>
+</table>
+<p>순차형 모델에서는 한 테스트 레벨의 종료 기준을 다음 레벨의 진입 기준에 포함하는 경우가 많다. 반복형 모델에서는 이 연결이 적용되지 않을 수 있고, 테스트 레벨이 시간상 겹칠 수 있다(CTFL 2.2).</p>
+<div class="sl-heading-wrapper level-h2"><h2 id="v-modell-xt">V-Modell XT</h2><a class="sl-anchor-link" href="#v-modell-xt"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>섹션 제목: “V-Modell XT”</span></a></div>
+<p>V-Modell XT는 시스템 개발 프로젝트를 계획하고 수행하기 위한 독일의 프로세스 모델(Vorgehensmodell)이다. 공개 문서로 확인한 사항은 다음과 같다.</p>
+<table>
+<thead>
+<tr>
+<th>항목</th>
+<th>V-Modell XT</th>
+<th>V-Modell XT Bund</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>대상</td>
+<td>발주자, 수주자, 자체 개발 프로젝트</td>
+<td>연방 행정기관의 발주자 측 프로젝트와 자체 소프트웨어 개발. 하드웨어 개발은 제외</td>
+</tr>
+<tr>
+<td>발행</td>
+<td>WEIT e.V.(V-Modell XT 발전 협회)</td>
+<td>연방 정보기술 책임자의 위임을 받아 연방 IT 센터(ITZBund)가 발행</td>
+</tr>
+<tr>
+<td>최신 판</td>
+<td>2.4(2024-05-24 발표)</td>
+<td>2.4(2024-05-24 발표)</td>
+</tr>
+<tr>
+<td>라이선스</td>
+<td>Apache License 2.0. 문서는 독일어</td>
+<td>Apache License 2.0. 문서는 독일어</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>WEIT e.V.는 V-Modell XT를 V-Modell 97의 후속 모델로 소개함</li>
+<li>산출물(Produkt) 중심 모델임. 산출물마다 책임 역할을 하나씩 두고, 결정 지점(Entscheidungspunkt)마다 정해진 산출물로 진행 여부를 판단함. 결정 지점은 품질 게이트(Quality Gate)에 해당함</li>
+<li>프로젝트 시작 시 프로젝트 유형과 특성에 맞춰 모델을 조정함(테일러링)</li>
+<li>개발 주기를 여러 번 거치는 반복 진행을 전제로 함</li>
+<li>V-Modell XT 2.4 문서는 V자형 진행을 Barry Boehm이 1970년대 말에 처음 기술했다고 설명함</li>
+</ul>
+<p>V-Modell XT 2.4는 개발 과정을 네 원칙으로 설명한다(B.2.2).</p>
+<table>
+<thead>
+<tr>
+<th>원칙</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>명세와 분해</td>
+<td>왼쪽 가지에서 전체 시스템을 모듈 수준까지 단계별로 분해하며 상세하게 명세함</td>
+</tr>
+<tr>
+<td>구현과 통합</td>
+<td>오른쪽 가지에서 HW·SW 단위를 구현하거나 조달하고, 시스템과 전체 시스템으로 통합해 인도함</td>
+</tr>
+<tr>
+<td>검증과 확인</td>
+<td>수평 단계마다 시스템 요소가 명세에 맞는지, 필요한 동작을 하는지 확인함</td>
+</tr>
+<tr>
+<td>반복과 증분</td>
+<td>V를 여러 번 거치며 기능을 늘려 감. 증분형 전략은 고전 V-모델 순서, 프로토타입 전략은 다른 순서로 결정 지점을 거침</td>
+</tr>
+</tbody>
+</table>
+<p>같은 높이에 놓인 결정 지점은 다음과 같다(V-Modell XT 2.4 그림 36).</p>
+<table>
+<thead>
+<tr>
+<th>수준</th>
+<th>왼쪽 결정 지점과 산출물</th>
+<th>오른쪽 결정 지점</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>전체 시스템</td>
+<td>요구사항 확정(Anforderungen festgelegt). 발주자 요구사항 명세서(Lastenheft)</td>
+<td>인수 선언(Abnahme erklärt)</td>
+</tr>
+<tr>
+<td>전체 시스템</td>
+<td>전체 시스템 설계(Gesamtsystem entworfen). 수주자 기능 명세서(Pflichtenheft)</td>
+<td>인도 수행(Lieferung durchgeführt)</td>
+</tr>
+<tr>
+<td>시스템</td>
+<td>시스템 설계(System entworfen). 시스템 아키텍처, 시스템 명세</td>
+<td>시스템 통합(System integriert)</td>
+</tr>
+<tr>
+<td>HW·SW 단위</td>
+<td>단위 설계(Einheit(en) entworfen). HW·SW 아키텍처, HW·SW 명세</td>
+<td>단위 구현(Einheit(en) realisiert)</td>
+</tr>
+</tbody>
+</table>
+<p>V-Modell XT Bund 2.4는 Scrum 기반의 소프트웨어 개발 절차(B.2.2.6)를 포함하고, 결정 지점에 스프린트 시작과 스프린트 종료를 둔다. 애자일 방법을 적용하면 반복 대신 스프린트 단위로 수주자를 관리하고 “반복 계획 완료” 결정 지점은 사용하지 않는다(B.1.3.3).</p>
+<div class="sl-heading-wrapper level-h2"><h2 id="한계와-선택-기준">한계와 선택 기준</h2><a class="sl-anchor-link" href="#한계와-선택-기준"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>섹션 제목: “한계와 선택 기준”</span></a></div>
+<p>V-모델은 순차형이므로 순차형의 전제를 그대로 가진다.</p>
+<ul>
+<li>요구사항 변경: SWEBOK의 예측형 수명주기는 요구사항 집합이 크게 바뀌지 않는다고 가정함. 왼쪽 산출물이 테스트 베이시스이므로 요구사항이 바뀌면 그 산출물에서 도출한 테스트 설계도 함께 바뀜</li>
+<li>동적 테스트 시점: 실행 가능한 코드가 후반에 나와 동적 테스트를 일찍 수행하기 어려움(CTFL 2.1.1)</li>
+<li>반복이 거의 없는 고전 형태의 한계를 V-Modell XT는 V를 여러 번 거치는 반복과 증분으로 보완함</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>판단 기준</th>
+<th>순차형(V-모델)</th>
+<th>반복형·점진형</th>
+<th>애자일</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>요구사항</td>
+<td>초기에 확정하고 크게 바뀌지 않는다고 가정함</td>
+<td>반복형은 범위를 대체로 초기에 정하고 추정을 갱신함. 점진형은 기능을 차례로 추가하며 예측형으로도 운영할 수 있음</td>
+<td>프로젝트 전체에서 변경을 가정함</td>
+</tr>
+<tr>
+<td>인도</td>
+<td>마지막에 한 번 인도하는 형태가 많음(SWEBOK)</td>
+<td>반복·증분마다 동작하는 결과물</td>
+<td>짧은 주기의 작은 증분</td>
+</tr>
+<tr>
+<td>동적 테스트</td>
+<td>후반에 시작함</td>
+<td>반복·증분마다</td>
+<td>반복마다</td>
+</tr>
+<tr>
+<td>회귀 테스트</td>
+<td>2.1.1에 언급 없음</td>
+<td>잦은 인도로 광범위하게 필요함</td>
+<td>넓은 자동화로 수행함</td>
+</tr>
+</tbody>
+</table>
+<p>SWEBOK 10장은 폭포수와 애자일의 우열 논쟁을 역사적 맥락에서 이해해야 하며 근거가 되는 실증 측정이 부족했다고 쓰고, 프로젝트마다 특성과 이해관계자 요구에 맞춰 수명주기를 조정(Adaptation)하라고 권한다(2.5, 2.8). 위 표는 모델 하나를 고르는 기준표로 쓰기보다, 프로젝트가 어떤 전제 위에 있는지 확인하는 용도로 사용한다.</p>
+<div class="sl-heading-wrapper level-h3"><h3 id="규제-분야-문서에서-확인되는-범위">규제 분야 문서에서 확인되는 범위</h3><a class="sl-anchor-link" href="#규제-분야-문서에서-확인되는-범위"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>섹션 제목: “규제 분야 문서에서 확인되는 범위”</span></a></div>
+<p>규제 분야에서 V-모델이 쓰인다는 주장은 공개 1차 자료로 다음 범위까지만 확인된다.</p>
+<ul>
+<li>의료기기(FDA): General Principles of Software Validation(2002-01-11 최종 지침)은 특정 수명주기 모델을 권고하지 않는다고 명시함(4.4, 5.1). 요구하는 것은 제품과 조직에 맞는 모델을 정해 탄생부터 폐기까지 적용하는 것(5.1), 테스트 계획과 TC를 가능한 한 일찍 작성하는 것(5.2.5), 변경 뒤 영향 분석과 회귀 테스트를 수행하는 것(4.7), 확인(Validation) 활동의 범위를 소프트웨어 복잡도와 안전 리스크에 맞추는 것(4.8)임. 2026-11 기준 이 지침의 6절은 2025-09-24 발행된 Computer Software Assurance 지침으로 대체되었고 나머지 절은 유효함</li>
+<li>자동차(ISTQB CT-AuT v2.1, 2025-04-30): MiL 테스트 환경을 V-모델 왼쪽의 기술 시스템 설계 검증에, SiL을 오른쪽의 컴포넌트·통합 테스트에, HiL을 시스템 테스트에 배치함(3.2.4.3). ASPICE는 이해관계자 요구사항부터 소프트웨어 단위까지의 수직 추적성과, 개발 산출물과 테스트 명세·결과 사이의 수평 추적성을 모두 양방향으로 요구함(2.1.2.6)</li>
+</ul>
+<p>같은 실라버스는 CTFL의 테스트 레벨을 ISO 26262:2018, ASPICE 4.0의 테스트 레벨과 다음과 같이 대응시킨다(2.4.2). ISO 26262와 ASPICE의 “시스템”은 하드웨어와 소프트웨어를 포함하고, CTFL의 “시스템”은 소프트웨어만 가리킨다는 차이가 있다.</p>
+<table>
+<thead>
+<tr>
+<th>CTFL</th>
+<th>ISO 26262:2018</th>
+<th>ASPICE 4.0</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>인수 테스트</td>
+<td>안전 확인(Safety validation, 4-8)</td>
+<td>확인(VAL.1)</td>
+</tr>
+<tr>
+<td>시스템 오브 시스템즈 테스트</td>
+<td>시스템과 아이템 통합 및 테스트(4-7, 두 레벨에 걸침)</td>
+<td>시스템 검증(SYS.5)</td>
+</tr>
+<tr>
+<td>시스템 통합 테스트</td>
+<td>시스템과 아이템 통합 및 테스트(4-7, 두 레벨에 걸침)</td>
+<td>시스템 통합과 통합 검증(SYS.4)</td>
+</tr>
+<tr>
+<td>시스템 테스트</td>
+<td>임베디드 소프트웨어 테스트(6-11)</td>
+<td>소프트웨어 검증(SWE.6)</td>
+</tr>
+<tr>
+<td>컴포넌트 통합 테스트</td>
+<td>소프트웨어 통합과 검증(6-10)</td>
+<td>소프트웨어 컴포넌트 검증과 통합 검증(SWE.5)</td>
+</tr>
+<tr>
+<td>컴포넌트 테스트</td>
+<td>소프트웨어 단위 검증(6-9)</td>
+<td>소프트웨어 단위 검증(SWE.4)</td>
+</tr>
+</tbody>
+</table>
+<p>실라버스 각주에 따르면 안전 확인(4-8)과 VAL.1은 ISTQB 인수 테스트의 일부만 다룬다.</p>
+<div class="sl-heading-wrapper level-h2"><h2 id="자주-혼동하는-점">자주 혼동하는 점</h2><a class="sl-anchor-link" href="#자주-혼동하는-점"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>섹션 제목: “자주 혼동하는 점”</span></a></div>
+<ul>
+<li>V-모델을 “개발이 끝난 뒤 테스트하는 모델”로 봄. 동적 테스트 실행은 늦지만 테스트 분석과 설계는 대응하는 왼쪽 단계에서 시작함</li>
+<li>테스트 레벨을 V-모델에만 있는 개념으로 봄. SWEBOK 5장(2.1)은 단위, 통합, 시스템, 인수의 네 단계가 특정 개발 프로세스를 전제하지 않는다고 씀. 반복형과 점진형에서도 반복마다 모든 테스트 레벨에서 정적·동적 테스트를 수행할 수 있음(CTFL 2.1.1)</li>
+<li>V-Modell XT를 고전 V-모델과 같은 것으로 봄. V-Modell XT는 반복 진행을 전제로 하고, 테일러링과 결정 지점을 두며, Scrum 절차를 포함함</li>
+<li>애자일을 문서를 쓰지 않는 방식으로 봄. SWEBOK 10장은 애자일 선언이 문서가 필요 없다고 말하지 않으며, 문서를 만들지 않아 폭포수보다 빠르다는 생각을 오해로 듦</li>
+<li>규제 분야라면 V-모델이 필수라고 봄. FDA 지침은 특정 모델을 권고하지 않음</li>
+</ul>
+<div class="sl-heading-wrapper level-h2"><h2 id="qa에서-적용">QA에서 적용</h2><a class="sl-anchor-link" href="#qa에서-적용"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>섹션 제목: “QA에서 적용”</span></a></div>
+<ul>
+<li>테스트 계획서에 프로젝트의 수명주기 모델을 적고, CTFL 2.1.1의 다섯 항목(범위와 시점, 문서 수준, 기법, 자동화 범위, 테스터 역할)을 그 모델에 맞춰 정함</li>
+<li>요구사항 초안이 나오면 리뷰에 참여해 인수 테스트 조건을 먼저 작성하고, 설계 문서가 나올 때마다 대응하는 레벨의 테스트 설계를 시작함. TC로 옮기지 못하는 문장은 명세의 모호함으로 기록함(<a href="/qa-wiki/process/tc-writing-principles/">TC 작성 원칙</a>, <a href="/qa-wiki/basics/testing-principles/">테스팅의 7원칙</a>)</li>
+<li>요구사항, 설계, TC, 실행 결과를 서로 연결해 둠. 변경 요청이 오면 연결된 TC를 영향 범위로 사용함(<a href="/qa-wiki/process/regression-test-selection/">회귀 테스트 범위 선정</a>, <a href="/qa-wiki/basics/configuration-management/">형상관리 기본</a>)</li>
+<li>순차형 프로젝트에서는 레벨마다 진입·종료 기준을 정하고, 앞 레벨의 종료 기준을 다음 레벨의 진입 기준에 포함함(<a href="/qa-wiki/basics/istqb-ctfl-overview/">ISTQB CTFL 실라버스 핵심 정리</a>)</li>
+<li>반복형·애자일 프로젝트에서는 반복마다 모든 레벨의 테스트를 계획하고, 회귀 테스트를 CI 파이프라인에서 자동 실행함(<a href="/qa-wiki/automation/test-automation-basics/">테스트 자동화 기본</a>, <a href="/qa-wiki/tools-career/github-actions/">GitHub Actions</a>)</li>
+<li>오른쪽 각 레벨의 결과를 왼쪽 산출물 대비 검증과 사용자 목적 대비 확인으로 나눠 보고함(<a href="/qa-wiki/basics/verification-and-validation/">검증과 확인</a>)</li>
+<li>회고 결과와 개선 항목을 테스트 완료 보고서에 기록하고 다음 반복에서 후속 조치를 확인함</li>
+</ul>
+<div class="sl-heading-wrapper level-h2"><h2 id="출처">출처</h2><a class="sl-anchor-link" href="#출처"><span aria-hidden="true" class="sl-anchor-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="m12.11 15.39-3.88 3.88a2.52 2.52 0 0 1-3.5 0 2.47 2.47 0 0 1 0-3.5l3.88-3.88a1 1 0 1 0-1.42-1.42l-3.88 3.89a4.48 4.48 0 0 0 6.33 6.33l3.89-3.88a1 1 0 0 0-1.42-1.42m8.58-12.08a4.49 4.49 0 0 0-6.33 0l-3.89 3.88a1 1 0 1 0 1.42 1.42l3.88-3.88a2.52 2.52 0 0 1 3.5 0 2.47 2.47 0 0 1 0 3.5l-3.88 3.88a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l3.88-3.89a4.49 4.49 0 0 0 0-6.33M8.83 15.17a1 1 0 0 0 .71.29 1 1 0 0 0 .71-.29l4.92-4.92a1 1 0 1 0-1.42-1.42l-4.92 4.92a1 1 0 0 0 0 1.42"></path></svg></span><span class="sr-only" data-pagefind-ignore>섹션 제목: “출처”</span></a></div>
+<ul>
+<li><a href="https://istqb.org/wp-content/uploads/2024/11/ISTQB_CTFL_Syllabus_v4.0.1.pdf">ISTQB Certified Tester Foundation Level(CTFL) 실라버스 v4.0.1</a>, 2024-09-15, 2.1 Testing in the Context of a SDLC(2.1.1~2.1.6), 2.2 Test Levels and Test Types</li>
+<li>ISTQB 용어집: <a href="https://glossary.istqb.org/en_US/term/v-model">V-model</a>, <a href="https://glossary.istqb.org/en_US/term/sequential-development-model">sequential development model</a>, <a href="https://glossary.istqb.org/en_US/term/iterative-development-model">iterative development model</a>, <a href="https://glossary.istqb.org/en_US/term/incremental-development-model">incremental development model</a>, <a href="https://glossary.istqb.org/en_US/term/software-development-lifecycle">software development lifecycle</a>, <a href="https://glossary.istqb.org/en_US/term/shift-left">shift left</a>, <a href="https://glossary.istqb.org/en_US/term/test-basis">test basis</a></li>
+<li>IEEE Computer Society, <a href="https://ieeecs-media.computer.org/media/education/swebok/swebok-v4.pdf">SWEBOK Guide v4.0a</a>, 10장 Software Engineering Process 2.3~2.5, 2.8, 5장 Software Testing 2.1, 6.1.2</li>
+<li>WEIT e.V., <a href="https://ftp.tu-clausthal.de/pub/institute/informatik/v-modell-xt/Releases/2.4/Dokumentation/V-Modell-XT-Gesamt.pdf">V-Modell XT 2.4 문서</a>, A.3, B.2.2(그림 36)</li>
+<li>ITZBund, <a href="https://ftp.tu-clausthal.de/pub/institute/informatik/v-modell-xt/Releases/2.4-Bund/Dokumentation/V-Modell-XT-Bund-Gesamt.pdf">V-Modell XT Bund 2.4 문서</a>, A.3, A.4, B.1.3, B.2.2.6</li>
+<li>WEIT e.V., <a href="https://weit-verein.de/v-modell-xt-und-v-modell-xt-bund-in-version-2-4-erschienen/">V-Modell XT und V-Modell XT Bund in Version 2.4 erschienen</a>, 2024-06-05, <a href="https://www.weit-verein.de/">협회 소개</a></li>
+<li>ITZBund, <a href="https://www.itzbund.de/DE/Produkte/V-Modell-XT/v-modell-xt_node.html">V-Modell XT 제품 안내</a></li>
+<li>U.S. FDA, <a href="https://www.fda.gov/regulatory-information/search-fda-guidance-documents/general-principles-software-validation">General Principles of Software Validation; Final Guidance for Industry and FDA Staff</a>, 2002-01-11, 4.4, 4.7, 4.8, 5.1, 5.2.2~5.2.5</li>
+<li>ISTQB, <a href="https://istqb.org/wp-content/uploads/sdm-uploads/ISTQB_CT-AuT_Syllabus_EN.pdf">Certified Tester Automotive Software Tester(CT-AuT) 실라버스 v2.1</a>, 2025-04-30, 2.1.2.6, 2.4.2, 3.2.4.3</li>
+<li>ISO/IEC/IEEE 24765, ISO 26262, Automotive SPICE는 유료 또는 회원 배포 문서라 위키는 위 공개 자료에 인용된 내용만 옮김</li>
+</ul>
+</div><section class="wiki-related"><h2>관련 문서</h2><div class="wiki-rel-grid"><a class="wiki-rel" href="/qa-wiki/basics/istqb-ctfl-overview/"><span class="wiki-rel-cat">기초와 용어</span><span class="wiki-rel-title">ISTQB CTFL 실라버스 핵심 정리</span><span class="wiki-rel-desc">ISTQB Certified Tester Foundation Level 실라버스 v4.0.1의 6개 장(테스팅 기초, 개발 수명주기와 테스팅, 정적 테스트, 테스트 분석과 설계, 테스트 활동 관리, 테스트 도구) 핵심 개념. 개념마다 실무에 적용한 위키 문서를 연결한다.</span></a><a class="wiki-rel" href="/qa-wiki/basics/test-levels-and-types/"><span class="wiki-rel-cat">기초와 용어</span><span class="wiki-rel-title">테스트 레벨과 테스트 유형</span><span class="wiki-rel-desc">테스트 레벨은 시스템을 어느 통합 단계에서 검증하는지를, 테스트 유형은 어떤 품질 특성을 검증하는지를 나타내는 분류다. 두 분류는 서로 독립이며, 테스트마다 레벨을 하나 정하고 테스트 유형은 하나 이상 적용할 수 있다.</span></a><a class="wiki-rel" href="/qa-wiki/basics/verification-and-validation/"><span class="wiki-rel-cat">기초와 용어</span><span class="wiki-rel-title">검증과 확인(V&amp;V)</span><span class="wiki-rel-desc">검증(Verification)은 산출물이 명세를 충족하는지, 확인(Validation)은 제품이 사용자의 필요와 의도된 사용에 맞는지를 판정하는 활동이다. ISTQB, SWEBOK, FDA, NASA의 정의를 비교하고 정적·동적 V&amp;V, 수명주기 단계별 활동, 독립 V&amp;V(IV&amp;V)를 정리한다.</span></a><a class="wiki-rel" href="/qa-wiki/process/regression-test-selection/"><span class="wiki-rel-cat">프로세스</span><span class="wiki-rel-title">회귀 테스트 범위 선정</span><span class="wiki-rel-desc">변경 뒤 기존 기능이 의도하지 않게 실패하는지 확인하기 위해, 회귀 스위트에서 이번 회차에 수행할 TC를 선택하는 절차다(Regression Test Selection).</span></a></div></section><script type="module">var e=e=>{let t=e.scrollWidth-e.clientWidth;e.classList.toggle(`is-scrollable`,t>1),e.classList.toggle(`at-start`,e.scrollLeft<=1),e.classList.toggle(`at-end`,e.scrollLeft>=t-1)},t=new ResizeObserver(t=>t.forEach(t=>e(t.target)));document.querySelectorAll(`.wiki-fig-scroll`).forEach(n=>{e(n),t.observe(n),n.addEventListener(`scroll`,()=>e(n),{passive:!0})});var n=e=>{let t=e.scrollWidth>e.clientWidth+1,n=!!e.querySelector(`a[href], button, input`);t&&!n?e.setAttribute(`tabindex`,`0`):e.removeAttribute(`tabindex`)},r=[...document.querySelectorAll(`.sl-markdown-content table`)],i=new ResizeObserver(e=>e.forEach(e=>{let t=e.target.closest(`table`);t&&n(t)}));r.forEach(e=>{i.observe(e),e.querySelectorAll(`:scope > thead, :scope > tbody`).forEach(e=>i.observe(e))}),document.fonts?.ready.then(()=>r.forEach(n));</script><footer class="sl-flex" data-astro-cid-ddtxxk7k><div class="meta sl-flex" data-astro-cid-ddtxxk7k></div><div class="pagination-links print:hidden" dir="ltr" data-astro-cid-b5raizh3><a href="/qa-wiki/basics/verification-and-validation/" rel="prev" data-astro-cid-b5raizh3><svg data-astro-cid-b5raizh3="true" aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.5rem;" data-astro-cid-hkc32dio><path d="M17 11H9.41l3.3-3.29a1.004 1.004 0 1 0-1.42-1.42l-5 5a1 1 0 0 0-.21.33 1 1 0 0 0 0 .76 1 1 0 0 0 .21.33l5 5a1.002 1.002 0 0 0 1.639-.325 1 1 0 0 0-.219-1.095L9.41 13H17a1 1 0 0 0 0-2Z"/></svg><span data-astro-cid-b5raizh3>이전 페이지<br data-astro-cid-b5raizh3><span class="link-title" data-astro-cid-b5raizh3>검증과 확인(V&amp;V)</span></span></a><a href="/qa-wiki/basics/test-levels-and-types/" rel="next" data-astro-cid-b5raizh3><svg data-astro-cid-b5raizh3="true" aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="--sl-icon-size: 1.5rem;" data-astro-cid-hkc32dio><path d="M17.92 11.62a1.001 1.001 0 0 0-.21-.33l-5-5a1.003 1.003 0 1 0-1.42 1.42l3.3 3.29H7a1 1 0 0 0 0 2h7.59l-3.3 3.29a1.002 1.002 0 0 0 .325 1.639 1 1 0 0 0 1.095-.219l5-5a1 1 0 0 0 .21-.33 1 1 0 0 0 0-.76Z"/></svg><span data-astro-cid-b5raizh3>다음 페이지<br data-astro-cid-b5raizh3><span class="link-title" data-astro-cid-b5raizh3>테스트 레벨과 테스트 유형</span></span></a></div></footer></div></div></main></div></div></div></div></body></html>
